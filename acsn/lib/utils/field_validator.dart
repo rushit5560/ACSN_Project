@@ -1,4 +1,6 @@
 
+import 'package:acsn/constance/message.dart';
+
 class FieldValidator {
 
   String? validateMobileNumber(String value) {
@@ -17,6 +19,15 @@ class FieldValidator {
       return "Please enter your name.";
     }
     return null;
+  }
+    String? validatePassword(String value) {
+    if (value.isEmpty) {
+      return AppMessage.passwordIsRequired;
+    } else if (value.length < 8) {
+      return AppMessage.passwordMustBeAtleast8CharactersLong;
+    } else {
+      return null;
+    }
   }
 
   String? validateEmail(String value) {

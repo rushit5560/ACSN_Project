@@ -30,31 +30,11 @@ class CustomSubmitButtonModule extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               )),
           onPressed: onPress,
-          /*onPressed: () async {
-            if (locationManageScreenController.formKey.currentState!
-                .validate()) {
-              if (locationManageScreenController.locationOption ==
-                  LocationOption.create) {
-                if (locationManageScreenController
-                    .selectedValue.value ==
-                    AppMessage.chooseOption) {
-                  Fluttertoast.showToast(msg: "Please select status");
-                } else {
-                  await locationManageScreenController
-                      .locationCreateFunction();
-                }
-              } else {
-                await locationManageScreenController
-                    .locationUpdateFunction();
-              }
-            }
-          },*/
           child: Text(
             labelText,
             style: TextStyleConfig.textStyle(
               textColor: AppColors.whiteColor,
               fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
             ),
           ).commonSymmetricPadding(vertical: 10),
         ),
