@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 PreferredSizeWidget customAppBar({
   required String titleText,
-
   bool leadingShow = true,
   required Widget leadingIcon,
   required Function() leadingOnTap,
-
   bool actionShow = true,
   required Widget actionIcon,
   required Function() actionOnTap,
@@ -16,15 +14,22 @@ PreferredSizeWidget customAppBar({
     centerTitle: true,
     backgroundColor: AppColors.backGroundColor,
     leading: leadingShow
-      ? IconButton(
-      onPressed: () => leadingIcon,
-      icon: leadingIcon,
-    ) : null,
-
-    title: Text(titleText),
+        ? IconButton(
+            onPressed: () => leadingIcon,
+            icon: leadingIcon,
+          )
+        : null,
+    title: Text(
+      titleText,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    ),
     actions: [
       actionShow
-          ? IconButton(onPressed: () => actionIcon, icon: actionIcon,)
+          ? IconButton(
+              onPressed: () => actionIcon,
+              icon: actionIcon,
+            )
           : Container(),
     ],
   );

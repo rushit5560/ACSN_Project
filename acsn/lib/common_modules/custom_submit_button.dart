@@ -8,10 +8,12 @@ import 'package:sizer/sizer.dart';
 class CustomSubmitButtonModule extends StatelessWidget {
   Function() onPress;
   String labelText;
+  Color buttonColor;
   CustomSubmitButtonModule({
     Key? key,
     required this.onPress,
     required this.labelText,
+    this.buttonColor = AppColors.buttonColor,
   }) : super(key: key);
   // final locationManageScreenController = Get.find<LocationManageScreenController>();
 
@@ -23,7 +25,7 @@ class CustomSubmitButtonModule extends StatelessWidget {
         width: Get.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.buttonColor,
+              backgroundColor: buttonColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               )),
