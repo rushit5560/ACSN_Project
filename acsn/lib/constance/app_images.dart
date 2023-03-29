@@ -8,7 +8,7 @@ const primacolor = Color(0XFF65b804);
 const secondary = Color(0XFFf5f8fd);
 
 class AppImages {
-  static const rootPath = 'assets/images/';
+  static const rootPath = 'assets/images';
 
-  static const LOGOiMAGE = "$rootPath/acsn_logoacsn_logo.png";
+  static const logoImage = "$rootPath/acsn_logo.png";
 }
