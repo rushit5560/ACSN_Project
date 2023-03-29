@@ -14,20 +14,35 @@ class ListTileModule extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(
-            title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: AppColors.backGroundColor,
-            ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.backGroundColor,
+                  ),
+                ),
+              ),
+
+              Text(
+                ":",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.backGroundColor,
+                ),
+              ),
+            ],
           ),
         ),
         Expanded(
           child: Text(
-            value,
+            " $value",
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
