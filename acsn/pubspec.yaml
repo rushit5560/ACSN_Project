@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   get: ^4.6.5
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -78,30 +79,30 @@ flutter:
   fonts:
     - family: Acephimere
       fonts:
-        - asset: fonts/Acephimere.ttf
+        - asset: assets/fonts/Acephimere.ttf
           style: normal
     - family: Roboto
       fonts:
-        - asset: fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
           style: normal
     - family: latoregular
       fonts:
-        - asset: fonts/lato-regular-webfont.ttf
+        - asset: assets/fonts/lato-regular-webfont.ttf
           style: normal
     - family: Roboto-Medium
       fonts:
-        - asset: fonts/Roboto-Medium.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
           style: normal
     - family: elephantregular
       fonts:
-        - asset: fonts/elephant-webfont.ttf
+        - asset: assets/fonts/elephant-webfont.ttf
     - family: NexaBold
       fonts:
-        - asset: fonts/FontsFree-Net-n1.ttf
+        - asset: assets/fonts/FontsFree-Net-n1.ttf
           style: normal
     - family: Brand
       fonts:
-        - asset: fonts/brand-webfont.ttf
+        - asset: assets/fonts/brand-webfont.ttf
           style: normal
   #
   # For details regarding fonts from package dependencies,
