@@ -2,7 +2,7 @@ import 'package:acsn/constance/color.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class AuthScreenTextFieldModule extends StatelessWidget {
+class TextFieldModule extends StatelessWidget {
   TextEditingController fieldController;
   String hintText;
   TextInputType keyboardType;
@@ -11,7 +11,7 @@ class AuthScreenTextFieldModule extends StatelessWidget {
   Widget? suffixIcon;
   bool? obscureText;
 
-  AuthScreenTextFieldModule({
+  TextFieldModule({
     Key? key,
     required this.fieldController,
     required this.hintText,
@@ -31,12 +31,13 @@ class AuthScreenTextFieldModule extends StatelessWidget {
       textInputAction: TextInputAction.next,
       keyboardType: keyboardType,
       maxLength: maxLength,
+      cursorColor: AppColors.backGroundColor,
       decoration: InputDecoration(
         enabledBorder: inputBorder(),
         focusedBorder: inputBorder(),
         errorBorder: inputBorder(),
         focusedErrorBorder: inputBorder(),
-        fillColor: AppColors.whiteColor,
+        fillColor: AppColors.scaffoldBackGroundColor,
         filled: true,
         hintText: hintText,
         errorMaxLines: 2,
