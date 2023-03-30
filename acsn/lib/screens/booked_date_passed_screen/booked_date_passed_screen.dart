@@ -1,4 +1,5 @@
 import 'package:acsn/common_widgets/custom_loader.dart';
+import 'package:acsn/constance/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -48,7 +49,7 @@ class BookedDatePassedScreen extends StatelessWidget {
                     SizedBox(height: 2.h),
                     Expanded(child: BookedDatePassedListViewModule()),
                   ],
-                ),
+                ).commonSymmetricPadding(horizontal: 10, vertical: 10),
         ),
       ),
     );

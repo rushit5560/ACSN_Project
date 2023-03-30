@@ -4,6 +4,7 @@ import 'package:acsn/common_modules/custom_alert_dialog.dart';
 import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
 import 'package:acsn/constance/message.dart';
+import 'package:acsn/screens/auth_screen/login_screen/login_screen.dart';
 import 'package:acsn/screens/completed_job_details_screen/completed_job_details_screen.dart';
 import 'package:acsn/screens/home_screen/home_screen.dart';
 import 'package:acsn/utils/style.dart';
@@ -101,7 +102,9 @@ class HomeDrawerCustomModule extends StatelessWidget {
                   CustomAlertDialog().showAlertDialog(
                     context: context,
                     textContent: AppMessage.logoutMessage,
-                    onYesTap: () {},
+                    onYesTap: () {
+                      Get.offAll(()=> LoginScreen());
+                    },
                     onCancelTap: () {
                       Get.back();
                     },

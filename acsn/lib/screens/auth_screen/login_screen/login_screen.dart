@@ -22,94 +22,83 @@ class LoginScreen extends StatelessWidget {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          // backgroundColor: AppColors.scaffoldBackGroundColor,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        // backgroundColor: AppColors.scaffoldBackGroundColor,
 
-          body: Form(
-            key: loginScreenController.formKey,
-            child: Column(
-              children: [
-                Image.asset(AppImages.logoImage)
-                    .commonSymmetricPadding(horizontal: 5.w),
-                SizedBox(height: 10.h),
-                TextFieldModule(
+        body: Form(
+          key: loginScreenController.formKey,
+          child: Column(
+            children: [
+              Image.asset(AppImages.logoImage)
+                  .commonSymmetricPadding(horizontal: 5.w),
+              SizedBox(height: 10.h),
+              TextFieldModule(
+                fieldController:
+                    loginScreenController.emailTextEditingController,
+                hintText: 'Email address',
+                keyboardType: TextInputType.emailAddress,
+                suffixIcon: const Icon(
+                  Icons.email_outlined,
+                  color: AppColors.backGroundColor,
+                ),
+                validate: (value) => FieldValidator().validateEmail(value!),
+              ),
+              SizedBox(height: 4.h),
+              Obx(
+                () => TextFieldModule(
+                  obscureText: loginScreenController.isPasswordVisible.value,
                   fieldController:
-                      loginScreenController.emailTextEditingController,
-                  hintText: 'Email address',
+                      loginScreenController.passwordTextEditingController,
+                  hintText: 'Password',
                   keyboardType: TextInputType.text,
-                  suffixIcon: const Icon(
-                    Icons.email_outlined,
-                    color: AppColors.backGroundColor,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      loginScreenController.isPasswordVisible.value =
+                          !loginScreenController.isPasswordVisible.value;
+                    },
+                    icon: Icon(
+                      loginScreenController.isPasswordVisible.value
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: AppColors.backGroundColor,
+                    ),
                   ),
-                  validate: (value) => FieldValidator().validateEmail(value!),
+                  validate: (value) =>
+                      FieldValidator().validatePassword(value!),
                 ),
-                SizedBox(height: 4.h),
-                Obx(
-                  () => TextFieldModule(
-                    fieldController:
-                        loginScreenController.passwordTextEditingController,
-                    hintText: 'Password',
-                    keyboardType: TextInputType.text,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        loginScreenController.isPasswordVisible.value =
-                            !loginScreenController.isPasswordVisible.value;
+              ),
+              Row(
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      activeColor: AppColors.backGroundColor,
+                      value: loginScreenController.isRememberMe.value,
+                      onChanged: (bool? value) {
+                        loginScreenController.isRememberMe.value = value!;
                       },
-                      icon: Icon(
-                        loginScreenController.isPasswordVisible.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: AppColors.backGroundColor,
-                      ),
                     ),
-                    validate: (value) =>
-                        FieldValidator().validatePassword(value!),
                   ),
-                ),
-                Row(
-                  children: [
-                    Obx(
-                      () => Checkbox(
-                        activeColor: AppColors.backGroundColor,
-                        value: loginScreenController.isPrivacyChecked.value,
-                        onChanged: (bool? value) {
-                          loginScreenController.isPrivacyChecked.value = value!;
-                        },
-                      ),
+                  Text(
+                    "Remember Me?",
+                    style: TextStyleConfig.textStyle(
+                      fontSize: 12.sp,
                     ),
-                    Text(
-                      "Remember Me?",
-                      style: TextStyleConfig.textStyle(
-                        fontSize: 12.sp,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                CustomSubmitButtonModule(
-                  labelText: AppMessage.login,
-                  onPress: () {
-                    if (loginScreenController.formKey.currentState!
-                        .validate()) {
-                      Get.to(() =>  HomeScreen());
-                      // if (loginScreenController.isPrivacyChecked.value) {
-                      //   Get.to(() => const HomeScreen());
-                      // } else {
-                      //   Fluttertoast.showToast(
-                      //     backgroundColor: AppColors.scaffoldBackGroundColor,
-                      //     textColor: AppColors.backGroundColor,
-                      //     fontSize: 14.sp,
-                      //     msg: AppMessage.privacyPolicyMessage,
-                      //   );
-                      // }
-                    }
-                  },
-                ).commonSymmetricPadding(horizontal: 8.w)
-              ],
-            ).commonOnlyPadding(left: 20, right: 20, top: 10.h),
-          ),
+                  )
+                ],
+              ),
+              SizedBox(height: 4.h),
+              CustomSubmitButtonModule(
+                labelText: AppMessage.login,
+                onPress: () async {
+                  if (loginScreenController.formKey.currentState!
+                      .validate()) {
+                    await loginScreenController.loginFunction();
+                  }
+                },
+              ).commonSymmetricPadding(horizontal: 8.w)
+            ],
+          ).commonOnlyPadding(left: 20, right: 20, top: 10.h),
         ),
       ),
     );
