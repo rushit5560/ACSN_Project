@@ -1,5 +1,6 @@
 import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
+import 'package:acsn/constance/message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,7 @@ class CompletedJobScreen extends StatelessWidget {
           actionShow: false,
           actionIcon: const Icon(Icons.home),
           leadingIcon: const Icon(Icons.menu),
-          titleText: 'Completed Job',
+          titleText: AppMessage.completedJob,
           actionOnTap: () {
             Get.back();
           },

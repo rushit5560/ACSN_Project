@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:acsn/constance/extension.dart';
+import 'package:acsn/constance/message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -42,23 +43,27 @@ class TodayJobsListViewModule extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  ListTileModule(title: "Job#", value: "PhilBTestL2"),
+                  ListTileModule(title: AppMessage.job, value: "PhilBTestL2"),
                   // ListTileModule(title: "Customer", value: "Client 1"),
-                  ListTileModule(title: "Name", value: "Test Site"),
+                  ListTileModule(title: AppMessage.name, value: "Test Site"),
                   ListTileModule(
-                      title: "Site Address", value: "27, Wall street, vic"),
-                  ListTileModule(title: "Payment Ref No", value: "4"),
-                  ListTileModule(title: "Description", value: "Finished"),
-                  ListTileModule(title: "Client", value: "Lawn Mow"),
-                  ListTileModule(title: "Client", value: "Lawn Mow"),
-                  ListTileModule(title: "Status", value: "Lawn Mow"),
-                  ListTileModule(title: "Type", value: "Lawn Mow"),
+                      title: AppMessage.siteAddress,
+                      value: "27, Wall street, vic"),
+                  ListTileModule(title: AppMessage.paymentRefNo, value: "4"),
+                  ListTileModule(
+                      title: AppMessage.description, value: "Finished"),
+                  ListTileModule(title: AppMessage.client, value: "Lawn Mow"),
+                  ListTileModule(
+                      title: AppMessage.clientNotes, value: "Lawn Mow"),
+                  ListTileModule(title: AppMessage.status, value: "Lawn Mow"),
+                  ListTileModule(title: AppMessage.type, value: "Lawn Mow"),
 
                   ListTileModule(
-                    title: "Date",
+                    title: AppMessage.date,
                     value: "23/03/2023",
                     iconShow: true,
-                    leadingIcon: const Icon(Icons.calendar_month_rounded, size: 19),
+                    leadingIcon:
+                        const Icon(Icons.calendar_month_rounded, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
                         log('asas');
@@ -68,10 +73,12 @@ class TodayJobsListViewModule extends StatelessWidget {
                     onTapEnable: true,
                   ),
 
-                  ListTileModule(title: "Time",
+                  ListTileModule(
+                    title: AppMessage.time,
                     value: "02:33 AM",
                     iconShow: true,
-                    leadingIcon: const Icon(Icons.watch_later_outlined,size: 19),
+                    leadingIcon:
+                        const Icon(Icons.watch_later_outlined, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
                         log('asas');
@@ -80,20 +87,25 @@ class TodayJobsListViewModule extends StatelessWidget {
                     jobModel: singleItem,
                     onTapEnable: true,
                   ),
-                  ListTileModule(title: "Phone Number", value: "9595-959-595",
+                  ListTileModule(
+                    title: AppMessage.phoneNumber,
+                    value: "9595-959-595",
                     iconShow: true,
-                    leadingIcon: const Icon(Icons.phone,size: 19),
+                    leadingIcon: const Icon(Icons.phone, size: 19),
                   ),
-                  ListTileModule(title: "Mobile Number", value: "(98) 9555-5655",
+                  ListTileModule(
+                    title: AppMessage.mobileNumber,
+                    value: "(98) 9555-5655",
                     iconShow: true,
-                    leadingIcon: const Icon(Icons.mobile_screen_share_outlined,size: 19),
+                    leadingIcon: const Icon(Icons.mobile_screen_share_outlined,
+                        size: 19),
                   ),
 
                   Row(
                     children: [
                       Expanded(
                         child: CustomSubmitButtonModule(
-                          labelText: "Change Schedule",
+                          labelText: AppMessage.changeSchedule,
                           onPress: () {
                             singleItem.changeSchedule = true;
                             log("changeSchedule : ${singleItem.changeSchedule}");
@@ -105,44 +117,43 @@ class TodayJobsListViewModule extends StatelessWidget {
                       Expanded(
                         child: singleItem.changeSchedule == true
                             ? CustomSubmitButtonModule(
-                          labelText: "Save",
-                          onPress: () {
-                            singleItem.changeSchedule = false;
-                            todayJobsScreenController.loadUI();
-                          },
-                          labelSize: 10.sp,
-                        ).commonOnlyPadding(right: 50) : Container(),
+                                labelText: AppMessage.save,
+                                onPress: () {
+                                  singleItem.changeSchedule = false;
+                                  todayJobsScreenController.loadUI();
+                                },
+                                labelSize: 10.sp,
+                              ).commonOnlyPadding(right: 50)
+                            : Container(),
                       ),
                     ],
                   ),
 
                   ListTileModuleWithTextField(
-                    title: "Field Worker Note",
+                    title: AppMessage.workesnote,
                     jobModel: singleItem,
                     // fieldController: notYetScreenController.fieldWorkerNoteController,
                   ),
 
                   ListTileModuleWithTextField(
-                    title: "Internal Note",
+                    title: AppMessage.internalNote,
                     jobModel: singleItem,
                     // fieldController: notYetScreenController.internalNoteController,
                   ),
 
                   CustomSubmitButtonModule(
-                    labelText: "Save Notes",
+                    labelText: AppMessage.saveNotes,
                     onPress: () {},
                     labelSize: 12.sp,
                   ).commonOnlyPadding(top: 10)
-
                 ],
               ).commonAllSidePadding(10),
             ).commonOnlyPadding(top: 15, left: 15, right: 15, bottom: 5),
-
             Row(
               children: [
                 Expanded(
                   child: CustomSubmitButtonModule(
-                    labelText: "Job Not Required",
+                    labelText: AppMessage.jobNotRequired,
                     onPress: () {},
                     labelSize: 12.sp,
                   ),
@@ -150,7 +161,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: CustomSubmitButtonModule(
-                    labelText: "Start",
+                    labelText: AppMessage.start,
                     onPress: () {},
                     labelSize: 12.sp,
                   ),
@@ -159,9 +170,10 @@ class TodayJobsListViewModule extends StatelessWidget {
             ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15),
           ],
         );
-      }, separatorBuilder: (BuildContext context, int index) {
+      },
+      separatorBuilder: (BuildContext context, int index) {
         return const CustomDivider();
-    },
+      },
     );
   }
 }

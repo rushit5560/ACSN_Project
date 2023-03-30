@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
               TextFieldModule(
                 fieldController:
                     loginScreenController.emailTextEditingController,
-                hintText: 'Email address',
+                hintText: AppMessage.emailAddress,
                 keyboardType: TextInputType.emailAddress,
                 suffixIcon: const Icon(
                   Icons.email_outlined,
@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                   obscureText: loginScreenController.isPasswordVisible.value,
                   fieldController:
                       loginScreenController.passwordTextEditingController,
-                  hintText: 'Password',
+                  hintText: AppMessage.password,
                   keyboardType: TextInputType.text,
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Remember Me?",
+                    AppMessage.rememberMe,
                     style: TextStyleConfig.textStyle(
                       fontSize: 12.sp,
                     ),
@@ -91,8 +91,7 @@ class LoginScreen extends StatelessWidget {
               CustomSubmitButtonModule(
                 labelText: AppMessage.login,
                 onPress: () async {
-                  if (loginScreenController.formKey.currentState!
-                      .validate()) {
+                  if (loginScreenController.formKey.currentState!.validate()) {
                     await loginScreenController.loginFunction();
                   }
                 },

@@ -39,7 +39,7 @@ class BookedDatePassedScreen extends StatelessWidget {
                     TextFieldModule(
                       fieldController: bookedDatePassedScreenController
                           .searchTextEditingController,
-                      hintText: 'Search',
+                      hintText: AppMessage.search,
                       keyboardType: TextInputType.text,
                       suffixIcon: const Icon(
                         Icons.search,

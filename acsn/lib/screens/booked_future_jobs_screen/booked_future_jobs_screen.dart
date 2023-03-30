@@ -40,7 +40,7 @@ class BookedFutureJobsScreen extends StatelessWidget {
                 TextFieldModule(
                   fieldController:
                   bookedFutureJobsScreenController.searchTextEditingController,
-                  hintText: 'Search',
+                  hintText: AppMessage.search,
                   keyboardType: TextInputType.text,
                   suffixIcon: const Icon(
                     Icons.search,

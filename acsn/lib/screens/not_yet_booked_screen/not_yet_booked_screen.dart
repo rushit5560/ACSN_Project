@@ -37,7 +37,7 @@ class NotYetBookedScreen extends StatelessWidget {
                     TextFieldModule(
                       fieldController:
                           notYetScreenController.searchTextEditingController,
-                      hintText: 'Search',
+                      hintText: AppMessage.search,
                       keyboardType: TextInputType.text,
                       suffixIcon: const Icon(
                         Icons.search,

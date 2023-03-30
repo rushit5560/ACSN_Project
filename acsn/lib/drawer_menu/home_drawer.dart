@@ -98,7 +98,6 @@ class HomeDrawerCustomModule extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  log("message");
                   CustomAlertDialog().showAlertDialog(
                     context: context,
                     textContent: AppMessage.logoutMessage,
@@ -109,7 +108,6 @@ class HomeDrawerCustomModule extends StatelessWidget {
                       Get.back();
                     },
                   );
-                  log("message1111");
                 },
                 child: ListTile(
                   leading: const Icon(

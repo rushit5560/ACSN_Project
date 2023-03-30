@@ -13,6 +13,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../common_widgets/custom_appbar.dart';
 import '../../constance/color.dart';
+import '../../constance/message.dart';
 import 'home_screen_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
       // drawer: const HomeDrawerScreen(),
       drawer: HomeDrawerCustomModule(),
       appBar: customAppBar(
-        titleText: 'Home',
+        titleText: AppMessage.home,
         actionShow: false,
         leadingIcon: const Icon(Icons.menu_rounded),
         leadingOnTap: () =>
@@ -53,13 +54,13 @@ class HomeScreen extends StatelessWidget {
               Row(
                 children: [
                   GridTileModule(
-                    title: "Not Yet Booked",
+                    title: AppMessage.notYetBooked,
                     value: "5",
                     onTap: () => Get.to(() => NotYetBookedScreen()),
                   ),
                   const SizedBox(width: 15),
                   GridTileModule(
-                    title: "Booked Future Jobs",
+                    title: AppMessage.bookedFutureJobs,
                     value: "5",
                     onTap: () => Get.to(() => BookedFutureJobsScreen()),
                   ),
@@ -69,13 +70,13 @@ class HomeScreen extends StatelessWidget {
               Row(
                 children: [
                   GridTileModule(
-                    title: "Today's Jobs",
+                    title: AppMessage.todayJobs,
                     value: "5",
                     onTap: () => Get.to(() => TodayJobsScreen()),
                   ),
                   const SizedBox(width: 15),
                   GridTileModule(
-                    title: "Booked Date Passed",
+                    title: AppMessage.bookedDatePassed,
                     value: "5",
                     onTap: () => Get.to(() => BookedDatePassedScreen()),
                   ),
@@ -84,33 +85,9 @@ class HomeScreen extends StatelessWidget {
             ],
           ).commonSymmetricPadding(horizontal: 15),
 
-          /*ListTileModule(
-            title: 'Not Yet Booked',
-            value: '5',
-            onTap: () {},
-          ).commonAllSidePadding(10),
-
-          ListTileModule(
-            title: "Today's Jobs",
-            value: '5',
-            onTap: () {},
-          ).commonAllSidePadding(10),
-
-          ListTileModule(
-            title: "Booked Future Jobs",
-            value: '5',
-            onTap: () {},
-          ).commonAllSidePadding(10),
-
-          ListTileModule(
-            title: 'Booked Date Passed',
-            value: '5',
-            onTap: () {},
-          ).commonAllSidePadding(10),*/
-          // SizedBox(height: 5.h),
           CustomSubmitButtonModule(
             onPress: () {},
-            labelText: "Sync",
+            labelText: AppMessage.sync,
             buttonColor: AppColors.backGroundColor,
           ).commonSymmetricPadding(horizontal: 25.w),
         ],
