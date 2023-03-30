@@ -1,5 +1,6 @@
 import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
+import 'package:acsn/constance/message.dart';
 import 'package:acsn/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,10 +16,11 @@ class CompletedJobDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
-        titleText: 'Completed Job Details',
+        titleText: AppMessage.completedJobDetails,
         leadingShow: false,
         leadingIcon: const Icon(Icons.menu_rounded),
         leadingOnTap: () {},
+        actionShow: false,
         actionIcon: const Icon(Icons.home_rounded),
         actionOnTap: () {
           Get.back();

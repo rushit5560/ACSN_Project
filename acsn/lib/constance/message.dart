@@ -13,6 +13,7 @@ class AppMessage {
   static String bookedDatePassed = "Booked Date Passed";
   static String bookedFutureJobs = "Booked Future Jobs";
   static String todayJobs = "Today's Jobs";
+  static String completedJobDetails = "Completed Job Details";
   static String job = "Job#";
   static String privacyPolicyMessage = 'Please accept privacy policy';
   static String home = "Home";

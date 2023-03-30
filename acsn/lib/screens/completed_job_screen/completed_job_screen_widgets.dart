@@ -2,8 +2,10 @@ import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../common_modules/custom_submit_button.dart';
+import '../completed_job_details_screen/completed_job_details_screen.dart';
 
 class JobAllListModule extends StatelessWidget {
   const JobAllListModule({Key? key}) : super(key: key);
@@ -67,7 +69,7 @@ class JobAllListModule extends StatelessWidget {
                 value: '(98) 9555-5655',
               ),
               CustomSubmitButtonModule(
-                onPress: () { },
+                onPress: () => Get.to(()=> CompletedJobDetailsScreen()),
                 labelText: 'More Details',)
             ],
           ),

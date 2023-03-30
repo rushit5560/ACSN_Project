@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:acsn/common_modules/auth_screen_text_field.dart';
 import 'package:acsn/common_modules/custom_submit_button.dart';
 import 'package:acsn/constance/app_images.dart';
@@ -11,7 +9,6 @@ import 'package:acsn/screens/home_screen/home_screen.dart';
 import 'package:acsn/utils/field_validator.dart';
 import 'package:acsn/utils/style.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
