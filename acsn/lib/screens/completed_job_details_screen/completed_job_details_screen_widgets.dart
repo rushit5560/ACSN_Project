@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/job_model.dart';
 
-class ListTileModule extends StatelessWidget {
+/*class ListTileModule extends StatelessWidget {
   final String title;
   final String value;
   final bool iconShow;
@@ -112,7 +112,7 @@ class ListTileModule extends StatelessWidget {
       ],
     ).commonSymmetricPadding(vertical: 5);
   }
-}
+}*/
 
 class DrawerModule extends StatelessWidget {
   const DrawerModule({Key? key}) : super(key: key);
@@ -156,7 +156,7 @@ class DrawerModule extends StatelessWidget {
   }
 }
 
-class ListTileModuleWithTextField extends StatelessWidget {
+/*class ListTileModuleWithTextField extends StatelessWidget {
   final String title;
   JobModel jobModel;
   // TextEditingController fieldController;
@@ -239,4 +239,4 @@ class ListTileModuleWithTextField extends StatelessWidget {
       ],
     ).commonSymmetricPadding(vertical: 5);
   }
-}
+}*/

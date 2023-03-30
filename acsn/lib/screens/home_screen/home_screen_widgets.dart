@@ -13,7 +13,7 @@ class GridTileModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: ()=> onTap,
+        onTap: onTap,
         child: Container(
           height: 150,
           decoration: BoxDecoration(

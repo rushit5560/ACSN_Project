@@ -1,31 +1,29 @@
 import 'dart:developer';
 
-import 'package:acsn/common_modules/custom_submit_button.dart';
-import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
-import 'package:acsn/controller/not_yet_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';
 import '../../common_widgets/listtile_with_textfield_module.dart';
+import '../../constance/color.dart';
+import '../../controller/booked_date_passed_screen_controller.dart';
 import '../../models/job_model.dart';
 
-class ListViewModule extends StatelessWidget {
-  ListViewModule({super.key});
-  final notYetScreenController = Get.find<NotYetScreenController>();
+class BookedDatePassedListViewModule extends StatelessWidget {
+  BookedDatePassedListViewModule({Key? key}) : super(key: key);
+  final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: notYetScreenController.jobList.length,
       physics: const AlwaysScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-
-        JobModel singleItem = notYetScreenController.jobList[index];
-
+      itemCount: bookedDatePassedScreenController.bookedDatePassedList.length,
+      itemBuilder: (context, i) {
+        JobModel singleItem = bookedDatePassedScreenController.bookedDatePassedList[i];
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -42,15 +40,15 @@ class ListViewModule extends StatelessWidget {
             children: [
               ListTileModule(title: "Job#", value: "PhilBTestL2"),
               // ListTileModule(title: "Customer", value: "Client 1"),
-               ListTileModule(title: "Name", value: "Test Site"),
-               ListTileModule(
+              ListTileModule(title: "Name", value: "Test Site"),
+              ListTileModule(
                   title: "Site Address", value: "27, Wall street, vic"),
-               ListTileModule(title: "Payment Ref No", value: "4"),
-               ListTileModule(title: "Description", value: "Finished"),
-               ListTileModule(title: "Client", value: "Lawn Mow"),
-               ListTileModule(title: "Client", value: "Lawn Mow"),
-               ListTileModule(title: "Status", value: "Lawn Mow"),
-               ListTileModule(title: "Type", value: "Lawn Mow"),
+              ListTileModule(title: "Payment Ref No", value: "4"),
+              ListTileModule(title: "Description", value: "Finished"),
+              ListTileModule(title: "Client", value: "Lawn Mow"),
+              ListTileModule(title: "Client", value: "Lawn Mow"),
+              ListTileModule(title: "Status", value: "Lawn Mow"),
+              ListTileModule(title: "Type", value: "Lawn Mow"),
 
               ListTileModule(
                 title: "Date",
@@ -78,11 +76,11 @@ class ListViewModule extends StatelessWidget {
                 jobModel: singleItem,
                 onTapEnable: true,
               ),
-               ListTileModule(title: "Phone Number", value: "9595-959-595",
+              ListTileModule(title: "Phone Number", value: "9595-959-595",
                 iconShow: true,
                 leadingIcon: Icon(Icons.phone,size: 19),
               ),
-               ListTileModule(title: "Mobile Number", value: "(98) 9555-5655",
+              ListTileModule(title: "Mobile Number", value: "(98) 9555-5655",
                 iconShow: true,
                 leadingIcon: Icon(Icons.mobile_screen_share_outlined,size: 19),
               ),
@@ -95,18 +93,18 @@ class ListViewModule extends StatelessWidget {
                       onPress: () {
                         singleItem.changeSchedule = true;
                         log("changeSchedule : ${singleItem.changeSchedule}");
-                        notYetScreenController.loadUI();
+                        bookedDatePassedScreenController.loadUI();
                       },
                       labelSize: 10.sp,
                     ).commonOnlyPadding(right: 5),
                   ),
                   Expanded(
                     child: singleItem.changeSchedule == true
-                  ? CustomSubmitButtonModule(
+                        ? CustomSubmitButtonModule(
                       labelText: "Save",
                       onPress: () {
                         singleItem.changeSchedule = false;
-                        notYetScreenController.loadUI();
+                        bookedDatePassedScreenController.loadUI();
                       },
                       labelSize: 10.sp,
                     ).commonOnlyPadding(right: 50) : Container(),
@@ -137,95 +135,5 @@ class ListViewModule extends StatelessWidget {
         ).commonAllSidePadding(15);
       },
     );
-  }
-}
-
-
-class ListTileModuleWithModel extends StatelessWidget {
-  final String title;
-  final String value;
-  final bool iconShow;
-  final Widget? leadingIcon;
-  final Function()? onTap;
-  JobModel jobModel;
-
-  // final Icon icon;
-
-  ListTileModuleWithModel(
-      {Key? key,
-        required this.title,
-        required this.value,
-        this.iconShow = false,
-        this.leadingIcon,
-        this.onTap,
-        required this.jobModel,
-      })
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.backGroundColor,
-                  ),
-                ),
-              ),
-              const Text(
-                ":",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.backGroundColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: iconShow
-              ? GestureDetector(
-            onTap: onTap,
-            child: RichText(
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              text: TextSpan(
-                text: " ",
-                children: [
-                  WidgetSpan(child: leadingIcon!),
-                  TextSpan(
-                    text: " $value",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-              : Text(
-            " $value",
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ],
-    ).commonSymmetricPadding(vertical: 5);
   }
 }
