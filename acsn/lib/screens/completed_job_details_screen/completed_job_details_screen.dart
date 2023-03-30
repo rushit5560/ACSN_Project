@@ -33,7 +33,7 @@ class CompletedJobDetailsScreen extends StatelessWidget {
               ],
             ),
             child: Column(
-              children: const [
+              children: [
                 ListTileModule(title: "Job#", value: "PhilBTestL2"),
                 ListTileModule(title: "Customer", value: "Client 1"),
                 ListTileModule(title: "Site Name", value: "Test Site"),

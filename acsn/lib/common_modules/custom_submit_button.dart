@@ -9,11 +9,13 @@ class CustomSubmitButtonModule extends StatelessWidget {
   Function() onPress;
   String labelText;
   Color buttonColor;
+  double? labelSize;
   CustomSubmitButtonModule({
     Key? key,
     required this.onPress,
     required this.labelText,
-    this.buttonColor = AppColors.buttonColor,
+    this.buttonColor = AppColors.backGroundColor,
+    this.labelSize,
   }) : super(key: key);
   // final locationManageScreenController = Get.find<LocationManageScreenController>();
 
@@ -34,7 +36,7 @@ class CustomSubmitButtonModule extends StatelessWidget {
             labelText,
             style: TextStyleConfig.textStyle(
               textColor: AppColors.whiteColor,
-              fontSize: 16.sp,
+              fontSize: labelSize ?? 16.sp,
             ),
           ).commonSymmetricPadding(vertical: 10),
         ),

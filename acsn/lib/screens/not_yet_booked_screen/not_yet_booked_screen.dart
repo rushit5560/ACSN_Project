@@ -15,23 +15,25 @@ class NotYetBookedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: SafeArea(
-        child: Scaffold(
-          appBar: customAppBar(
-            titleText: AppMessage.notYetBooked,
-            leadingIcon: const Icon(Icons.menu_rounded),
-            leadingOnTap: () {},
-            actionIcon: const Icon(Icons.home_rounded),
-            actionOnTap: () {
-              // Get.to(() => HomeScreen());
-            },
-          ),
-          body: SingleChildScrollView(
-            child: Column(
+    return SafeArea(
+      child: Scaffold(
+        appBar: customAppBar(
+          titleText: AppMessage.notYetBooked,
+          leadingIcon: const Icon(Icons.menu_rounded),
+          leadingOnTap: () {},
+          actionIcon: const Icon(Icons.home_rounded),
+          actionOnTap: () {
+            // Get.to(() => HomeScreen());
+          },
+        ),
+        body: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Obx(
+            ()=> notYetScreenController.isLoading.value
+            ? Container()
+            : Column(
               children: [
                 TextFieldModule(
                   fieldController:
@@ -44,7 +46,7 @@ class NotYetBookedScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                ListViewModule(),
+                Expanded(child: ListViewModule()),
               ],
             ).commonSymmetricPadding(horizontal: 10, vertical: 10),
           ),
