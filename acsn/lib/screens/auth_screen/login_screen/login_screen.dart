@@ -1,4 +1,6 @@
-import 'package:acsn/common_modules/auth_screen_text_field_module.dart';
+import 'dart:developer';
+
+import 'package:acsn/common_modules/auth_screen_text_field.dart';
 import 'package:acsn/common_modules/custom_submit_button.dart';
 import 'package:acsn/constance/app_images.dart';
 import 'package:acsn/constance/color.dart';
@@ -9,6 +11,7 @@ import 'package:acsn/screens/home_screen/home_screen.dart';
 import 'package:acsn/utils/field_validator.dart';
 import 'package:acsn/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
@@ -93,7 +96,17 @@ class LoginScreen extends StatelessWidget {
                   onPress: () {
                     if (loginScreenController.formKey.currentState!
                         .validate()) {
-                      Get.to(() => HomeScreen());
+                      Get.to(() =>  HomeScreen());
+                      // if (loginScreenController.isPrivacyChecked.value) {
+                      //   Get.to(() => const HomeScreen());
+                      // } else {
+                      //   Fluttertoast.showToast(
+                      //     backgroundColor: AppColors.scaffoldBackGroundColor,
+                      //     textColor: AppColors.backGroundColor,
+                      //     fontSize: 14.sp,
+                      //     msg: AppMessage.privacyPolicyMessage,
+                      //   );
+                      // }
                     }
                   },
                 ).commonSymmetricPadding(horizontal: 8.w)

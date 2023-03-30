@@ -15,7 +15,7 @@ PreferredSizeWidget customAppBar({
     backgroundColor: AppColors.backGroundColor,
     leading: leadingShow
         ? IconButton(
-            onPressed: () => leadingIcon,
+            onPressed: leadingOnTap,
             icon: leadingIcon,
           )
         : null,
@@ -27,7 +27,7 @@ PreferredSizeWidget customAppBar({
     actions: [
       actionShow
           ? IconButton(
-              onPressed: () => actionIcon,
+              onPressed: actionOnTap,
               icon: actionIcon,
             )
           : Container(),

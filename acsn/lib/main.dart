@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: FontFamilyText.roboto,
           ),
-          home: NotYetBookedScreen(),
+          home: LoginScreen(),
         );
       },
     );

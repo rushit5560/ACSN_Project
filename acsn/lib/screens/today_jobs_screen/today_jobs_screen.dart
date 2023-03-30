@@ -1,8 +1,8 @@
+import 'package:acsn/common_modules/auth_screen_text_field.dart';
 import 'package:acsn/constance/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../common_modules/auth_screen_text_field_module.dart';
 import '../../common_widgets/custom_appbar.dart';
 import '../../common_widgets/custom_loader.dart';
 import '../../constance/color.dart';
@@ -18,6 +18,8 @@ class TodayJobsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
+        leadingShow: false,
+        actionShow: false,
         titleText: AppMessage.todayJobs,
         leadingIcon: const Icon(Icons.menu_rounded),
         leadingOnTap: () {},

@@ -1,4 +1,4 @@
-import 'package:acsn/common_modules/auth_screen_text_field_module.dart';
+import 'package:acsn/common_modules/auth_screen_text_field.dart';
 import 'package:acsn/common_widgets/custom_appbar.dart';
 import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
@@ -17,6 +17,8 @@ class NotYetBookedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
+        leadingShow: false,
+        actionShow: false,
         titleText: AppMessage.notYetBooked,
         leadingIcon: const Icon(Icons.menu_rounded),
         leadingOnTap: () {},
@@ -28,24 +30,24 @@ class NotYetBookedScreen extends StatelessWidget {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Obx(
-          ()=> notYetScreenController.isLoading.value
-          ? Container()
-          : Column(
-            children: [
-              TextFieldModule(
-                fieldController:
-                    notYetScreenController.searchTextEditingController,
-                hintText: 'Search',
-                keyboardType: TextInputType.text,
-                suffixIcon: const Icon(
-                  Icons.search,
-                  color: AppColors.backGroundColor,
-                ),
-              ),
-              SizedBox(height: 2.h),
-              Expanded(child: ListViewModule()),
-            ],
-          ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+          () => notYetScreenController.isLoading.value
+              ? Container()
+              : Column(
+                  children: [
+                    TextFieldModule(
+                      fieldController:
+                          notYetScreenController.searchTextEditingController,
+                      hintText: 'Search',
+                      keyboardType: TextInputType.text,
+                      suffixIcon: const Icon(
+                        Icons.search,
+                        color: AppColors.backGroundColor,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Expanded(child: ListViewModule()),
+                  ],
+                ).commonSymmetricPadding(horizontal: 10, vertical: 10),
         ),
       ),
     );

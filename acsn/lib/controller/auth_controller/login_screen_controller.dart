@@ -8,7 +8,7 @@ class LoginScreenController extends GetxController {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController passwordTextEditingController = TextEditingController();
+  TextEditingController emailTextEditingController = TextEditingController(text: "abc@gmail.com");
+  TextEditingController passwordTextEditingController = TextEditingController(text: "123456789");
 
 }
