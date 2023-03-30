@@ -9,7 +9,6 @@ class ListTileModule extends StatelessWidget {
   final Widget? leadingIcon;
 
   // final Icon icon;
-
   const ListTileModule(
       {Key? key,
       required this.title,
@@ -80,5 +79,48 @@ class ListTileModule extends StatelessWidget {
         ),
       ],
     ).commonSymmetricPadding(vertical: 5);
+  }
+}
+
+
+class DrawerModule extends StatelessWidget {
+  const DrawerModule({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: Colors.black,
+      child: ListView(
+        children: [
+          Container(
+            padding: EdgeInsets.all(3),
+            height: 50,
+            color: AppColors.backGroundColor,
+            child: const Text('Menu'),
+          ),
+          const ListTile(
+            leading: Icon(Icons.home,color:AppColors.backGroundColor),
+            title: Text('Home',style: TextStyle(color: Colors.white)),
+          ),
+          const Divider(
+            color: Colors.white,
+          ),
+          const ListTile(
+            leading: Icon(Icons.home,color:AppColors.backGroundColor),
+            title: Text('Home',style: TextStyle(color: Colors.white)),
+          ),
+          const Divider(
+            color: Colors.white,
+          ),
+          const ListTile(
+            leading: Icon(Icons.home,color:AppColors.backGroundColor),
+            title: Text('Home',style: TextStyle(color: Colors.white)),
+          ),
+          const Divider(
+            color: Colors.white,
+          ),
+        ],
+      ),
+    );
   }
 }

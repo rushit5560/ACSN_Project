@@ -3,6 +3,7 @@ import 'package:acsn/constance/extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../common_widgets/custom_appbar.dart';
+import '../completed_job_details_screen/completed_job_details_screen_widgets.dart';
 import 'completed_job_screen_widgets.dart';
 
 class CompletedJobScreen extends StatelessWidget {
@@ -18,6 +19,7 @@ class CompletedJobScreen extends StatelessWidget {
           titleText: 'Completed Job',
           actionOnTap: () {},
           leadingOnTap: () {}),
+      drawer: DrawerModule(),
       body: Column(
         children: const [
           JobAllListModule(),
