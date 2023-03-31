@@ -1,13 +1,9 @@
 import 'dart:developer';
-
 import 'package:acsn/constance/extension.dart';
 import 'package:acsn/constance/message.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../common_modules/custom_divider.dart';
 import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';

@@ -7,7 +7,7 @@ import '../../utils/user_preference.dart';
 class LoginScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isPasswordVisible = true.obs;
-  RxBool isRememberMe = false.obs;
+  RxBool isRememberMe = true.obs;
 
   UserPreference userPreference = UserPreference();
 

@@ -6,6 +6,7 @@ class UserPreference {
   static String isUserLoggedInKey = "isUserLoggedInKey";
   static String userEmailKey = "userEmailKey";
   static String userPasswordKey = "userPasswordKey";
+  static String userLoginTokenKey = "userLoginTokenKey";
 
   Future<void> userAllDataFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
