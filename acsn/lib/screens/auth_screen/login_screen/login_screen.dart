@@ -28,76 +28,78 @@ class LoginScreen extends StatelessWidget {
 
         body: Form(
           key: loginScreenController.formKey,
-          child: Column(
-            children: [
-              Image.asset(AppImages.logoImage)
-                  .commonSymmetricPadding(horizontal: 5.w),
-              SizedBox(height: 10.h),
-              TextFieldModule(
-                fieldController:
-                    loginScreenController.emailTextEditingController,
-                hintText: AppMessage.emailAddress,
-                keyboardType: TextInputType.emailAddress,
-                suffixIcon: const Icon(
-                  Icons.email_outlined,
-                  color: AppColors.backGroundColor,
-                ),
-                validate: (value) => FieldValidator().validateEmail(value!),
-              ),
-              SizedBox(height: 4.h),
-              Obx(
-                () => TextFieldModule(
-                  obscureText: loginScreenController.isPasswordVisible.value,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Image.asset(AppImages.logoImage)
+                    .commonSymmetricPadding(horizontal: 5.w),
+                SizedBox(height: 10.h),
+                TextFieldModule(
                   fieldController:
-                      loginScreenController.passwordTextEditingController,
-                  hintText: AppMessage.password,
-                  keyboardType: TextInputType.text,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      loginScreenController.isPasswordVisible.value =
-                          !loginScreenController.isPasswordVisible.value;
-                    },
-                    icon: Icon(
-                      loginScreenController.isPasswordVisible.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: AppColors.backGroundColor,
-                    ),
+                      loginScreenController.emailTextEditingController,
+                  hintText: AppMessage.emailAddress,
+                  keyboardType: TextInputType.emailAddress,
+                  suffixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: AppColors.backGroundColor,
                   ),
-                  validate: (value) =>
-                      FieldValidator().validatePassword(value!),
+                  validate: (value) => FieldValidator().validateEmail(value!),
                 ),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Checkbox(
-                      activeColor: AppColors.backGroundColor,
-                      value: loginScreenController.isRememberMe.value,
-                      onChanged: (bool? value) {
-                        loginScreenController.isRememberMe.value = value!;
+                SizedBox(height: 4.h),
+                Obx(
+                  () => TextFieldModule(
+                    obscureText: loginScreenController.isPasswordVisible.value,
+                    fieldController:
+                        loginScreenController.passwordTextEditingController,
+                    hintText: AppMessage.password,
+                    keyboardType: TextInputType.text,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        loginScreenController.isPasswordVisible.value =
+                            !loginScreenController.isPasswordVisible.value;
                       },
+                      icon: Icon(
+                        loginScreenController.isPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.backGroundColor,
+                      ),
                     ),
+                    validate: (value) =>
+                        FieldValidator().validatePassword(value!),
                   ),
-                  Text(
-                    AppMessage.rememberMe,
-                    style: TextStyleConfig.textStyle(
-                      fontSize: 12.sp,
+                ),
+                Row(
+                  children: [
+                    Obx(
+                      () => Checkbox(
+                        activeColor: AppColors.backGroundColor,
+                        value: loginScreenController.isRememberMe.value,
+                        onChanged: (bool? value) {
+                          loginScreenController.isRememberMe.value = value!;
+                        },
+                      ),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 4.h),
-              CustomSubmitButtonModule(
-                labelText: AppMessage.login,
-                onPress: () async {
-                  if (loginScreenController.formKey.currentState!.validate()) {
-                    await loginScreenController.loginFunction();
-                  }
-                },
-              ).commonSymmetricPadding(horizontal: 8.w)
-            ],
-          ).commonOnlyPadding(left: 20, right: 20, top: 10.h),
+                    Text(
+                      AppMessage.rememberMe,
+                      style: TextStyleConfig.textStyle(
+                        fontSize: 12.sp,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 4.h),
+                CustomSubmitButtonModule(
+                  labelText: AppMessage.login,
+                  onPress: () async {
+                    if (loginScreenController.formKey.currentState!.validate()) {
+                      await loginScreenController.loginFunction();
+                    }
+                  },
+                ).commonSymmetricPadding(horizontal: 8.w)
+              ],
+            ).commonOnlyPadding(left: 20, right: 20, top: 10.h),
+          ),
         ),
       ),
     );

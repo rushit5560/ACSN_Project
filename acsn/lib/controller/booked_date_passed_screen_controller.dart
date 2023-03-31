@@ -1,9 +1,13 @@
 import 'dart:developer';
 
+import 'package:acsn/constance/color.dart';
+import 'package:acsn/constance/extension.dart';
+import 'package:acsn/utils/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 
 import '../models/job_model.dart';
 
@@ -51,7 +55,6 @@ class BookedDatePassedScreenController extends GetxController {
       context: ctx,
       builder: (_) => Container(
         height: size.height * 0.4,
-        // padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         color: const Color.fromARGB(255, 255, 255, 255),
         child: Column(
           children: [
@@ -63,23 +66,29 @@ class BookedDatePassedScreenController extends GetxController {
                   minimumYear: 1940,
                   maximumYear: DateTime.now().year,
                   onDateTimeChanged: (DateTime value) {
-                    isLoading(true);
                     var dateFormat = DateFormat('dd/M/yyyy').format(value);
                     date = dateFormat;
-                    log("date $date");
+                    isLoading(true);
                     isLoading(false);
+                    log("date $date");
                   },
                 )),
             // Close the modal
             TextButton(
-              child: const Text('OK'),
+              child: Text(
+                'OK',
+                style: TextStyleConfig.textStyle(
+                  textColor: AppColors.drawerBackGroundColor,
+                  fontSize: 15.sp,
+                ),
+              ),
               onPressed: () {
                 Get.back();
               },
             )
           ],
         ),
-      ),
+      ).commonSymmetricPadding(horizontal: 10, vertical: 15),
     );
   }
 
@@ -97,25 +106,34 @@ class BookedDatePassedScreenController extends GetxController {
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
                   // use24hFormat: true,
-                  initialDateTime: DateTime.now(),
+                  initialDateTime: dateTime,
                   // maximumYear: DateTime.now().year,
-                  onDateTimeChanged: (DateTime dateTime) {
+                  onDateTimeChanged: (DateTime dateTimevalue) {
+                    log("dateTimevalue: $dateTimevalue");
+                    String time = DateFormat('hh:mm a').format(dateTimevalue);
+                    timeValue = time;
                     isLoading(true);
-                    dateTime = dateTime;
                     isLoading(false);
-                    log("_dateTime: $dateTime");
+
+                    log('time : $timeValue');
                   },
                 )),
             // Close the modal
             TextButton(
-              child: const Text('OK'),
+              child: Text(
+                'OK',
+                style: TextStyleConfig.textStyle(
+                  textColor: AppColors.drawerBackGroundColor,
+                  fontSize: 15.sp,
+                ),
+              ),
               onPressed: () {
                 Get.back();
               },
             )
           ],
         ),
-      ),
+      ).commonSymmetricPadding(horizontal: 10, vertical: 15),
     );
   }
 

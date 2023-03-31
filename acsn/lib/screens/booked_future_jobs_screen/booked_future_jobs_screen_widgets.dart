@@ -48,8 +48,9 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                   // ListTileModule(title: "Customer", value: "Client 1"),
                   ListTileModule(title: AppMessage.name, value: "Test Site"),
                   ListTileModule(
-                      title: AppMessage.siteAddress,
-                      value: "27, Wall street, vic"),
+                    title: AppMessage.siteAddress,
+                    value: "27, Wall street, vic",
+                  ),
                   ListTileModule(title: AppMessage.paymentRefNo, value: "4"),
                   ListTileModule(
                       title: AppMessage.description, value: "Finished"),
@@ -58,16 +59,16 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                       title: AppMessage.clientNotes, value: "Lawn Mow"),
                   ListTileModule(title: AppMessage.status, value: "Lawn Mow"),
                   ListTileModule(title: AppMessage.type, value: "Lawn Mow"),
-
                   ListTileModule(
                     title: AppMessage.date,
-                    value: "23/03/2023",
+                    value: bookedFutureJobsScreenController.date,
                     iconShow: true,
                     leadingIcon:
                         const Icon(Icons.calendar_month_rounded, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        log('asas');
+                        bookedFutureJobsScreenController
+                            .showDatePicker(context);
                       }
                     },
                     jobModel: singleItem,
@@ -76,13 +77,14 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
 
                   ListTileModule(
                     title: AppMessage.time,
-                    value: "02:33 AM",
+                    value: bookedFutureJobsScreenController.timeValue,
                     iconShow: true,
                     leadingIcon:
                         const Icon(Icons.watch_later_outlined, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        log('asas');
+                        bookedFutureJobsScreenController
+                            .showTimePicker(context);
                       }
                     },
                     jobModel: singleItem,

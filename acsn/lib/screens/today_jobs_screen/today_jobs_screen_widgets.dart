@@ -60,13 +60,14 @@ class TodayJobsListViewModule extends StatelessWidget {
 
                   ListTileModule(
                     title: AppMessage.date,
-                    value: "23/03/2023",
+                    value: todayJobsScreenController.date,
                     iconShow: true,
                     leadingIcon:
                         const Icon(Icons.calendar_month_rounded, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
                         log('asas');
+                        todayJobsScreenController.showDatePicker(context);
                       }
                     },
                     jobModel: singleItem,
@@ -75,13 +76,13 @@ class TodayJobsListViewModule extends StatelessWidget {
 
                   ListTileModule(
                     title: AppMessage.time,
-                    value: "02:33 AM",
+                    value: todayJobsScreenController.timeValue,
                     iconShow: true,
                     leadingIcon:
                         const Icon(Icons.watch_later_outlined, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        log('asas');
+                        todayJobsScreenController.showTimePicker(context);
                       }
                     },
                     jobModel: singleItem,

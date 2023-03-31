@@ -1,7 +1,5 @@
 import 'package:acsn/constance/font_family.dart';
-import 'package:acsn/screens/auth_screen/login_screen/login_screen.dart';
-import 'package:acsn/screens/home_screen/home_screen.dart';
-import 'package:acsn/screens/not_yet_booked_screen/not_yet_booked_screen.dart';
+import 'package:acsn/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: FontFamilyText.roboto,
           ),
-          home: LoginScreen(),
+          home: SplashScreen(),
         );
       },
     );

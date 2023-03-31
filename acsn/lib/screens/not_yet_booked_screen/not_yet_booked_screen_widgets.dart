@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:acsn/common_modules/custom_submit_button.dart';
 import 'package:acsn/constance/color.dart';
 import 'package:acsn/constance/extension.dart';
@@ -8,7 +7,6 @@ import 'package:acsn/controller/not_yet_screen_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';
 import '../../common_widgets/listtile_with_textfield_module.dart';
 import '../../models/job_model.dart';
@@ -54,12 +52,12 @@ class ListViewModule extends StatelessWidget {
 
               ListTileModule(
                 title: AppMessage.date,
-                value: "23/03/2023",
+                value: notYetScreenController.date,
                 iconShow: true,
                 leadingIcon: const Icon(Icons.calendar_month_rounded, size: 19),
                 onTap: () {
                   if (singleItem.changeSchedule == true) {
-                    log('asas');
+                    notYetScreenController.showDatePicker(context);
                   }
                 },
                 jobModel: singleItem,
@@ -68,12 +66,12 @@ class ListViewModule extends StatelessWidget {
 
               ListTileModule(
                 title: AppMessage.time,
-                value: "02:33 AM",
+                value: notYetScreenController.timeValue,
                 iconShow: true,
                 leadingIcon: const Icon(Icons.watch_later_outlined, size: 19),
                 onTap: () {
                   if (singleItem.changeSchedule == true) {
-                    log('asas');
+                    notYetScreenController.showTimePicker(context);
                   }
                 },
                 jobModel: singleItem,
@@ -83,13 +81,14 @@ class ListViewModule extends StatelessWidget {
                 title: AppMessage.phoneNumber,
                 value: "9595-959-595",
                 iconShow: true,
-                leadingIcon: Icon(Icons.phone, size: 19),
+                leadingIcon: const Icon(Icons.phone, size: 19),
               ),
               ListTileModule(
                 title: AppMessage.mobileNumber,
                 value: "(98) 9555-5655",
                 iconShow: true,
-                leadingIcon: Icon(Icons.mobile_screen_share_outlined, size: 19),
+                leadingIcon:
+                    const Icon(Icons.mobile_screen_share_outlined, size: 19),
               ),
 
               Row(
