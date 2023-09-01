@@ -24,7 +24,7 @@ class FieldValidator {
     String? validatePassword(String value) {
     if (value.isEmpty) {
       return AppMessage.passwordIsRequired;
-    } else if (value.length < 8) {
+    } else if (value.length < 3) {
       return AppMessage.passwordMustBeAtleast8CharactersLong;
     } else {
       return null;

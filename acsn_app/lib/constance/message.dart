@@ -6,9 +6,10 @@ class AppMessage {
   static String onlineShopping = "Online Shopping";
   static String passwordIsRequired = 'Please enter password.';
   static String passwordMustBeAtleast8CharactersLong =
-      'Password must be at least 8 characters long.';
+      'Password must be at least 4 characters long.';
   static String login = "Log in";
   static String emailAddress = "Email address";
+  static String userName = "Username";
   static String password = "Password";
   static String rememberMe = "Remember Me?";
   static String completionNote = "Completion Note";

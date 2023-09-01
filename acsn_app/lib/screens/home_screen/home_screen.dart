@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -7,6 +6,7 @@ import 'package:acsn_app/constance/extension.dart';
 
 import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/custom_appbar.dart';
+import '../../common_widgets/custom_loader.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../constance/message.dart';
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
       key: homeScreenController.scaffoldKey,
       resizeToAvoidBottomInset: false,
       // drawer: const HomeDrawerScreen(),
-      drawer: HomeDrawerCustomModule(),
+      drawer: const HomeDrawerCustomModule(),
       appBar: customAppBar(
         titleText: AppMessage.home,
         actionShow: false,
@@ -41,59 +41,69 @@ class HomeScreen extends StatelessWidget {
         actionOnTap: () {},
         // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Image.asset(
-            AppImages.logoImage,
-            height: Get.height * 0.12,
-          ),
-          // SizedBox(height: 10.h),
-
-          Column(
-            children: [
-              Row(
+      body: Obx(
+        () => homeScreenController.isLoading.value
+            ? const CustomLoader()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  GridTileModule(
-                    title: AppMessage.notYetBooked,
-                    value: "5",
-                    onTap: () => Get.to(() => NotYetBookedScreen()),
+                  Image.asset(
+                    AppImages.logoImage,
+                    height: Get.height * 0.12,
                   ),
-                  const SizedBox(width: 15),
-                  GridTileModule(
-                    title: AppMessage.bookedFutureJobs,
-                    value: "5",
-                    onTap: () => Get.to(() => BookedFutureJobsScreen()),
-                  ),
+                  // SizedBox(height: 10.h),
+
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          GridTileModule(
+                            title: AppMessage.notYetBooked,
+                            value: homeScreenController.notYetBookedCount.value
+                                .toString(),
+                            onTap: () => Get.to(() => NotYetBookedScreen()),
+                          ),
+                          const SizedBox(width: 15),
+                          GridTileModule(
+                            title: AppMessage.bookedFutureJobs,
+                            value: homeScreenController
+                                .bookedFutureJobsCount.value
+                                .toString(),
+                            onTap: () => Get.to(() => BookedFutureJobsScreen()),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          GridTileModule(
+                            title: AppMessage.todayJobs,
+                            value: homeScreenController.todayJobCount.value
+                                .toString(),
+                            onTap: () => Get.to(() => TodayJobsScreen()),
+                          ),
+                          const SizedBox(width: 15),
+                          GridTileModule(
+                            title: AppMessage.bookedDatePassed,
+                            value: homeScreenController
+                                .bookedDatePassedCount.value
+                                .toString(),
+                            onTap: () => Get.to(() => BookedDatePassedScreen()),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ).commonSymmetricPadding(horizontal: 15),
+
+                  CustomSubmitButtonModule(
+                    onPress: () async => await homeScreenController.getTotalJobCountFunction(),
+                    labelText: AppMessage.sync,
+                    buttonColor: AppColors.backGroundColor,
+                  ).commonSymmetricPadding(horizontal: 25.w),
                 ],
               ),
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                  GridTileModule(
-                    title: AppMessage.todayJobs,
-                    value: "5",
-                    onTap: () => Get.to(() => TodayJobsScreen()),
-                  ),
-                  const SizedBox(width: 15),
-                  GridTileModule(
-                    title: AppMessage.bookedDatePassed,
-                    value: "5",
-                    onTap: () => Get.to(() => BookedDatePassedScreen()),
-                  ),
-                ],
-              ),
-            ],
-          ).commonSymmetricPadding(horizontal: 15),
-
-          CustomSubmitButtonModule(
-            onPress: () {},
-            labelText: AppMessage.sync,
-            buttonColor: AppColors.backGroundColor,
-          ).commonSymmetricPadding(horizontal: 25.w),
-        ],
       ),
     );
   }

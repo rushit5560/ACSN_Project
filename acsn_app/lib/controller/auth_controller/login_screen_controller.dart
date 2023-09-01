@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../constance/api_url.dart';
 import '../../models/login_screen_model/field_worker_login_model.dart';
+import '../../screens/home_screen/home_screen.dart';
 import '../../utils/user_preference.dart';
 
 class LoginScreenController extends GetxController {
@@ -53,22 +55,24 @@ class LoginScreenController extends GetxController {
 
       log("loginFunction responsebody: ${response.body}");
 
-      FieldWorkerLoginModel fieldWorkerLoginModel =
-          FieldWorkerLoginModel.fromJson(json.decode(response.body));
+      FieldWorkerLoginModel fieldWorkerLoginModel = FieldWorkerLoginModel.fromJson(json.decode(response.body));
 
-      if (response.statusCode == 200) {
+      if (fieldWorkerLoginModel.statusCode == 200) {
         log("loginFunction response.statusCoe: ${response.statusCode}");
-        await setUserLoginDetails();
-        // await userPreference.setUserDetails(
-        //   userName: fieldWorkerLoginModel.workerList.userName,
-        //   userpassword: fieldWorkerLoginModel.workerList.password,
-        // );
-        log('loginFunction userName: ${fieldWorkerLoginModel.workerList.userName}');
+        // Check user & pass remember or not
+        isRememberMe.value ? await setUserLoginDetails() : null;
+
+        // User details saved in prefs
+        userPreference.setBoolValueInPrefs(key: UserPreference.isUserLoggedInKey, value: true);
+        userPreference.setStringValueInPrefs(key: UserPreference.userLoginTokenKey, value: fieldWorkerLoginModel.workerList.loginToken);
+        userPreference.setStringValueInPrefs(key: UserPreference.fieldWorkerIdKey, value: fieldWorkerLoginModel.workerList.fieldWorkerId.toString());
 
         userNameTextEditingController.clear();
         passwordTextEditingController.clear();
 
-        // Get.to(() => HomeScreen());
+        Get.off(() => HomeScreen());
+      } else if(fieldWorkerLoginModel.statusCode == 204) {
+        Fluttertoast.showToast(msg: "Invalid login credential");
       }
     } catch (e) {
       log("loginFunction error :$e");
@@ -77,7 +81,6 @@ class LoginScreenController extends GetxController {
       isLoading(false);
     }
 
-    // Get.off(() => HomeScreen());
   }
 
   @override

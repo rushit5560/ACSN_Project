@@ -3,10 +3,11 @@ import 'package:acsn_app/utils/userdetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
-  static String isUserLoggedInKey = "isUserLoggedInKey";
-  static String userNameKey = "userNameKey";
-  static String userPasswordKey = "userPasswordKey";
-  static String userLoginTokenKey = "userLoginTokenKey";
+  static String isUserLoggedInKey = "isUserLoggedInKey"; // bool
+  static String userNameKey = "userNameKey"; // String
+  static String userPasswordKey = "userPasswordKey"; // String
+  static String userLoginTokenKey = "userLoginTokenKey"; // String
+  static String fieldWorkerIdKey = "fieldWorkerIdKey";
 
   Future<void> setUserDetails({
     required String userName,
@@ -34,8 +35,7 @@ class UserPreference {
     log('prefs value :${prefs.getBool(key)}');
   }
 
-  Future<void> setStringValueInPrefs(
-      {required String key, required String value}) async {
+  Future<void> setStringValueInPrefs({required String key, required String value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
     log('prefs value :${prefs.getString(key)}');
@@ -47,9 +47,17 @@ class UserPreference {
     return value;
   }
 
+  Future<String> getStringFromPrefs({required String key}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String value = prefs.getString(key) ?? "";
+    return value;
+  }
+
   Future<String>  getUserLoggedInFromPrefs({required String key}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String value = prefs.getString(key) ?? "";
     return value;
   }
+
+
 }
