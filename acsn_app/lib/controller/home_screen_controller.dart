@@ -21,7 +21,7 @@ class HomeScreenController extends GetxController {
   RxInt todayJobCount = 0.obs;
   RxInt bookedDatePassedCount = 0.obs;
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  // GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> getTotalJobCountFunction() async {
     isLoading(true);
@@ -39,8 +39,7 @@ class HomeScreenController extends GetxController {
 
       log('response :${response.body}');
 
-      JobCountModel jobCountModel =
-          JobCountModel.fromJson(json.decode(response.body));
+      JobCountModel jobCountModel = JobCountModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = jobCountModel.success;
 
       if (isSuccessStatus.value) {

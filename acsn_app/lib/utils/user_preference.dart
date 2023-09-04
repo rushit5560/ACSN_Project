@@ -28,6 +28,15 @@ class UserPreference {
     prefs.setBool(isUserLoggedInKey, false);
   }
 
+  Future<void> userAllDataRemoveFromPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(isUserLoggedInKey, false);
+    prefs.remove(userNameKey);
+    prefs.remove(userPasswordKey);
+    prefs.remove(userLoginTokenKey);
+    prefs.remove(fieldWorkerIdKey);
+  }
+
   Future<void> setBoolValueInPrefs(
       {required String key, required bool value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

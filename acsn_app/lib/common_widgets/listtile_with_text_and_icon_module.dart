@@ -1,4 +1,5 @@
 import 'package:acsn_app/constance/extension.dart';
+import 'package:acsn_app/models/not_yet_booked_models/not_yet_booked_job_model.dart';
 import 'package:flutter/material.dart';
 
 import '../constance/color.dart';
@@ -11,7 +12,7 @@ class ListTileModule extends StatelessWidget {
   final bool iconShow;
   final Widget? leadingIcon;
   final Function()? onTap;
-  JobModel? jobModel;
+  JobDetails? jobModel;
   final bool onTapEnable;
 
   // final Icon icon;

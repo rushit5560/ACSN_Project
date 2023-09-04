@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:acsn_app/constance/extension.dart';
+import 'package:acsn_app/models/not_yet_booked_models/not_yet_booked_job_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -10,6 +11,7 @@ import '../../constance/color.dart';
 import '../../constance/message.dart';
 import '../../controller/not_yet_screen_controller.dart';
 import '../../models/job_model.dart';
+import '../../utils/field_decorations.dart';
 
 class ListViewModule extends StatelessWidget {
   ListViewModule({super.key});
@@ -19,10 +21,14 @@ class ListViewModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: notYetScreenController.jobList.length,
+      itemCount: notYetScreenController.jobsList.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        JobModel singleItem = notYetScreenController.jobList[index];
+        // JobModel singleItem = notYetScreenController.jobList[index];
+        JobDetails singleItem = notYetScreenController.jobsList[index];
+
+        TextEditingController fieldWorkerNoteController = TextEditingController(text: singleItem.jobDescription);
+        TextEditingController internalNoteController = TextEditingController(text: singleItem.specialNotes);
 
         return Container(
           decoration: BoxDecoration(
@@ -38,54 +44,57 @@ class ListViewModule extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ListTileModule(title: AppMessage.job, value: "PhilBTestL2"),
+              ListTileModule(title: AppMessage.job, value: singleItem.jobCode),
               // ListTileModule(title: "Customer", value: "Client 1"),
-              ListTileModule(title: AppMessage.name, value: "Test Site"),
+              ListTileModule(title: AppMessage.name, value: singleItem.siteName),
               ListTileModule(
-                  title: AppMessage.siteAddress, value: "27, Wall street, vic"),
-              ListTileModule(title: AppMessage.paymentRefNo, value: "4"),
-              ListTileModule(title: AppMessage.description, value: "Finished"),
-              ListTileModule(title: AppMessage.client, value: "Lawn Mow"),
-              ListTileModule(title: AppMessage.clientNotes, value: "Lawn Mow"),
-              ListTileModule(title: AppMessage.status, value: "Lawn Mow"),
-              ListTileModule(title: AppMessage.type, value: "Lawn Mow"),
+                  title: AppMessage.siteAddress, value: singleItem.siteAddress),
+              ListTileModule(title: AppMessage.paymentRefNo, value: singleItem.paymentReferenceNumber),
+              ListTileModule(title: AppMessage.description, value: singleItem.description),
+              ListTileModule(title: AppMessage.client, value: singleItem.clientName == "" ? "-" : singleItem.clientName),
+              ListTileModule(title: AppMessage.clientNotes, value: singleItem.clientNotes == "" ? "-" : singleItem.clientNotes),
+              ListTileModule(title: AppMessage.status, value: singleItem.jobStatus),
+              ListTileModule(title: AppMessage.type, value: singleItem.jobType),
 
-              ListTileModule(
+              // Date
+              singleItem.changeSchedule == true ?ListTileModule(
                 title: AppMessage.date,
-                value: notYetScreenController.date,
+                value: singleItem.startDate,
                 iconShow: true,
                 leadingIcon: const Icon(Icons.calendar_month_rounded, size: 19),
                 onTap: () {
                   if (singleItem.changeSchedule == true) {
-                    notYetScreenController.showDatePicker(context);
+                    notYetScreenController.showDatePicker(context, index);
                   }
                 },
                 jobModel: singleItem,
                 onTapEnable: true,
-              ),
+              ) : Container(),
 
-              ListTileModule(
+              // Time
+              singleItem.changeSchedule == true ? ListTileModule(
                 title: AppMessage.time,
-                value: notYetScreenController.timeValue,
+                value: singleItem.startTime,
                 iconShow: true,
                 leadingIcon: const Icon(Icons.watch_later_outlined, size: 19),
                 onTap: () {
                   if (singleItem.changeSchedule == true) {
-                    notYetScreenController.showTimePicker(context);
+                    notYetScreenController.showTimePicker(context, index);
                   }
                 },
                 jobModel: singleItem,
                 onTapEnable: true,
-              ),
+              ) : Container(),
+
               ListTileModule(
                 title: AppMessage.phoneNumber,
-                value: "9595-959-595",
+                value: singleItem.mobileNo,
                 iconShow: true,
                 leadingIcon: const Icon(Icons.phone, size: 19),
               ),
               ListTileModule(
                 title: AppMessage.mobileNumber,
-                value: "(98) 9555-5655",
+                value: singleItem.phoneNo,
                 iconShow: true,
                 leadingIcon:
                     const Icon(Icons.mobile_screen_share_outlined, size: 19),
@@ -108,9 +117,13 @@ class ListViewModule extends StatelessWidget {
                     child: singleItem.changeSchedule == true
                         ? CustomSubmitButtonModule(
                             labelText: AppMessage.save,
-                            onPress: () {
-                              singleItem.changeSchedule = false;
-                              notYetScreenController.loadUI();
+                            onPress: () async {
+                              // singleItem.changeSchedule = false;
+                              // notYetScreenController.loadUI();
+                              await notYetScreenController.saveScheduleFunction(
+                                jobId: singleItem.jobId.toString(),
+                                index: index
+                              );
                             },
                             labelSize: 10.sp,
                           ).commonOnlyPadding(right: 50)
@@ -119,21 +132,98 @@ class ListViewModule extends StatelessWidget {
                 ],
               ),
 
-              ListTileModuleWithTextField(
-                title: AppMessage.workesnote,
-                jobModel: singleItem,
-                // fieldController: notYetScreenController.fieldWorkerNoteController,
-              ),
+              // Field worker notes
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            AppMessage.workesnote,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.backGroundColor,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          ": ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.backGroundColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      controller: fieldWorkerNoteController,
+                      onChanged: (value1) {
+                        singleItem.jobDescription = value1;
+                      },
+                      decoration: fieldDecorations(),
+                    ),
+                  ),
+                ],
+              ).commonSymmetricPadding(vertical: 5),
 
-              ListTileModuleWithTextField(
+
+              // Internal notes
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            AppMessage.internalNote,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.backGroundColor,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          ": ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.backGroundColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      controller: internalNoteController,
+                      onChanged: (value1) {
+                        singleItem.specialNotes = value1;
+                      },
+                      decoration: fieldDecorations(),
+                    ),
+                  ),
+                ],
+              ).commonSymmetricPadding(vertical: 5),
+
+              /*ListTileModuleWithTextField(
                 title: AppMessage.internalNote,
-                jobModel: singleItem,
+                value: singleItem.specialNotes,
                 // fieldController: notYetScreenController.internalNoteController,
-              ),
+              ),*/
 
               CustomSubmitButtonModule(
                 labelText: AppMessage.saveNotes,
-                onPress: () {},
+                onPress: () async => notYetScreenController.updateJobNotesFunction(index),
                 labelSize: 12.sp,
               ).commonOnlyPadding(top: 10)
             ],

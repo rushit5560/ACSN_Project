@@ -59,7 +59,8 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                       title: AppMessage.clientNotes, value: "Lawn Mow"),
                   ListTileModule(title: AppMessage.status, value: "Lawn Mow"),
                   ListTileModule(title: AppMessage.type, value: "Lawn Mow"),
-                  ListTileModule(
+
+                  /*ListTileModule(
                     title: AppMessage.date,
                     value: bookedFutureJobsScreenController.date,
                     iconShow: true,
@@ -73,9 +74,9 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     },
                     jobModel: singleItem,
                     onTapEnable: true,
-                  ),
+                  ),*/
 
-                  ListTileModule(
+                  /*ListTileModule(
                     title: AppMessage.time,
                     value: bookedFutureJobsScreenController.timeValue,
                     iconShow: true,
@@ -89,7 +90,7 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     },
                     jobModel: singleItem,
                     onTapEnable: true,
-                  ),
+                  ),*/
                   ListTileModule(
                     title: AppMessage.phoneNumber,
                     value: "9595-959-595",
@@ -132,7 +133,7 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     ],
                   ),
 
-                  ListTileModuleWithTextField(
+                  /*ListTileModuleWithTextField(
                     title: AppMessage.workesnote,
                     jobModel: singleItem,
                     // fieldController: notYetScreenController.fieldWorkerNoteController,
@@ -142,7 +143,7 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     title: AppMessage.internalNote,
                     jobModel: singleItem,
                     // fieldController: notYetScreenController.internalNoteController,
-                  ),
+                  ),*/
 
                   CustomSubmitButtonModule(
                     labelText: AppMessage.saveNotes,

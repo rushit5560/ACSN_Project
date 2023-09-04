@@ -7,18 +7,17 @@ import '../models/job_model.dart';
 
 class ListTileModuleWithTextField extends StatelessWidget {
   final String title;
-  JobModel jobModel;
+  String value;
   // TextEditingController fieldController;
   // final String value;
   // final bool iconShow;
   // final Widget? leadingIcon;
-
   // final Icon icon;
 
   ListTileModuleWithTextField(
       {Key? key,
         required this.title,
-        required this.jobModel,
+        required this.value,
         // required this.fieldController,
         // required this.value,
         // this.iconShow = false,
@@ -26,8 +25,11 @@ class ListTileModuleWithTextField extends StatelessWidget {
       })
       : super(key: key);
 
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    controller.text = value;
     return Row(
       children: [
         Expanded(
@@ -58,9 +60,9 @@ class ListTileModuleWithTextField extends StatelessWidget {
         ),
         Expanded(
           child: TextFormField(
-            // controller: fieldController,
-            onChanged: (value) {
-              jobModel.fieldWorkerNote = value;
+            controller: controller,
+            onChanged: (value1) {
+              value = value1;
             },
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),

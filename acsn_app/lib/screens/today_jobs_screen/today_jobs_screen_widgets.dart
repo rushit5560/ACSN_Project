@@ -57,7 +57,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                   ListTileModule(title: AppMessage.status, value: "Lawn Mow"),
                   ListTileModule(title: AppMessage.type, value: "Lawn Mow"),
 
-                  ListTileModule(
+                  /*ListTileModule(
                     title: AppMessage.date,
                     value: todayJobsScreenController.date,
                     iconShow: true,
@@ -71,9 +71,9 @@ class TodayJobsListViewModule extends StatelessWidget {
                     },
                     jobModel: singleItem,
                     onTapEnable: true,
-                  ),
+                  ),*/
 
-                  ListTileModule(
+                  /*ListTileModule(
                     title: AppMessage.time,
                     value: todayJobsScreenController.timeValue,
                     iconShow: true,
@@ -86,7 +86,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                     },
                     jobModel: singleItem,
                     onTapEnable: true,
-                  ),
+                  ),*/
                   ListTileModule(
                     title: AppMessage.phoneNumber,
                     value: "9595-959-595",
@@ -129,7 +129,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                     ],
                   ),
 
-                  ListTileModuleWithTextField(
+                  /*ListTileModuleWithTextField(
                     title: AppMessage.workesnote,
                     jobModel: singleItem,
                     // fieldController: notYetScreenController.fieldWorkerNoteController,
@@ -139,7 +139,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                     title: AppMessage.internalNote,
                     jobModel: singleItem,
                     // fieldController: notYetScreenController.internalNoteController,
-                  ),
+                  ),*/
 
                   CustomSubmitButtonModule(
                     labelText: AppMessage.saveNotes,

@@ -23,20 +23,21 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   final homeScreenController = Get.put(HomeScreenController());
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: homeScreenController.scaffoldKey,
-      resizeToAvoidBottomInset: false,
+      key: scaffoldKey,
+      // resizeToAvoidBottomInset: false,
       // drawer: const HomeDrawerScreen(),
       drawer: const HomeDrawerCustomModule(),
       appBar: customAppBar(
         titleText: AppMessage.home,
         actionShow: false,
         leadingIcon: const Icon(Icons.menu_rounded),
-        leadingOnTap: () =>
-            homeScreenController.scaffoldKey.currentState!.openDrawer(),
+        leadingOnTap: () => scaffoldKey.currentState!.openDrawer(),
+        // leadingOnTap: () {},
         actionIcon: const Icon(Icons.home_rounded),
         actionOnTap: () {},
         // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,

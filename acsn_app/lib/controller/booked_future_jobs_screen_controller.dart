@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:acsn_app/constance/api_url.dart';
 import 'package:acsn_app/constance/extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,15 @@ class BookedFutureJobsScreenController extends GetxController {
       internalNote: '',
     ),
   ];
+
+
+  Future<void> getWorkerBookedFutureJobsFunction() async {
+    isLoading(true);
+    String url = ApiUrl.getBookedFutureJobsApi;
+    log('Api Url :$url');
+
+  }
+
   void showDatePicker(ctx) {
     showCupertinoModalPopup(
       context: ctx,
@@ -138,4 +148,16 @@ class BookedFutureJobsScreenController extends GetxController {
     isLoading(true);
     isLoading(false);
   }
+
+  @override
+  void onInit() {
+    initMethod();
+    super.onInit();
+  }
+
+  Future<void> initMethod() async {
+    isLoading(true);
+    await getWorkerBookedFutureJobsFunction();
+  }
+
 }

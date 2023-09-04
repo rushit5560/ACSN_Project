@@ -1,3 +1,4 @@
+import 'package:acsn_app/utils/user_preference.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:acsn_app/constance/extension.dart';
@@ -96,7 +97,8 @@ class HomeDrawerCustomModule extends StatelessWidget {
                   CustomAlertDialog().showAlertDialog(
                     context: context,
                     textContent: AppMessage.logoutMessage,
-                    onYesTap: () {
+                    onYesTap: () async {
+                      await UserPreference().userAllDataRemoveFromPrefs();
                       Get.offAll(()=> LoginScreen());
                     },
                     onCancelTap: () {
