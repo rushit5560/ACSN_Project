@@ -10,17 +10,22 @@ import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 import '../constance/color.dart';
+import '../models/common_model/job_details_model.dart';
 import '../models/job_model.dart';
 import '../models/not_yet_booked_models/not_yet_booked_job_model.dart';
 import '../models/not_yet_booked_models/save_schedule_model.dart';
+import '../utils/functions.dart';
 import '../utils/style.dart';
 import '../utils/user_preference.dart';
+import 'home_screen_controller.dart';
 
 class NotYetScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final size = Get.size;
+
+  final homeScreenController = Get.find<HomeScreenController>();
 
   UserPreference userPreference = UserPreference();
   Headers headers = Headers();
@@ -61,6 +66,13 @@ class NotYetScreenController extends GetxController {
     ),
   ];
 
+  // Call when search field are empty -after type some text
+  Future<void> searchFieldClearFunction() async {
+    hideKeyboard();
+    if (searchTextEditingController.text.trim().isEmpty) {
+      await getNotYetBookedJobsFunction();
+    }
+  }
 
   Future<void> getNotYetBookedJobsFunction() async {
     isLoading(true);
@@ -68,7 +80,7 @@ class NotYetScreenController extends GetxController {
     log('Not yet booked api url : $url');
 
     try {
-      Map<String, String> bodyData = {"FieldWorkerID": fieldWorkerId};
+      Map<String, dynamic> bodyData = {"FieldWorkerID": fieldWorkerId};
 
       final response = await http.post(
         Uri.parse(url),
@@ -82,7 +94,9 @@ class NotYetScreenController extends GetxController {
 
       if(isSuccessStatus.value) {
         jobsList.clear();
-        jobsList.addAll(notYetBookedJobModel.data);
+        if(notYetBookedJobModel.data.isNotEmpty) {
+          jobsList.addAll(notYetBookedJobModel.data);
+        }
         log('jobsList Length :${jobsList.length}');
       } else {
         log('getNotYetBookedJobsFunction Else');
@@ -217,7 +231,11 @@ class NotYetScreenController extends GetxController {
 
       if (isSuccessStatus.value) {
         jobsList[index].changeSchedule = false;
-        // Get.back();//todo - When back issue solve then unHide this.
+        await homeScreenController.getTotalJobCountFunction().then((value) {
+          Get.back();
+          homeScreenController.isLoading(true);
+          homeScreenController.isLoading(false);
+        });
       } else {
         log('saveScheduleFunction Else');
       }
@@ -269,6 +287,81 @@ class NotYetScreenController extends GetxController {
     isLoading(false);
   }
 
+  // Job not required
+  Future<void> jobNotRequiredFunction({required String jobId}) async {
+    isLoading(true);
+    String url = ApiUrl.jobNoteRequiredApi;
+    log('Job not required api url :$url');
+
+    try {
+      Map<String, String> bodyData = {
+        "JobID": jobId,
+        "FieldWorkerID": fieldWorkerId
+      };
+      log('bodyData :$bodyData');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: await headers.getHeader(),
+        body: bodyData,
+      );
+      log('job not required response :${response.body}');
+
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
+      isSuccessStatus.value = saveScheduleModel.success;
+
+      if (isSuccessStatus.value) {
+        Fluttertoast.showToast(msg: "Job is canceled");
+      } else {
+        log('saveScheduleFunction Else');
+      }
+
+    } catch(e) {
+      log('jobNotRequiredFunction Error :$e');
+      rethrow;
+    }
+    isLoading(false);
+  }
+
+  // Job search
+  Future<void> searchJobFunction() async {
+    isLoading(true);
+    String url = ApiUrl.searchJobApi;
+    log('Search api url :$url');
+
+    try {
+      Map<String, String> bodyData = {
+        "FieldWorkerID": fieldWorkerId,
+        "SearchString": searchTextEditingController.text.trim(),
+        "Page": "AllJob"
+      };
+      log('bodyData :$bodyData');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: await headers.getHeader(),
+        body: bodyData,
+      );
+      log('response :${response.body}');
+
+      NotYetBookedJobModel notYetBookedJobModel = NotYetBookedJobModel.fromJson(json.decode(response.body));
+      isSuccessStatus.value = notYetBookedJobModel.success;
+
+      if(isSuccessStatus.value) {
+        jobsList.clear();
+        jobsList.addAll(notYetBookedJobModel.data);
+        log('jobsList Length :${jobsList.length}');
+      } else {
+        log('getNotYetBookedJobsFunction Else');
+      }
+
+    } catch(e) {
+      log('searchJobFunction Error :$e');
+      rethrow;
+    }
+    isLoading(false);
+  }
+
 
   loadUI() {
     isLoading(true);
@@ -285,6 +378,7 @@ class NotYetScreenController extends GetxController {
   Future<void> initMethod() async {
     isLoading(true);
     fieldWorkerId = await userPreference.getStringFromPrefs(key: UserPreference.fieldWorkerIdKey);
+    log('fieldWorkerId:$fieldWorkerId');
     await getNotYetBookedJobsFunction();
   }
 }

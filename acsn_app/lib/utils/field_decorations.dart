@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../constance/color.dart';
 
-InputDecoration fieldDecorations() {
+InputDecoration fieldDecorations({Color fillColor = AppColors.whiteColor}) {
   return InputDecoration(
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      fillColor: AppColors.whiteColor,
+      fillColor: fillColor,
       filled: true,
       enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.transparent),
@@ -25,5 +25,13 @@ InputDecoration fieldDecorations() {
           borderSide: const BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(8)
       )
+  );
+}
+
+
+InputBorder inputBorder() {
+  return const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide(color: Colors.transparent),
   );
 }

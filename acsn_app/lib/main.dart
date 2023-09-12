@@ -1,5 +1,7 @@
 
+import 'package:acsn_app/screens/auth_screen/login_screen/login_screen.dart';
 import 'package:acsn_app/screens/booked_future_jobs_screen/booked_future_jobs_screen.dart';
+import 'package:acsn_app/screens/home_screen/home_screen.dart';
 import 'package:acsn_app/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             fontFamily: FontFamilyText.roboto,
           ),
-          home: NotYetBookedScreen(),
+          home: LoginScreen(),
         );
       },
     );

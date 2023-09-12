@@ -5,12 +5,14 @@ import '../constance/color.dart';
 
 PreferredSizeWidget customAppBar({
   required String titleText,
+
   bool leadingShow = true,
-  required Widget leadingIcon,
-  required Function() leadingOnTap,
+  Widget? leadingIcon,
+  Function()? leadingOnTap,
+
   bool actionShow = true,
-  required Widget actionIcon,
-  required Function() actionOnTap,
+  Widget? actionIcon,
+  Function()? actionOnTap,
 }) {
   return AppBar(
     centerTitle: true,
@@ -18,7 +20,7 @@ PreferredSizeWidget customAppBar({
     leading: leadingShow
         ? IconButton(
             onPressed: leadingOnTap,
-            icon: leadingIcon,
+            icon: leadingIcon!,
           )
         : null,
     title: Text(
@@ -30,7 +32,7 @@ PreferredSizeWidget customAppBar({
       actionShow
           ? IconButton(
               onPressed: actionOnTap,
-              icon: actionIcon,
+              icon: actionIcon!,
             )
           : Container(),
     ],

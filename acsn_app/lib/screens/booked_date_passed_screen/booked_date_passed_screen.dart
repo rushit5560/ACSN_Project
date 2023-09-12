@@ -8,12 +8,12 @@ import '../../common_widgets/custom_loader.dart';
 import '../../constance/color.dart';
 import '../../constance/message.dart';
 import '../../controller/booked_date_passed_screen_controller.dart';
+import '../../utils/field_decorations.dart';
 import 'booked_date_passed_screen_widgets.dart';
 
 class BookedDatePassedScreen extends StatelessWidget {
   BookedDatePassedScreen({Key? key}) : super(key: key);
-  final bookedDatePassedScreenController =
-      Get.put(BookedDatePassedScreenController());
+  final bookedDatePassedScreenController = Get.put(BookedDatePassedScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +36,46 @@ class BookedDatePassedScreen extends StatelessWidget {
               ? const CustomLoader()
               : Column(
                   children: [
-                    TextFieldModule(
-                      fieldController: bookedDatePassedScreenController
-                          .searchTextEditingController,
-                      hintText: AppMessage.search,
+                    // Search field
+                    TextFormField(
+                      controller:
+                      bookedDatePassedScreenController.searchTextEditingController,
                       keyboardType: TextInputType.text,
-                      suffixIcon: const Icon(
-                        Icons.search,
-                        color: AppColors.backGroundColor,
+                      cursorColor: AppColors.backGroundColor,
+                      onChanged: (value) async {
+                        if (value.isEmpty) {
+                          // await todayJobsScreenController.searchFieldClearFunction();
+                        }
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: inputBorder(),
+                        focusedBorder: inputBorder(),
+                        errorBorder: inputBorder(),
+                        focusedErrorBorder: inputBorder(),
+                        fillColor: AppColors.scaffoldBackGroundColor,
+                        filled: true,
+                        hintText: AppMessage.search,
+                        errorMaxLines: 2,
+                        suffixIcon: GestureDetector(
+                          onTap: () async {
+                            if (bookedDatePassedScreenController
+                                .searchTextEditingController.text
+                                .trim()
+                                .isNotEmpty) {
+                              // await todayJobsScreenController.searchJobFunction();
+                            }
+                          },
+                          child: const Icon(
+                            Icons.search,
+                            color: AppColors.backGroundColor,
+                          ),
+                        ),
+                        hintStyle: const TextStyle(color: AppColors.greyColor),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 11),
                       ),
                     ),
+
                     SizedBox(height: 2.h),
                     Expanded(child: BookedDatePassedListViewModule()),
                   ],

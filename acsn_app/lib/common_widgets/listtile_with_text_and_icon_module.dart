@@ -3,8 +3,9 @@ import 'package:acsn_app/models/not_yet_booked_models/not_yet_booked_job_model.d
 import 'package:flutter/material.dart';
 
 import '../constance/color.dart';
+import '../models/common_model/job_details_model.dart';
 import '../models/job_model.dart';
-
+import '../utils/functions.dart';
 
 class ListTileModule extends StatelessWidget {
   final String title;
@@ -14,6 +15,7 @@ class ListTileModule extends StatelessWidget {
   final Function()? onTap;
   JobDetails? jobModel;
   final bool onTapEnable;
+  final bool copyStatus;
 
   // final Icon icon;
 
@@ -26,6 +28,7 @@ class ListTileModule extends StatelessWidget {
     this.onTap,
     this.jobModel,
     this.onTapEnable = false,
+    this.copyStatus = false,
   }) : super(key: key);
 
   @override
@@ -61,55 +64,116 @@ class ListTileModule extends StatelessWidget {
         Expanded(
           child: iconShow
               ? onTapEnable
-              ? GestureDetector(
-            onTap: jobModel!.changeSchedule == true ? onTap : () {},
-            child: RichText(
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              text: TextSpan(
-                children: [
-                  jobModel!.changeSchedule == true
-                      ? WidgetSpan(child: leadingIcon!)
-                      : const WidgetSpan(child: SizedBox()),
-                  TextSpan(
-                    text: " $value",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      // fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-              : RichText(
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            text: TextSpan(
-              text: " ",
-              children: [
-                WidgetSpan(child: leadingIcon!),
-                TextSpan(
-                  text: " $value",
+                  ? GestureDetector(
+                      onTap: jobModel!.changeSchedule == true ? onTap : () {},
+                      child: RichText(
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          children: [
+                            jobModel!.changeSchedule == true
+                                ? WidgetSpan(child: leadingIcon!)
+                                : const WidgetSpan(child: SizedBox()),
+                            TextSpan(
+                              text: " $value",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : RichText(
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      text: TextSpan(
+                        text: " ",
+                        children: [
+                          WidgetSpan(child: leadingIcon!),
+                          TextSpan(
+                            text: " $value",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              // fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+              : Text(
+                  " $value",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
-                    // fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ],
-            ),
-          )
-              : Text(
-            " $value",
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+        ),
+        copyStatus
+            ? GestureDetector(
+                onTap: () async => await copyClipBoard(value),
+                child: const Icon(Icons.copy_rounded))
+            : Container(),
+      ],
+    ).commonSymmetricPadding(vertical: 5);
+  }
+}
+
+class ListTileExpandWiseModule extends StatelessWidget {
+  final String title;
+  final String value;
+
+
+  const ListTileExpandWiseModule({
+    Key? key,
+    required this.title,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 25,
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.backGroundColor,
+                  ),
+                ),
+              ),
+              const Text(
+                ":",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.backGroundColor,
+                ),
+              ),
+            ],
           ),
+        ),
+        Expanded(
+          flex: 75,
+          child: Text(
+                  " $value",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
         ),
       ],
     ).commonSymmetricPadding(vertical: 5);

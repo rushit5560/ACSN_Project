@@ -11,6 +11,7 @@ class TextFieldModule extends StatelessWidget {
   int? maxLength;
   Widget? suffixIcon;
   bool? obscureText;
+  Function? onChanged;
 
   TextFieldModule({
     Key? key,
@@ -21,6 +22,7 @@ class TextFieldModule extends StatelessWidget {
     this.maxLength,
     this.suffixIcon,
     this.obscureText,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class TextFieldModule extends StatelessWidget {
       keyboardType: keyboardType,
       maxLength: maxLength,
       cursorColor: AppColors.backGroundColor,
+      onChanged: (value)=> onChanged,
       decoration: InputDecoration(
         enabledBorder: inputBorder(),
         focusedBorder: inputBorder(),

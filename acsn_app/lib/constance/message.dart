@@ -15,8 +15,11 @@ class AppMessage {
   static String completionNote = "Completion Note";
   static String startQuestion = "Job Start Question/Answer";
   static String endQuestion = "Job End Question/Answer";
+  static String questionLabel = "Question";
+  static String answerLabel = "Answer";
 
   static String name = "Name";
+  static String pause = "Pause";
   static String description = "Description";
   static String clientNotes = "Client Notes";
   static String client = "Client";
@@ -39,6 +42,8 @@ class AppMessage {
 
   static String siteName = "Site Name";
   static String start = "Start";
+  static String reStart = "Re-Start";
+  static String finish = "Finish";
 
   static String jobNotRequired = "Job Not Required";
 
@@ -53,6 +58,8 @@ class AppMessage {
   static String bookedDatePassed = "Booked Date Passed";
   static String bookedFutureJobs = "Booked Future Jobs";
   static String todayJobs = "Today's Jobs";
+  static String startJob = "Start Job";
+  static String finishJob = "Finish Job";
   static String completedJobDetails = "Completed Job Details";
 
   static String job = "Job#";
@@ -67,4 +74,14 @@ class AppMessage {
   static String sync = "Sync";
 
   static String logoutMessage = "Are you sure you want to logout?";
+
+  // job status messages
+  static String startedStatus = "Started";
+  static String pushStatus = "Push";
+  static String acceptedStatus = "Accepted";
+  static String allocatedStatus = "Allocated";
+  static String scheduledStatus = "Scheduled";
+  static String resStarted = "ResStart";
+
+
 }

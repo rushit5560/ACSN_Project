@@ -1,17 +1,23 @@
 import 'dart:developer';
 
 import 'package:acsn_app/constance/extension.dart';
+import 'package:acsn_app/models/common_model/job_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../common_modules/custom_alert_dialog.dart';
 import '../../common_modules/custom_divider.dart';
 import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';
 import '../../common_widgets/listtile_with_textfield_module.dart';
 import '../../constance/color.dart';
+import '../../constance/enums.dart';
 import '../../constance/message.dart';
 import '../../controller/booked_date_passed_screen_controller.dart';
 import '../../models/job_model.dart';
+import '../../utils/field_decorations.dart';
+import '../today_jobs_screen/finish_job_screen/finish_job_screen.dart';
+import '../today_jobs_screen/start_job_screen/start_job_screen.dart';
 
 class BookedDatePassedListViewModule extends StatelessWidget {
   BookedDatePassedListViewModule({Key? key}) : super(key: key);
@@ -24,9 +30,15 @@ class BookedDatePassedListViewModule extends StatelessWidget {
       shrinkWrap: true,
       physics: const AlwaysScrollableScrollPhysics(),
       itemCount: bookedDatePassedScreenController.bookedDatePassedList.length,
-      itemBuilder: (context, i) {
-        JobModel singleItem =
-            bookedDatePassedScreenController.bookedDatePassedList[i];
+      itemBuilder: (context, index) {
+        JobDetails singleItem =
+            bookedDatePassedScreenController.bookedDatePassedList[index];
+
+        final fieldWorkerNoteController =
+            TextEditingController(text: singleItem.description);
+        final internalNoteController =
+            TextEditingController(text: singleItem.specialNotes);
+
         return Column(
           children: [
             Container(
@@ -43,64 +55,92 @@ class BookedDatePassedListViewModule extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  ListTileModule(title: AppMessage.job, value: "PhilBTestL2"),
-                  // ListTileModule(title: "Customer", value: "Client 1"),
-                  ListTileModule(title: AppMessage.name, value: "Test Site"),
+                  ListTileModule(
+                      title: AppMessage.job,
+                      value: singleItem.jobCode,
+                      copyStatus: true),
+                  ListTileModule(
+                      title: AppMessage.name,
+                      value: singleItem.siteName,
+                      copyStatus: true),
                   ListTileModule(
                       title: AppMessage.siteAddress,
-                      value: "27, Wall street, vic"),
-                  ListTileModule(title: AppMessage.paymentRefNo, value: "4"),
+                      value: singleItem.siteAddress,
+                      copyStatus: true),
                   ListTileModule(
-                      title: AppMessage.description, value: "Finished"),
-                  ListTileModule(title: AppMessage.client, value: "Lawn Mow"),
+                      title: AppMessage.paymentRefNo,
+                      value: singleItem.paymentReferenceNumber,
+                      copyStatus: true),
                   ListTileModule(
-                      title: AppMessage.clientNotes, value: "Lawn Mow"),
-                  ListTileModule(title: AppMessage.status, value: "Lawn Mow"),
-                  ListTileModule(title: AppMessage.type, value: "Lawn Mow"),
+                      title: AppMessage.description,
+                      value: singleItem.jobDescription),
+                  ListTileModule(
+                      title: AppMessage.client,
+                      value: singleItem.clientName == ""
+                          ? "-"
+                          : singleItem.clientName),
+                  ListTileModule(
+                      title: AppMessage.clientNotes,
+                      value: singleItem.clientNotes == ""
+                          ? "-"
+                          : singleItem.clientNotes),
+                  ListTileModule(
+                      title: AppMessage.status, value: singleItem.jobStatus),
+                  ListTileModule(
+                      title: AppMessage.type, value: singleItem.jobType),
 
-                 /* ListTileModule(
+                  // Date
+                  ListTileModule(
                     title: AppMessage.date,
-                    value: bookedDatePassedScreenController.date,
+                    value: singleItem.startDate,
                     iconShow: true,
                     leadingIcon:
                         const Icon(Icons.calendar_month_rounded, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        log('asas');
+                        bookedDatePassedScreenController.showDatePicker(
+                            context, index);
                       }
                     },
                     jobModel: singleItem,
                     onTapEnable: true,
-                  ),*/
+                  ),
 
-                /*  ListTileModule(
+                  // Time
+                  ListTileModule(
                     title: AppMessage.time,
-                    value: "02:33 AM",
+                    value: singleItem.startTime,
                     iconShow: true,
                     leadingIcon:
                         const Icon(Icons.watch_later_outlined, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        log('asas');
+                        bookedDatePassedScreenController.showTimePicker(
+                            context, index);
                       }
                     },
                     jobModel: singleItem,
                     onTapEnable: true,
-                  ),*/
-                  ListTileModule(
-                    title: AppMessage.phoneNumber,
-                    value: "9595-959-595",
-                    iconShow: true,
-                    leadingIcon: Icon(Icons.phone, size: 19),
-                  ),
-                  ListTileModule(
-                    title: AppMessage.mobileNumber,
-                    value: "(98) 9555-5655",
-                    iconShow: true,
-                    leadingIcon:
-                        Icon(Icons.mobile_screen_share_outlined, size: 19),
                   ),
 
+                  // Phone number
+                  ListTileModule(
+                    title: AppMessage.phoneNumber,
+                    value: singleItem.mobileNo,
+                    iconShow: true,
+                    leadingIcon: const Icon(Icons.phone, size: 19),
+                  ),
+
+                  // Mobile number
+                  ListTileModule(
+                    title: AppMessage.mobileNumber,
+                    value: singleItem.phoneNo,
+                    iconShow: true,
+                    leadingIcon:
+                        const Icon(Icons.phone_android_rounded, size: 19),
+                  ),
+
+                  // Change schedule & save button
                   Row(
                     children: [
                       Expanded(
@@ -118,9 +158,11 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                         child: singleItem.changeSchedule == true
                             ? CustomSubmitButtonModule(
                                 labelText: AppMessage.save,
-                                onPress: () {
-                                  singleItem.changeSchedule = false;
-                                  bookedDatePassedScreenController.loadUI();
+                                onPress: () async {
+                                  await bookedDatePassedScreenController
+                                      .saveScheduleFunction(
+                                          jobId: singleItem.jobId.toString(),
+                                          index: index);
                                 },
                                 labelSize: 10.sp,
                               ).commonOnlyPadding(right: 50)
@@ -129,45 +171,194 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                     ],
                   ),
 
-                  /*ListTileModuleWithTextField(
-                    title: AppMessage.workesnote,
-                    jobModel: singleItem,
-                    // fieldController: notYetScreenController.fieldWorkerNoteController,
-                  ),*/
+                  // Field worker notes
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                AppMessage.workesnote,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.backGroundColor,
+                                ),
+                              ),
+                            ),
+                            const Text(
+                              ": ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.backGroundColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: fieldWorkerNoteController,
+                          onChanged: (value1) {
+                            singleItem.description = value1;
+                          },
+                          decoration: fieldDecorations(),
+                        ),
+                      ),
+                    ],
+                  ).commonSymmetricPadding(vertical: 5),
 
-                  /*ListTileModuleWithTextField(
-                    title: AppMessage.internalNote,
-                    jobModel: singleItem,
-                    // fieldController: notYetScreenController.internalNoteController,
-                  ),*/
+                  // Internal notes
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                AppMessage.internalNote,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.backGroundColor,
+                                ),
+                              ),
+                            ),
+                            const Text(
+                              ": ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.backGroundColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: internalNoteController,
+                          onChanged: (value1) {
+                            singleItem.specialNotes = value1;
+                          },
+                          decoration: fieldDecorations(),
+                        ),
+                      ),
+                    ],
+                  ).commonSymmetricPadding(vertical: 5),
 
                   CustomSubmitButtonModule(
                     labelText: AppMessage.saveNotes,
-                    onPress: () {},
+                    onPress: () async => await bookedDatePassedScreenController
+                        .updateJobNotesFunction(index),
                     labelSize: 12.sp,
-                  ).commonOnlyPadding(top: 10)
+                  ).commonOnlyPadding(top: 10),
+
                 ],
               ).commonAllSidePadding(10),
             ).commonOnlyPadding(top: 15, left: 15, right: 15, bottom: 5),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomSubmitButtonModule(
-                    labelText: AppMessage.jobNotRequired,
-                    onPress: () {},
-                    labelSize: 12.sp,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: CustomSubmitButtonModule(
-                    labelText: AppMessage.start,
-                    onPress: () {},
-                    labelSize: 12.sp,
-                  ),
-                ),
-              ],
-            ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15),
+
+            singleItem.jobStatus == AppMessage.startedStatus
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: CustomSubmitButtonModule(
+                          labelText: AppMessage.pause,
+                          onPress: () async =>
+                              await bookedDatePassedScreenController
+                                  .jobStatusChangeFunction(
+                            jobId: singleItem.jobId.toString(),
+                            jobStatus: AppMessage.pushStatus,
+                          ),
+                          labelSize: 12.sp,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: CustomSubmitButtonModule(
+                          labelText: AppMessage.finish,
+                          onPress: () => Get.to(
+                            () => FinishJobScreen(),
+                            arguments: [
+                              singleItem,
+                              ComingFromScreen.datePassedJobs
+                            ],
+                          ),
+                          labelSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15)
+                : singleItem.jobStatus == AppMessage.pushStatus
+                    ? Row(
+                        children: [
+                          Expanded(
+                            child: CustomSubmitButtonModule(
+                              labelText: AppMessage.reStart,
+                              onPress: () async =>
+                                  await bookedDatePassedScreenController
+                                      .jobStatusChangeFunction(
+                                jobId: singleItem.jobId.toString(),
+                                jobStatus: AppMessage.startedStatus,
+                              ),
+                              labelSize: 12.sp,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Container(),
+                          ),
+                        ],
+                      ).commonOnlyPadding(
+                        top: 3, bottom: 15, left: 15, right: 15)
+                    : singleItem.jobStatus == AppMessage.acceptedStatus ||
+                            singleItem.jobStatus ==
+                                AppMessage.allocatedStatus ||
+                            singleItem.jobStatus == AppMessage.scheduledStatus
+                        ? Row(
+                            children: [
+                              Expanded(
+                                child: CustomSubmitButtonModule(
+                                  labelText: AppMessage.jobNotRequired,
+                                  onPress: () =>
+                                      CustomAlertDialog().showAlertDialog(
+                                    context: context,
+                                    onCancelTap: () => Get.back(),
+                                    onYesTap: () async =>
+                                        await bookedDatePassedScreenController
+                                            .jobNotRequiredFunction(
+                                                jobId: singleItem.jobId
+                                                    .toString()),
+                                    textContent:
+                                        "Confirm, \nAre you sure this job is not required?",
+                                  ),
+                                  labelSize: 12.sp,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: CustomSubmitButtonModule(
+                                  labelText: AppMessage.start,
+                                  onPress: () => Get.to(
+                                    () => StartJobScreen(),
+                                    arguments: [
+                                      singleItem.jobId.toString(),
+                                      ComingFromScreen.datePassedJobs
+                                    ],
+                                  ),
+                                  labelSize: 12.sp,
+                                ),
+                              ),
+                            ],
+                          ).commonOnlyPadding(
+                            top: 3, bottom: 15, left: 15, right: 15)
+                        : Container(),
           ],
         );
       },
