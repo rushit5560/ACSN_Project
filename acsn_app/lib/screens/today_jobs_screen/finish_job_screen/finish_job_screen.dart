@@ -226,7 +226,7 @@ class FinishJobQuestionListModule extends StatelessWidget {
             Text(question.question),
 
             question.questionType == "L" || question.questionType == "LM"
-            ? QuestionTypeLAndLMModule()
+            ? QuestionTypeLAndLMModule(index: i)
                 : question.questionType == "LY"
                 ? Container()
                   : question.questionType == "RC"
@@ -235,7 +235,7 @@ class FinishJobQuestionListModule extends StatelessWidget {
                       ? Container() : Container()
 
           ],
-        );
+        ).paddingOnly(bottom: 10);
       },
     );
   }

@@ -15,6 +15,19 @@ class FinishJobScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
 
+  RxBool isRadioLoading = false.obs;
+  radioLoad() {
+    isRadioLoading(true);
+    isRadioLoading(false);
+  }
+
+  RxBool isDDLoading = false.obs;
+  ddLoad() {
+    isRadioLoading(true);
+    isRadioLoading(false);
+  }
+
+
   List<QuestionData> jobEndQuestionList = [];
 
   Headers headers = Headers();
