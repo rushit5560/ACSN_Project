@@ -136,7 +136,7 @@ class TodayJobsScreenController extends GetxController {
       Map<String, dynamic> bodyData = {
         "JobID": todayJobsList[index].jobId.toString(),
         "FieldWorkerID": fieldWorkerId,
-        "FieldWorkerNote": todayJobsList[index].jobDescription,
+        "FieldWorkerNote": todayJobsList[index].description,
         "InternalNote": todayJobsList[index].specialNotes
       };
       log('Update note body data :$bodyData');
@@ -303,7 +303,7 @@ class TodayJobsScreenController extends GetxController {
                   mode: CupertinoDatePickerMode.date,
                   initialDateTime: DateTime.now(),
                   minimumYear: 1940,
-                  maximumYear: DateTime.now().year,
+                  maximumYear: DateTime.now().year + 20,
                   onDateTimeChanged: (DateTime value) {
                     var dateFormat = DateFormat('dd/M/yyyy').format(value);
                     todayJobsList[index].startDate = dateFormat;

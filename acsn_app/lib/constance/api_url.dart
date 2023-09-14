@@ -28,6 +28,13 @@ class ApiUrl {
   static String completedJobDetailsApi = "${baseUrl}Mob_GetCompletedJobDetailsByJobId";
   static String completedJobQAndAApi = "${baseUrl}Mob_GetCompletedJobQuestionAnswerByJobId";
   static String previousCompletedJobAPi = "${baseUrl}Mob_GetAllPrevCompletedJobsByFieldWorkerId";
+  static String saveJobFinishDetailsApi = "${baseUrl}SaveJobFinishDetails";
+  static String getClientContactApi = "${baseUrl}Mob_GetClientContactsByJobId";
+  static String getJobNotesApi = "${baseUrl}Mob_GetJobNotesByJobId";
+  static String getReferenceNumberApi = "${baseUrl}Mob_GetJobReferenceNumberByJobId";
+  static String getJobItemApi = "${baseUrl}Mob_GetJobItemsByJobId";
+  static String getFinishJobSavedDetailsApi = "${baseUrl}Mob_GetFinishJobSavedDetails";
+  static String updateJobItemApi = "${baseUrl}UpdateJobItem";
 }
 
 class Headers {
@@ -37,7 +44,6 @@ class Headers {
   Future<Map<String, String>> getHeader() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString(UserPreference.userLoginTokenKey) ?? "";
-    //todo - use user token
     Map<String, String> header = {
       'token': token
     };

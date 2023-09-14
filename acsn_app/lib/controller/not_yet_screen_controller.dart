@@ -38,33 +38,6 @@ class NotYetScreenController extends GetxController {
 
   List<JobDetails> jobsList = [];
 
-  List<JobModel> jobList = [
-    JobModel(
-      changeSchedule: false,
-      fieldWorkerNote: '',
-      internalNote: '',
-    ),
-    JobModel(
-      changeSchedule: false,
-      fieldWorkerNote: '',
-      internalNote: '',
-    ),
-    JobModel(
-      changeSchedule: false,
-      fieldWorkerNote: '',
-      internalNote: '',
-    ),
-    JobModel(
-      changeSchedule: false,
-      fieldWorkerNote: '',
-      internalNote: '',
-    ),
-    JobModel(
-      changeSchedule: false,
-      fieldWorkerNote: '',
-      internalNote: '',
-    ),
-  ];
 
   // Call when search field are empty -after type some text
   Future<void> searchFieldClearFunction() async {
@@ -124,7 +97,7 @@ class NotYetScreenController extends GetxController {
                   mode: CupertinoDatePickerMode.date,
                   initialDateTime: DateTime.now(),
                   minimumYear: 1940,
-                  maximumYear: DateTime.now().year,
+                  maximumYear: DateTime.now().year + 20,
                   onDateTimeChanged: (DateTime value) {
                     var dateFormat = DateFormat('dd/MM/yyyy').format(value);
                     jobsList[index].startDate = dateFormat;
@@ -256,7 +229,7 @@ class NotYetScreenController extends GetxController {
       Map<String, dynamic> bodyData = {
         "JobID": jobsList[index].jobId.toString(),
         "FieldWorkerID": fieldWorkerId,
-        "FieldWorkerNote": jobsList[index].jobDescription,
+        "FieldWorkerNote": jobsList[index].description,
         "InternalNote": jobsList[index].specialNotes
       };
       log('Update note body data :$bodyData');

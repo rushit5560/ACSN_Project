@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../constance/enums.dart';
+import '../constance/message.dart';
 import '../models/start_job_screen_model/job_question_model.dart';
 import '../utils/user_preference.dart';
 
@@ -73,7 +74,7 @@ class StartJobScreenController extends GetxController {
   }
 
   Future<void> insertJobQuestionAnswerFunction() async {
-    // isLoading(true);
+    isLoading(true);
     String url = ApiUrl.insertJobQuestionAnswerApi;
     log('insertJobQuestionAnswer Api Url :$url');
 
@@ -104,12 +105,99 @@ class StartJobScreenController extends GetxController {
         body: json.encode(bodyData),
       );
 
-      log('response :${response.body}');
+      log('insertJobQuestionAnswer response :${response.body}');
 
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if(isSuccessStatus.value) {
+        // here call update job status api
+        await jobStatusChangeFunction(jobStatus: AppMessage.startedStatus);
+      } else {
+        log('insertJobQuestionAnswer  Else');
+      }
+    } catch(e) {
+      log('insertJobQuestionAnswer Error :$e');
+      rethrow;
+    }
+
+  }
+
+  // Change job status
+  Future<void> jobStatusChangeFunction({required String jobStatus}) async {
+    isLoading(true);
+    String url = ApiUrl.updateJobApi;
+    log('jobStatusChange Api Url :$url');
+
+    try {
+
+      Map<String, dynamic> bodyData = {
+        "JobID": jobId,
+        "FieldWorkerID": fieldWorkerId,
+        "Status": jobStatus,
+        "jobDate": getCurrentDate(),
+        "JobCompDetail" : "",
+        "NoPaymentReason": ""
+      };
+      log('bodyData :$bodyData');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: await headers.getHeader(),
+        body: bodyData,
+      );
+      log('jobStatusChange response :${response.body}');
+
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
+      isSuccessStatus.value = saveScheduleModel.success;
+
+      if(isSuccessStatus.value) {
+        await insertFieldWorkerGpsLocationFunction(
+          jobId: jobId,
+          activity: jobStatus,
+        );
+      } else {
+        log('jobStatusChange Else');
+      }
+    } catch(e) {
+      log('jobStatusChange Error :$e');
+      rethrow;
+    }
+    // isLoading(false);
+  }
+
+  Future<void> insertFieldWorkerGpsLocationFunction({required String jobId, required String activity}) async {
+    isLoading(true);
+    String url = ApiUrl.insertGpsLocationApi;
+    log('insertFieldWorkerGpsLocation Api Url : $url');
+
+    try {
+      Map<String, dynamic> bodyData = {
+        "FieldWorkerID": fieldWorkerId,
+        "JobID": jobId,
+        "Lat": "0",
+        "Lng": "0",
+        "Time_stamp": getCurrentDate(),
+        "Activity": activity == "Push"
+            ? "Push"
+            : activity == "Started"
+            ? AppMessage.resStarted
+            : ""
+      };
+
+      log('bodyData : $bodyData');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: await headers.getHeader(),
+        body: bodyData,
+      );
+      log('insertFieldWorkerGpsLocation response :${response.body}');
+
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
+      isSuccessStatus.value = saveScheduleModel.success;
+      if(isSuccessStatus.value) {
+        //todo - below code uncomment
         Get.back();
         if(comingFromScreen == ComingFromScreen.todayJobs) {
           final todayJobsScreenController = Get.find<TodayJobsScreenController>();
@@ -119,16 +207,13 @@ class StartJobScreenController extends GetxController {
           await bookedFutureJobsScreenController.initMethod();
         }
       } else {
-        log('insertJobQuestionAnswer  Else');
+        log('jobStatusChange Else');
       }
-
-
-
     } catch(e) {
-      log('insertJobQuestionAnswer Error :$e');
+      log('insertFieldWorkerGpsLocation Error :$e');
       rethrow;
     }
-
+    isLoading(false);
   }
 
   @override

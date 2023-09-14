@@ -212,7 +212,7 @@ class BookedFutureJobsScreenController extends GetxController {
                   mode: CupertinoDatePickerMode.date,
                   initialDateTime: DateTime.now(),
                   minimumYear: 1940,
-                  maximumYear: DateTime.now().year,
+                  maximumYear: DateTime.now().year + 20,
                   onDateTimeChanged: (DateTime value) {
                     var dateFormat = DateFormat('dd/M/yyyy').format(value);
                     bookedFutureJobsList[index].startDate = dateFormat;

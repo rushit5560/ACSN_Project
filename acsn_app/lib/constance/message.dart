@@ -34,6 +34,7 @@ class AppMessage {
   static String mobileNumber = "Mobile Number";
   static String changeSchedule = "Change Schedule";
   static String save = "Save";
+  static String reset = "Reset";
   static String workesnote = "Field Worker Note";
   static String internalNote = "Internal Note";
   static String saveNotes = "Save Notes";
@@ -72,6 +73,16 @@ class AppMessage {
   static String yes = "Yes";
   static String no = "No";
   static String sync = "Sync";
+  static String read = "Read";
+  static String saveDetails = "Save Details";
+  static String paymentRefNumber = "Payment Reference Number";
+  static String noPaymentReason = "No Payment Reason";
+  static String privacyPolicySign = "Read Privacy Policy Before Sign";
+  static String jobCompletionDetails = "Job Completion Details";
+  static String signature = "Signature";
+  static String openSignPad = "Open Sign Pad";
+  static String noPaymentOption = "nopayment";
+  static String cardPayment = "Card";
 
   static String logoutMessage = "Are you sure you want to logout?";
 
@@ -82,6 +93,10 @@ class AppMessage {
   static String allocatedStatus = "Allocated";
   static String scheduledStatus = "Scheduled";
   static String resStarted = "ResStart";
+  static String finishStatus = "Finished";
 
 
 }
+
+
+String privacyPolicy  = "I confirm the above works have been completed to my satisfaction. I further agree to the following privacy statement. �The St Vincent de Paul Society Queensland collects the information you provide to us for the primary purpose of assisting you with your request for home assistance services. If you do not provide the information requested by us, we may not be able to action your request. We may share your personal information with other service providers (including government agencies and other not for profit organisations) for a number of purposes, including to provide assistance to you and help determine your eligibility to receive particular services. We may also share your personal information with third parties who provide us with professional or technology services, including some based overseas. For more information about how we collect and handle personal information please refer to our privacy policy at https://www.vinnies.org.xn--au-o2t";

@@ -43,7 +43,7 @@ class CompletedJobScreenController extends GetxController {
       if(isSuccessStatus.value) {
         completedJobList.clear();
         if(completedJobsModel.data.isNotEmpty) {
-          // completedJobList.addAll(completedJobsModel.data);
+          completedJobList.addAll(completedJobsModel.data);
         }
         log('completedJobList length : ${completedJobList.length}');
       } else {
