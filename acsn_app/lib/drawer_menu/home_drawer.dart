@@ -6,6 +6,7 @@ import '../../constance/color.dart';
 import '../../constance/message.dart';
 import 'package:flutter/material.dart';
 import '../common_modules/custom_alert_dialog.dart';
+import '../constance/app_dialog.dart';
 import '../screens/auth_screen/login_screen/login_screen.dart';
 import '../screens/completed_job_screen/completed_job_screen.dart';
 import '../utils/style.dart';
@@ -94,15 +95,12 @@ class HomeDrawerCustomModule extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  CustomAlertDialog().showAlertDialog(
-                    context: context,
-                    textContent: AppMessage.logoutMessage,
-                    onYesTap: () async {
+                  Get.back();
+                  AppDialogs.logOutDialog(
+                    context,
+                    yesOnTap: () async {
                       await UserPreference().userAllDataRemoveFromPrefs();
-                      Get.offAll(()=> LoginScreen());
-                    },
-                    onCancelTap: () {
-                      Get.back();
+                      Get.offAll(() => LoginScreen());
                     },
                   );
                 },

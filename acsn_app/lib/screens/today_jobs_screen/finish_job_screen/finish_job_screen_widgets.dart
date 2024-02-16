@@ -15,6 +15,7 @@ import '../../../utils/field_decorations.dart';
 // L & LM module
 class QuestionTypeLAndLMModule extends StatelessWidget {
   final int index;
+
   QuestionTypeLAndLMModule({Key? key, required this.index}) : super(key: key);
   final screenController = Get.find<FinishJobScreenController>();
 
@@ -31,25 +32,23 @@ class QuestionTypeLAndLMModule extends StatelessWidget {
                 screenController.jobEndQuestionList[index].jobQuestionId == 41
             ? QARadioButtonModule(i: index)
             : screenController.jobEndQuestionList[index].jobQuestionId == 8 ||
-    screenController.jobEndQuestionList[index].jobQuestionId == 10 ||
-    screenController.jobEndQuestionList[index].jobQuestionId == 36
-        ? QATextFieldModule(i: index)
-        : screenController.jobEndQuestionList[index].jobQuestionId == 11 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 39
-        ? QADropdownModule(i: index)
-        : screenController.jobEndQuestionList[index].jobQuestionId == 14||
-            screenController.jobEndQuestionList[index].jobQuestionId == 42
-        ? QAPaymentButtonModule(i: index)
-            : Container(),
+                    screenController.jobEndQuestionList[index].jobQuestionId == 10 ||
+                    screenController.jobEndQuestionList[index].jobQuestionId == 36
+                ? QATextFieldModule(i: index)
+                : screenController.jobEndQuestionList[index].jobQuestionId == 11 || screenController.jobEndQuestionList[index].jobQuestionId == 39
+                    ? QADropdownModule(i: index)
+                    : screenController.jobEndQuestionList[index].jobQuestionId == 14 || screenController.jobEndQuestionList[index].jobQuestionId == 42
+                        ? QAPaymentButtonModule(i: index)
+                        : const SizedBox.shrink(),
       ],
     );
   }
-
 }
 
 // LY Module
 class QuestionTypeLYModule extends StatelessWidget {
   final int index;
+
   QuestionTypeLYModule({Key? key, required this.index}) : super(key: key);
 
   final screenController = Get.find<FinishJobScreenController>();
@@ -59,18 +58,17 @@ class QuestionTypeLYModule extends StatelessWidget {
     return Column(
       children: [
         screenController.jobEndQuestionList[index].jobQuestionId == 29 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 28 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 26 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 25
-        ? QARadioButtonModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 27 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 31
-        ? QATextFieldModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 24
-        ? QADropdownModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 30
-        ? QAPaymentButtonModule(i: index)
-            : Container(),
+                screenController.jobEndQuestionList[index].jobQuestionId == 28 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 26 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 25
+            ? QARadioButtonModule(i: index)
+            : screenController.jobEndQuestionList[index].jobQuestionId == 27 || screenController.jobEndQuestionList[index].jobQuestionId == 31
+                ? QATextFieldModule(i: index)
+                : screenController.jobEndQuestionList[index].jobQuestionId == 24
+                    ? QADropdownModule(i: index)
+                    : screenController.jobEndQuestionList[index].jobQuestionId == 30
+                        ? QAPaymentButtonModule(i: index)
+                        : const SizedBox.shrink(),
       ],
     );
   }
@@ -79,6 +77,7 @@ class QuestionTypeLYModule extends StatelessWidget {
 // RC Module
 class QuestionTypeRCModule extends StatelessWidget {
   final int index;
+
   QuestionTypeRCModule({Key? key, required this.index}) : super(key: key);
 
   final screenController = Get.find<FinishJobScreenController>();
@@ -88,18 +87,18 @@ class QuestionTypeRCModule extends StatelessWidget {
     return Column(
       children: [
         screenController.jobEndQuestionList[index].jobQuestionId == 5 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 2 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 23 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 44 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 55 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 58 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 33
-        ? QATextFieldModule(i: index)
+                screenController.jobEndQuestionList[index].jobQuestionId == 2 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 23 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 44 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 55 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 58 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 33
+            ? QATextFieldModule(i: index)
             : screenController.jobEndQuestionList[index].jobQuestionId == 61
-        ? QADropdownModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 64
-        ? QAPaymentButtonModule(i: index)
-            : QARadioButtonModule(i: index),
+                ? QADropdownModule(i: index)
+                : screenController.jobEndQuestionList[index].jobQuestionId == 64
+                    ? QAPaymentButtonModule(i: index)
+                    : QARadioButtonModule(i: index),
       ],
     );
   }
@@ -108,6 +107,7 @@ class QuestionTypeRCModule extends StatelessWidget {
 // TT Module
 class QuestionTypeTTModule extends StatelessWidget {
   final int index;
+
   QuestionTypeTTModule({Key? key, required this.index}) : super(key: key);
 
   final screenController = Get.find<FinishJobScreenController>();
@@ -117,19 +117,19 @@ class QuestionTypeTTModule extends StatelessWidget {
     return Column(
       children: [
         screenController.jobEndQuestionList[index].jobQuestionId == 5 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 2 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 23 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 44 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 47 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 55 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 58 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 33
-        ? QATextFieldModule(i: index)
+                screenController.jobEndQuestionList[index].jobQuestionId == 2 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 23 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 44 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 47 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 55 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 58 ||
+                screenController.jobEndQuestionList[index].jobQuestionId == 33
+            ? QATextFieldModule(i: index)
             : screenController.jobEndQuestionList[index].jobQuestionId == 50
-        ? QADropdownModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 53
-        ? QAPaymentButtonModule(i: index)
-            : QARadioButtonModule(i: index),
+                ? QADropdownModule(i: index)
+                : screenController.jobEndQuestionList[index].jobQuestionId == 53
+                    ? QAPaymentButtonModule(i: index)
+                    : QARadioButtonModule(i: index),
       ],
     );
   }
@@ -137,6 +137,7 @@ class QuestionTypeTTModule extends StatelessWidget {
 
 class QuestionTypeOtherModule extends StatelessWidget {
   final int index;
+
   QuestionTypeOtherModule({Key? key, required this.index}) : super(key: key);
 
   final screenController = Get.find<FinishJobScreenController>();
@@ -145,22 +146,19 @@ class QuestionTypeOtherModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        screenController.jobEndQuestionList[index].jobQuestionId == 15 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 17
-        ? QARadioButtonModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 16 ||
-            screenController.jobEndQuestionList[index].jobQuestionId == 18
-        ? QATextFieldModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 19
-        ? QADropdownModule(i: index)
-            : screenController.jobEndQuestionList[index].jobQuestionId == 20
-        ? QAPaymentButtonModule(i: index)
-            : Container(),
+        screenController.jobEndQuestionList[index].jobQuestionId == 15 || screenController.jobEndQuestionList[index].jobQuestionId == 17
+            ? QARadioButtonModule(i: index)
+            : screenController.jobEndQuestionList[index].jobQuestionId == 16 || screenController.jobEndQuestionList[index].jobQuestionId == 18
+                ? QATextFieldModule(i: index)
+                : screenController.jobEndQuestionList[index].jobQuestionId == 19
+                    ? QADropdownModule(i: index)
+                    : screenController.jobEndQuestionList[index].jobQuestionId == 20
+                        ? QAPaymentButtonModule(i: index)
+                        : const SizedBox.shrink()
       ],
     );
   }
 }
-
 
 /// Common module which is use everywhere in this screen
 
@@ -174,7 +172,7 @@ class QARadioButtonModule extends StatelessWidget {
   Widget build(BuildContext context) {
     QuestionOption questionOption = QuestionOption.yes;
 
-    if(screenController.jobEndQuestionList[i].answer != "") {
+    if (screenController.jobEndQuestionList[i].answer != "") {
       screenController.jobEndQuestionList[i].answer == "Yes" ? questionOption = QuestionOption.yes : questionOption = QuestionOption.no;
     } else {
       screenController.jobEndQuestionList[i].answer = "Yes";
@@ -182,7 +180,7 @@ class QARadioButtonModule extends StatelessWidget {
 
     return Obx(
       () => screenController.isRadioLoading.value
-          ? Container()
+          ? const SizedBox.shrink()
           : Row(
               children: [
                 Expanded(
@@ -191,14 +189,11 @@ class QARadioButtonModule extends StatelessWidget {
                       Radio<QuestionOption>(
                           value: QuestionOption.yes,
                           groupValue: questionOption,
-                          fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.green),
-                          focusColor: MaterialStateColor.resolveWith(
-                              (states) => AppColors.drawerBackGroundColor),
+                          fillColor: MaterialStateColor.resolveWith((states) => Colors.green),
+                          focusColor: MaterialStateColor.resolveWith((states) => AppColors.drawerBackGroundColor),
                           onChanged: (QuestionOption? value) {
                             questionOption = value!;
-                            screenController.jobEndQuestionList[i].answer =
-                                "Yes";
+                            screenController.jobEndQuestionList[i].answer = "Yes";
                             log('Value :${screenController.jobEndQuestionList[i].answer}');
                             screenController.radioLoad();
                           }),
@@ -214,14 +209,11 @@ class QARadioButtonModule extends StatelessWidget {
                       Radio<QuestionOption>(
                           value: QuestionOption.no,
                           groupValue: questionOption,
-                          fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.green),
-                          focusColor: MaterialStateColor.resolveWith(
-                              (states) => AppColors.drawerBackGroundColor),
+                          fillColor: MaterialStateColor.resolveWith((states) => Colors.green),
+                          focusColor: MaterialStateColor.resolveWith((states) => AppColors.drawerBackGroundColor),
                           onChanged: (QuestionOption? value) {
                             questionOption = value!;
-                            screenController.jobEndQuestionList[i].answer =
-                                "No";
+                            screenController.jobEndQuestionList[i].answer = "No";
                             log('Value :${screenController.jobEndQuestionList[i].answer}');
                             screenController.radioLoad();
                           }),
@@ -239,15 +231,14 @@ class QARadioButtonModule extends StatelessWidget {
 
 class QATextFieldModule extends StatelessWidget {
   final int i;
+
   QATextFieldModule({Key? key, required this.i}) : super(key: key);
 
   final screenController = Get.find<FinishJobScreenController>();
 
-
   @override
   Widget build(BuildContext context) {
-
-  final textEditingController = TextEditingController(text: screenController.jobEndQuestionList[i].answer);
+    final textEditingController = TextEditingController(text: screenController.jobEndQuestionList[i].answer);
 
     return TextFormField(
       controller: textEditingController,
@@ -269,24 +260,11 @@ class QADropdownModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var items = [
-      "\$0",
-      "\$10",
-      "\$20",
-      "\$25",
-      "\$30",
-      "\$40",
-      "\$50",
-      "\$60",
-      "\$70",
-      "\$80",
-      "\$90",
-      "\$100"
-    ];
+    var items = ["\$0", "\$10", "\$20", "\$25", "\$30", "\$40", "\$50", "\$60", "\$70", "\$80", "\$90", "\$100"];
     String selectedValue = "\$0";
 
-    // already save details save in local variable
-    if(screenController.jobEndQuestionList[i].answer == "") {
+    /// already save details save in local variable
+    if (screenController.jobEndQuestionList[i].answer == "") {
       selectedValue = "\$0";
       screenController.amountCollected.value = "\$0";
       screenController.jobEndQuestionList[i].answer = selectedValue;
@@ -295,25 +273,24 @@ class QADropdownModule extends StatelessWidget {
       screenController.amountCollected.value = screenController.jobEndQuestionList[i].answer;
     }
 
-
     return Obx(
       () => screenController.isDDLoading.value
-          ? Container()
+          ? const SizedBox.shrink()
           : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: Get.width,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                      color: AppColors.scaffoldBackGroundColor),
+                  decoration: const BoxDecoration(color: AppColors.scaffoldBackGroundColor),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       hint: const Text("Select an option"),
                       focusColor: AppColors.scaffoldBackGroundColor,
                       value: selectedValue,
                       alignment: Alignment.center,
-                      icon: Container(),
+                      icon: const SizedBox.shrink(),
                       items: items.map((String items) {
                         return DropdownMenuItem(
                           value: items,
@@ -334,8 +311,7 @@ class QADropdownModule extends StatelessWidget {
                 Container(
                   width: Get.width,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                      color: AppColors.scaffoldBackGroundColor),
+                  decoration: const BoxDecoration(color: AppColors.scaffoldBackGroundColor),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<ExpectedItem>(
                       hint: const Text("Select an option"),
@@ -343,8 +319,7 @@ class QADropdownModule extends StatelessWidget {
                       value: screenController.selectedExpectedItem,
                       alignment: Alignment.center,
                       icon: Container(),
-                      items: screenController.expectedItemList
-                          .map((ExpectedItem items) {
+                      items: screenController.expectedItemList.map((ExpectedItem items) {
                         return DropdownMenuItem(
                           value: items,
                           child: Text(items.jobItem),
@@ -366,6 +341,7 @@ class QADropdownModule extends StatelessWidget {
 
 class QAPaymentButtonModule extends StatelessWidget {
   final int i;
+
   QAPaymentButtonModule({Key? key, required this.i}) : super(key: key);
 
   final screenController = Get.find<FinishJobScreenController>();
@@ -392,7 +368,6 @@ class QAPaymentButtonModule extends StatelessWidget {
               labelSize: 12.sp,
             ).paddingSymmetric(horizontal: 15, vertical: 3),
           ),
-
           Expanded(
             child: CustomSubmitButtonModule(
               onPress: () => screenController.paymentFunction(paymentOption: AppMessage.noPaymentOption),
@@ -400,11 +375,8 @@ class QAPaymentButtonModule extends StatelessWidget {
               labelSize: 12.sp,
             ).paddingSymmetric(horizontal: 15, vertical: 3),
           ),
-
-
         ],
       ),
     );
   }
 }
-

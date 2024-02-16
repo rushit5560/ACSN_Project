@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:acsn_app/constance/app_dialog.dart';
 import 'package:acsn_app/constance/extension.dart';
 import 'package:acsn_app/models/not_yet_booked_models/not_yet_booked_job_model.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import '../../utils/field_decorations.dart';
 
 class ListViewModule extends StatelessWidget {
   ListViewModule({super.key});
+
   final notYetScreenController = Get.find<NotYetScreenController>();
 
   @override
@@ -99,8 +101,7 @@ class ListViewModule extends StatelessWidget {
                     title: AppMessage.mobileNumber,
                     value: singleItem.phoneNo,
                     iconShow: true,
-                    leadingIcon:
-                        const Icon(Icons.mobile_screen_share_outlined, size: 19),
+                    leadingIcon: const Icon(Icons.mobile_screen_share_outlined, size: 19),
                   ),
 
                   // Change schedule & save button
@@ -122,10 +123,7 @@ class ListViewModule extends StatelessWidget {
                             ? CustomSubmitButtonModule(
                                 labelText: AppMessage.save,
                                 onPress: () async {
-                                  await notYetScreenController.saveScheduleFunction(
-                                    jobId: singleItem.jobId.toString(),
-                                    index: index
-                                  );
+                                  await notYetScreenController.saveScheduleFunction(jobId: singleItem.jobId.toString(), index: index);
                                 },
                                 labelSize: 10.sp,
                               ).commonOnlyPadding(right: 50)
@@ -225,21 +223,28 @@ class ListViewModule extends StatelessWidget {
                 ],
               ).commonAllSidePadding(10),
             ),
-
-
             CustomSubmitButtonModule(
               labelText: AppMessage.jobNotRequired,
-              onPress: () => CustomAlertDialog().showAlertDialog(
+              onPress: () {
+                AppDialogs.jobNotRequiredDialog(
+                  context,
+                  yesOnTap: () async {
+                    await notYetScreenController.jobNotRequiredFunction(
+                      jobId: singleItem.jobId.toString(),
+                    );
+                  },
+                );
+                /*  CustomAlertDialog().showAlertDialog(
                 context: context,
                 onCancelTap: () => Get.back(),
                 onYesTap: () async => await notYetScreenController.jobNotRequiredFunction(jobId: singleItem.jobId.toString()),
                 textContent: "Confirm, \nAre you sure this job is not required?",
-              ),
+              ),*/
+              },
               labelSize: 12.sp,
             ).commonOnlyPadding(top: 10, right: Get.width * 0.35),
-
           ],
-        ).commonAllSidePadding(15);
+        ) /*.commonAllSidePadding(15)*/;
       },
     );
   }

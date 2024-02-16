@@ -8,6 +8,7 @@ import '../../common_modules/custom_alert_dialog.dart';
 import '../../common_modules/custom_divider.dart';
 import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';
+import '../../constance/app_dialog.dart';
 import '../../constance/color.dart';
 import '../../constance/enums.dart';
 import '../../constance/message.dart';
@@ -15,7 +16,6 @@ import '../../controller/today_jobs_screen_controller.dart';
 import '../../utils/field_decorations.dart';
 import 'finish_job_screen/finish_job_screen.dart';
 import 'start_job_screen/start_job_screen.dart';
-
 
 class TodayJobsListViewModule extends StatelessWidget {
   TodayJobsListViewModule({Key? key}) : super(key: key);
@@ -102,8 +102,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                     title: AppMessage.mobileNumber,
                     value: singleItem.phoneNo,
                     iconShow: true,
-                    leadingIcon:
-                    const Icon(Icons.phone_android_rounded, size: 19),
+                    leadingIcon: const Icon(Icons.phone_android_rounded, size: 19),
                   ),
 
                   // Change schedule & save button
@@ -125,10 +124,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                             ? CustomSubmitButtonModule(
                                 labelText: AppMessage.save,
                                 onPress: () async {
-                                  await todayJobsScreenController.saveScheduleFunction(
-                                      jobId: singleItem.jobId.toString(),
-                                      index: index
-                                  );
+                                  await todayJobsScreenController.saveScheduleFunction(jobId: singleItem.jobId.toString(), index: index);
                                 },
                                 labelSize: 10.sp,
                               ).commonOnlyPadding(right: 50)
@@ -225,11 +221,9 @@ class TodayJobsListViewModule extends StatelessWidget {
                     onPress: () async => await todayJobsScreenController.updateJobNotesFunction(index),
                     labelSize: 12.sp,
                   ).commonOnlyPadding(top: 10),
-
                 ],
               ).commonAllSidePadding(10),
             ).commonOnlyPadding(top: 15, left: 15, right: 15, bottom: 5),
-
             singleItem.jobStatus == AppMessage.startedStatus
                 ? Row(
                     children: [
@@ -249,7 +243,8 @@ class TodayJobsListViewModule extends StatelessWidget {
                           labelText: AppMessage.finish,
                           onPress: () => Get.to(
                             () => FinishJobScreen(),
-                            arguments: [singleItem,
+                            arguments: [
+                              singleItem,
                               ComingFromScreen.todayJobs,
                             ],
                           ),
@@ -276,8 +271,7 @@ class TodayJobsListViewModule extends StatelessWidget {
                             child: Container(),
                           ),
                         ],
-                      ).commonOnlyPadding(
-                        top: 3, bottom: 15, left: 15, right: 15)
+                      ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15)
                     : singleItem.jobStatus == AppMessage.acceptedStatus ||
                             singleItem.jobStatus == AppMessage.allocatedStatus ||
                             singleItem.jobStatus == AppMessage.scheduledStatus
@@ -286,18 +280,15 @@ class TodayJobsListViewModule extends StatelessWidget {
                               Expanded(
                                 child: CustomSubmitButtonModule(
                                   labelText: AppMessage.jobNotRequired,
-                                  onPress: () =>
-                                      CustomAlertDialog().showAlertDialog(
-                                    context: context,
-                                    onCancelTap: () => Get.back(),
-                                    onYesTap: () async =>
-                                        await todayJobsScreenController
-                                            .jobNotRequiredFunction(
-                                                jobId: singleItem.jobId
-                                                    .toString()),
-                                    textContent:
-                                        "Confirm, \nAre you sure this job is not required?",
-                                  ),
+                                  onPress: () {
+                                    AppDialogs.jobNotRequiredDialog(
+                                      context,
+                                      yesOnTap: () async {
+                                        await todayJobsScreenController.jobNotRequiredFunction(jobId: singleItem.jobId.toString());
+                                      },
+                                    );
+                                  },
+
                                   labelSize: 12.sp,
                                 ),
                               ),
@@ -307,17 +298,13 @@ class TodayJobsListViewModule extends StatelessWidget {
                                   labelText: AppMessage.start,
                                   onPress: () => Get.to(
                                     () => StartJobScreen(),
-                                    arguments: [
-                                      singleItem.jobId.toString(),
-                                      ComingFromScreen.todayJobs
-                                    ],
+                                    arguments: [singleItem.jobId.toString(), ComingFromScreen.todayJobs],
                                   ),
                                   labelSize: 12.sp,
                                 ),
                               ),
                             ],
-                          ).commonOnlyPadding(
-                            top: 3, bottom: 15, left: 15, right: 15)
+                          ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15)
                         : Container(),
           ],
         );

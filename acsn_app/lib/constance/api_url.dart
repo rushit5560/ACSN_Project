@@ -4,8 +4,8 @@ import 'package:acsn_app/utils/user_preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiUrl {
-  // static String database = "https://app.acsn.com.au/";
-  static String database = "http://5.189.147.159:7010/";
+  // static String database = "http://app.acsn.com.au/";
+  static String database = "http://5.189.147.159:8047/";
   static String baseUrl = "${database}ACSNApi/";
 
   static String fieldWorkerLoginOneTimeApi = "${baseUrl}GetFieldWorkerLoginOneTimeV2";

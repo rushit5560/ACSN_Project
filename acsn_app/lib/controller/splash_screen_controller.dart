@@ -16,15 +16,11 @@ class SplashScreenController extends GetxController {
 
   void animateImage() {
     Future.delayed(const Duration(seconds: 1), () {
-      Timer.periodic(const Duration(seconds: 2), (timer) {
-        imageHeight = (Get.height / 6.5).obs;
-
-        if (userLoggedInStatus) {
-          Get.off(() => HomeScreen());
-        } else {
-          Get.off(() => LoginScreen());
-        }
-      });
+      if (userLoggedInStatus) {
+        Get.offAll(() => HomeScreen());
+      } else {
+        Get.offAll(() => LoginScreen());
+      }
     });
   }
 

@@ -134,7 +134,7 @@ class FinishJobScreenController extends GetxController {
       );
     } else {
       Fluttertoast.showToast(msg: "WebDosh is not installed!");
-      throw 'Could not launch $url';
+       throw 'Could not launch $url';
     }
   }
 

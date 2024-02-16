@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:acsn_app/common_modules/custom_submit_button.dart';
@@ -53,38 +52,32 @@ class FinishJobScreen extends StatelessWidget {
                     ).paddingSymmetric(horizontal: 10),
 
                     // Payment Reference
-                    ListTileModule(
-                        title: AppMessage.paymentRefNumber,
-                        value: finishJobScreenController.paymentReferenceNumber,
-                        copyStatus: true).paddingSymmetric(horizontal: 10),
+                    ListTileModule(title: AppMessage.paymentRefNumber, value: finishJobScreenController.paymentReferenceNumber, copyStatus: true)
+                        .paddingSymmetric(horizontal: 10),
 
                     // No payment reason
-                    Obx(
-                        ()=> finishJobScreenController.noPayment.value == AppMessage.noPaymentOption
-                            ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${AppMessage.noPaymentReason} :",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.backGroundColor,
+                    Obx(() => finishJobScreenController.noPayment.value == AppMessage.noPaymentOption
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${AppMessage.noPaymentReason} :",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.backGroundColor,
+                                ),
                               ),
-                            ),
-
-                            TextFormField(
-                              controller: finishJobScreenController.noPaymentReasonController,
-                              onChanged: (value1) {
-                                // screenController.jobDetails.description = value1;
-                              },
-                              decoration: fieldDecorations(fillColor: AppColors.greyColor.withOpacity(0.3)),
-                            ).paddingOnly(top: 5),
-
-                          ],
-                        ).paddingSymmetric(horizontal: 10, vertical: 5)
-                            : Container()
-                    ),
+                              TextFormField(
+                                controller: finishJobScreenController.noPaymentReasonController,
+                                onChanged: (value1) {
+                                  // screenController.jobDetails.description = value1;
+                                },
+                                decoration: fieldDecorations(fillColor: AppColors.greyColor.withOpacity(0.3)),
+                              ).paddingOnly(top: 5),
+                            ],
+                          ).paddingSymmetric(horizontal: 10, vertical: 5)
+                        : Container()),
 
                     // Privacy policy module
                     Container(
@@ -103,8 +96,7 @@ class FinishJobScreen extends StatelessWidget {
                         children: [
                           Text(AppMessage.privacyPolicySign),
                           CustomSubmitButtonModule(
-                            onPress: () =>
-                                finishJobScreenController.policyChange(),
+                            onPress: () => finishJobScreenController.policyChange(),
                             labelText: AppMessage.read,
                             labelSize: 12.sp,
                           ),
@@ -132,7 +124,6 @@ class FinishJobScreen extends StatelessWidget {
                             color: AppColors.backGroundColor,
                           ),
                         ),
-
                         TextFormField(
                           controller: finishJobScreenController.jobCompletionController,
                           onChanged: (value1) {
@@ -140,7 +131,6 @@ class FinishJobScreen extends StatelessWidget {
                           },
                           decoration: fieldDecorations(fillColor: AppColors.greyColor.withOpacity(0.3)),
                         ).paddingOnly(top: 5),
-
                       ],
                     ).paddingSymmetric(horizontal: 10, vertical: 5),
 
@@ -156,20 +146,18 @@ class FinishJobScreen extends StatelessWidget {
                                   child: finishJobScreenController.signShowImage == null
                                       ? Container()
                                       : Image.memory(finishJobScreenController.signShowImage!),
-                                      // : Image.memory(base64Decode(finishJobScreenController.base64Signature)),
+                                  // : Image.memory(base64Decode(finishJobScreenController.base64Signature)),
                                 )
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CustomSubmitButtonModule(
-                                      onPress: () => finishJobScreenController
-                                          .signPadChange(),
+                                      onPress: () => finishJobScreenController.signPadChange(),
                                       labelText: AppMessage.openSignPad,
                                       labelSize: 12.sp,
                                     ).paddingOnly(right: Get.width * 0.45),
                                     Obx(
-                                      () => finishJobScreenController
-                                              .isSignPadShow.value
+                                      () => finishJobScreenController.isSignPadShow.value
                                           ? Column(
                                               children: [
                                                 DottedBorder(
@@ -179,73 +167,45 @@ class FinishJobScreen extends StatelessWidget {
                                                   child: SizedBox(
                                                     height: 200,
                                                     child: SfSignaturePad(
-                                                      key:
-                                                          finishJobScreenController
-                                                              .signaturePadKey,
+                                                      key: finishJobScreenController.signaturePadKey,
                                                       minimumStrokeWidth: 3,
                                                       maximumStrokeWidth: 3,
                                                       strokeColor: Colors.black,
-                                                      backgroundColor:
-                                                          Colors.white,
+                                                      backgroundColor: Colors.white,
                                                     ),
                                                   ),
-                                                ).paddingSymmetric(
-                                                    horizontal: 20,
-                                                    vertical: 10),
+                                                ).paddingSymmetric(horizontal: 20, vertical: 10),
                                                 Row(
                                                   children: [
                                                     Expanded(
                                                       child: ElevatedButton(
                                                         onPressed: () async {
-                                                          if (finishJobScreenController
-                                                              .signaturePadKey
-                                                              .currentState!
-                                                              .toPathList()
-                                                              .isNotEmpty) {
-                                                            await finishJobScreenController
-                                                                .saveSign();
+                                                          if (finishJobScreenController.signaturePadKey.currentState!.toPathList().isNotEmpty) {
+                                                            await finishJobScreenController.saveSign();
                                                             // log('draw signature draw done');
                                                           } else {
-                                                            Fluttertoast.showToast(
-                                                                msg:
-                                                                    "Please draw your signature!");
+                                                            Fluttertoast.showToast(msg: "Please draw your signature!");
                                                             log('draw signature not draw');
                                                           }
                                                         },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              AppColors
-                                                                  .greyColor,
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: AppColors.greyColor,
                                                           elevation: 2,
-                                                          visualDensity:
-                                                              VisualDensity
-                                                                  .standard,
+                                                          visualDensity: VisualDensity.standard,
                                                         ),
-                                                        child: Text(
-                                                            AppMessage.save),
-                                                      ).paddingSymmetric(
-                                                          horizontal: 20),
+                                                        child: Text(AppMessage.save),
+                                                      ).paddingSymmetric(horizontal: 20),
                                                     ),
                                                     Expanded(
                                                       child: ElevatedButton(
-                                                        onPressed: () =>
-                                                            finishJobScreenController
-                                                                .resetSignPad(),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              AppColors
-                                                                  .greyColor,
+                                                        onPressed: () => finishJobScreenController.resetSignPad(),
+                                                        style: ElevatedButton.styleFrom(
+                                                          backgroundColor: AppColors.greyColor,
                                                           elevation: 2,
-                                                          visualDensity:
-                                                              VisualDensity
-                                                                  .standard,
+                                                          visualDensity: VisualDensity.standard,
                                                         ),
-                                                        child: Text(
-                                                            AppMessage.reset),
-                                                      ).paddingSymmetric(
-                                                          horizontal: 20),
+                                                        child: Text(AppMessage.reset),
+                                                      ).paddingSymmetric(horizontal: 20),
                                                     ),
                                                   ],
                                                 ),
@@ -263,8 +223,7 @@ class FinishJobScreen extends StatelessWidget {
                     Obx(
                       () => finishJobScreenController.isRadioLoading.value
                           ? Container()
-                          : finishJobScreenController.noPayment.value ==
-                                  AppMessage.cardPayment
+                          : finishJobScreenController.noPayment.value == AppMessage.cardPayment
                               ? Row(
                                   children: [
                                     const Expanded(
@@ -302,62 +261,60 @@ class FinishJobScreen extends StatelessWidget {
                       onPress: () async {
                         // Check green Waste field null or filled
                         String greenWaste = "";
-                        for(int i =0; i < finishJobScreenController.jobEndQuestionList.length; i++) {
+                        for (int i = 0; i < finishJobScreenController.jobEndQuestionList.length; i++) {
                           QuestionData question = finishJobScreenController.jobEndQuestionList[i];
 
-                          if(question.questionType == "L") {
-                            if(question.jobQuestionId == 8 || question.jobQuestionId == 10) {
+                          if (question.questionType == "L") {
+                            if (question.jobQuestionId == 8 || question.jobQuestionId == 10) {
                               greenWaste = question.answer;
                             }
-                          }
-                          else if(question.questionType == "LY") {
-                            if(question.jobQuestionId == 27 || question.jobQuestionId == 31) {
+                          } else if (question.questionType == "LY") {
+                            if (question.jobQuestionId == 27 || question.jobQuestionId == 31) {
                               greenWaste = question.answer;
                             }
-                          }
-                          else if(question.questionType == "LM") {
-                            if(question.jobQuestionId == 36) {
+                          } else if (question.questionType == "LM") {
+                            if (question.jobQuestionId == 36) {
                               greenWaste = question.answer;
                             }
-                          }
-                          else if(question.questionType == "RC") {
-                            if(question.jobQuestionId == 58) {
+                          } else if (question.questionType == "RC") {
+                            if (question.jobQuestionId == 58) {
                               greenWaste = question.answer;
                             }
-                          }
-                          else if(question.questionType == "TT") {
-                            if(question.jobQuestionId == 47) {
+                          } else if (question.questionType == "TT") {
+                            if (question.jobQuestionId == 47) {
                               greenWaste = question.answer;
                             }
-                          }
-                          else {
-                            if(question.jobQuestionId == 16 || question.jobQuestionId == 18) {
+                          } else {
+                            if (question.jobQuestionId == 16 || question.jobQuestionId == 18) {
                               greenWaste = question.answer;
                             }
                           }
                         }
 
                         /// Here start the condition
-                        if(greenWaste == "") {
+                        if (greenWaste == "") {
                           Fluttertoast.showToast(msg: "Green Waste is required!");
-                        } else if(finishJobScreenController.selectedExpectedItem.jobItem == "Select an option.") {
+                        } else if (finishJobScreenController.selectedExpectedItem.jobItem == "Select an option.") {
                           Fluttertoast.showToast(msg: "Expected Item is required!");
-                        } else if(finishJobScreenController.noPayment.value == AppMessage.noPaymentOption && finishJobScreenController.amountCollected.value == "\$0") {
+                        } else if (finishJobScreenController.noPayment.value == AppMessage.noPaymentOption &&
+                            finishJobScreenController.amountCollected.value == "\$0") {
                           Fluttertoast.showToast(msg: "Amount collected is required!");
-                        } else if(finishJobScreenController.noPayment.value == AppMessage.noPaymentOption && finishJobScreenController.noPaymentReasonController.text.trim().isEmpty) {
+                        } else if (finishJobScreenController.noPayment.value == AppMessage.noPaymentOption &&
+                            finishJobScreenController.noPaymentReasonController.text.trim().isEmpty) {
                           Fluttertoast.showToast(msg: "Please enter reason for No payment");
-                        } else if(finishJobScreenController.noPayment.value == ""
-                            && !(finishJobScreenController.noPayment.value == AppMessage.noPaymentOption || finishJobScreenController.noPayment.value == AppMessage.cardPayment)) {
+                        } else if (finishJobScreenController.noPayment.value == "" &&
+                            !(finishJobScreenController.noPayment.value == AppMessage.noPaymentOption ||
+                                finishJobScreenController.noPayment.value == AppMessage.cardPayment)) {
                           Fluttertoast.showToast(msg: "Select Payment Method!");
-                        } else if(finishJobScreenController.base64Signature == "") {
+                        } else if (finishJobScreenController.base64Signature == "") {
                           Fluttertoast.showToast(msg: "Signature is required!");
-                        } else if(finishJobScreenController.noPayment.value == AppMessage.cardPayment && finishJobScreenController.paymentSuccessOption == PaymentSuccessOption.noSelected) {
+                        } else if (finishJobScreenController.noPayment.value == AppMessage.cardPayment &&
+                            finishJobScreenController.paymentSuccessOption == PaymentSuccessOption.noSelected) {
                           Fluttertoast.showToast(msg: "Please answer Card Payment Successful!");
                         } else {
                           /// Here call the Finish job api
                           await finishJobScreenController.updateJobQuestionAnswerFunction();
                         }
-
                       },
                       labelText: AppMessage.finishJob,
                       labelSize: 12.sp,
@@ -545,31 +502,35 @@ class FinishJobQuestionListModule extends StatelessWidget {
       itemCount: screenController.jobEndQuestionList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
       itemBuilder: (context, i) {
-        QuestionData question =
-        screenController.jobEndQuestionList[i];
+        QuestionData question = screenController.jobEndQuestionList[i];
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(question.question),
-
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                question.question.trim(),
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
             question.questionType == "L" || question.questionType == "LM"
-            ? QuestionTypeLAndLMModule(index: i)
+                ? QuestionTypeLAndLMModule(index: i)
                 : question.questionType == "LY"
-                ? QuestionTypeLYModule(index: i)
-                  : question.questionType == "RC"
-                  ? QuestionTypeRCModule(index: i)
-                    : question.questionType == "TT"
-                      ? QuestionTypeTTModule(index: i) : QuestionTypeOtherModule(index: i),
-
+                    ? QuestionTypeLYModule(index: i)
+                    : question.questionType == "RC"
+                        ? QuestionTypeRCModule(index: i)
+                        : question.questionType == "TT"
+                            ? QuestionTypeTTModule(index: i)
+                            : QuestionTypeOtherModule(index: i),
           ],
         ).paddingOnly(bottom: 10);
-      }, separatorBuilder: (BuildContext context, int index) {
-        return const Divider(indent: 10, endIndent: 10, thickness: 2);
-    },
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const Divider(indent: 1, endIndent: 1, thickness: 2);
+      },
     );
   }
 }
-
-

@@ -10,6 +10,7 @@ import '../../common_modules/custom_divider.dart';
 import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';
 import '../../common_widgets/listtile_with_textfield_module.dart';
+import '../../constance/app_dialog.dart';
 import '../../constance/color.dart';
 import '../../constance/enums.dart';
 import '../../constance/message.dart';
@@ -21,8 +22,7 @@ import '../today_jobs_screen/start_job_screen/start_job_screen.dart';
 
 class BookedDatePassedListViewModule extends StatelessWidget {
   BookedDatePassedListViewModule({Key? key}) : super(key: key);
-  final bookedDatePassedScreenController =
-      Get.find<BookedDatePassedScreenController>();
+  final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +31,10 @@ class BookedDatePassedListViewModule extends StatelessWidget {
       physics: const AlwaysScrollableScrollPhysics(),
       itemCount: bookedDatePassedScreenController.bookedDatePassedList.length,
       itemBuilder: (context, index) {
-        JobDetails singleItem =
-            bookedDatePassedScreenController.bookedDatePassedList[index];
+        JobDetails singleItem = bookedDatePassedScreenController.bookedDatePassedList[index];
 
-        final fieldWorkerNoteController =
-            TextEditingController(text: singleItem.description);
-        final internalNoteController =
-            TextEditingController(text: singleItem.specialNotes);
+        final fieldWorkerNoteController = TextEditingController(text: singleItem.description);
+        final internalNoteController = TextEditingController(text: singleItem.specialNotes);
 
         return Column(
           children: [
@@ -55,51 +52,25 @@ class BookedDatePassedListViewModule extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  ListTileModule(
-                      title: AppMessage.job,
-                      value: singleItem.jobCode,
-                      copyStatus: true),
-                  ListTileModule(
-                      title: AppMessage.name,
-                      value: singleItem.siteName,
-                      copyStatus: true),
-                  ListTileModule(
-                      title: AppMessage.siteAddress,
-                      value: singleItem.siteAddress,
-                      copyStatus: true),
-                  ListTileModule(
-                      title: AppMessage.paymentRefNo,
-                      value: singleItem.paymentReferenceNumber,
-                      copyStatus: true),
-                  ListTileModule(
-                      title: AppMessage.description,
-                      value: singleItem.jobDescription),
-                  ListTileModule(
-                      title: AppMessage.client,
-                      value: singleItem.clientName == ""
-                          ? "-"
-                          : singleItem.clientName),
-                  ListTileModule(
-                      title: AppMessage.clientNotes,
-                      value: singleItem.clientNotes == ""
-                          ? "-"
-                          : singleItem.clientNotes),
-                  ListTileModule(
-                      title: AppMessage.status, value: singleItem.jobStatus),
-                  ListTileModule(
-                      title: AppMessage.type, value: singleItem.jobType),
+                  ListTileModule(title: AppMessage.job, value: singleItem.jobCode, copyStatus: true),
+                  ListTileModule(title: AppMessage.name, value: singleItem.siteName, copyStatus: true),
+                  ListTileModule(title: AppMessage.siteAddress, value: singleItem.siteAddress, copyStatus: true),
+                  ListTileModule(title: AppMessage.paymentRefNo, value: singleItem.paymentReferenceNumber, copyStatus: true),
+                  ListTileModule(title: AppMessage.description, value: singleItem.jobDescription),
+                  ListTileModule(title: AppMessage.client, value: singleItem.clientName == "" ? "-" : singleItem.clientName),
+                  ListTileModule(title: AppMessage.clientNotes, value: singleItem.clientNotes == "" ? "-" : singleItem.clientNotes),
+                  ListTileModule(title: AppMessage.status, value: singleItem.jobStatus),
+                  ListTileModule(title: AppMessage.type, value: singleItem.jobType),
 
                   // Date
                   ListTileModule(
                     title: AppMessage.date,
                     value: singleItem.startDate,
                     iconShow: true,
-                    leadingIcon:
-                        const Icon(Icons.calendar_month_rounded, size: 19),
+                    leadingIcon: const Icon(Icons.calendar_month_rounded, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        bookedDatePassedScreenController.showDatePicker(
-                            context, index);
+                        bookedDatePassedScreenController.showDatePicker(context, index);
                       }
                     },
                     jobModel: singleItem,
@@ -111,12 +82,10 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                     title: AppMessage.time,
                     value: singleItem.startTime,
                     iconShow: true,
-                    leadingIcon:
-                        const Icon(Icons.watch_later_outlined, size: 19),
+                    leadingIcon: const Icon(Icons.watch_later_outlined, size: 19),
                     onTap: () {
                       if (singleItem.changeSchedule == true) {
-                        bookedDatePassedScreenController.showTimePicker(
-                            context, index);
+                        bookedDatePassedScreenController.showTimePicker(context, index);
                       }
                     },
                     jobModel: singleItem,
@@ -136,8 +105,7 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                     title: AppMessage.mobileNumber,
                     value: singleItem.phoneNo,
                     iconShow: true,
-                    leadingIcon:
-                        const Icon(Icons.phone_android_rounded, size: 19),
+                    leadingIcon: const Icon(Icons.phone_android_rounded, size: 19),
                   ),
 
                   // Change schedule & save button
@@ -159,10 +127,7 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                             ? CustomSubmitButtonModule(
                                 labelText: AppMessage.save,
                                 onPress: () async {
-                                  await bookedDatePassedScreenController
-                                      .saveScheduleFunction(
-                                          jobId: singleItem.jobId.toString(),
-                                          index: index);
+                                  await bookedDatePassedScreenController.saveScheduleFunction(jobId: singleItem.jobId.toString(), index: index);
                                 },
                                 labelSize: 10.sp,
                               ).commonOnlyPadding(right: 50)
@@ -255,24 +220,19 @@ class BookedDatePassedListViewModule extends StatelessWidget {
 
                   CustomSubmitButtonModule(
                     labelText: AppMessage.saveNotes,
-                    onPress: () async => await bookedDatePassedScreenController
-                        .updateJobNotesFunction(index),
+                    onPress: () async => await bookedDatePassedScreenController.updateJobNotesFunction(index),
                     labelSize: 12.sp,
                   ).commonOnlyPadding(top: 10),
-
                 ],
               ).commonAllSidePadding(10),
             ).commonOnlyPadding(top: 15, left: 15, right: 15, bottom: 5),
-
             singleItem.jobStatus == AppMessage.startedStatus
                 ? Row(
                     children: [
                       Expanded(
                         child: CustomSubmitButtonModule(
                           labelText: AppMessage.pause,
-                          onPress: () async =>
-                              await bookedDatePassedScreenController
-                                  .jobStatusChangeFunction(
+                          onPress: () async => await bookedDatePassedScreenController.jobStatusChangeFunction(
                             jobId: singleItem.jobId.toString(),
                             jobStatus: AppMessage.pushStatus,
                           ),
@@ -285,10 +245,7 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                           labelText: AppMessage.finish,
                           onPress: () => Get.to(
                             () => FinishJobScreen(),
-                            arguments: [
-                              singleItem,
-                              ComingFromScreen.datePassedJobs
-                            ],
+                            arguments: [singleItem, ComingFromScreen.datePassedJobs],
                           ),
                           labelSize: 12.sp,
                         ),
@@ -301,9 +258,7 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                           Expanded(
                             child: CustomSubmitButtonModule(
                               labelText: AppMessage.reStart,
-                              onPress: () async =>
-                                  await bookedDatePassedScreenController
-                                      .jobStatusChangeFunction(
+                              onPress: () async => await bookedDatePassedScreenController.jobStatusChangeFunction(
                                 jobId: singleItem.jobId.toString(),
                                 jobStatus: AppMessage.startedStatus,
                               ),
@@ -315,29 +270,23 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                             child: Container(),
                           ),
                         ],
-                      ).commonOnlyPadding(
-                        top: 3, bottom: 15, left: 15, right: 15)
+                      ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15)
                     : singleItem.jobStatus == AppMessage.acceptedStatus ||
-                            singleItem.jobStatus ==
-                                AppMessage.allocatedStatus ||
+                            singleItem.jobStatus == AppMessage.allocatedStatus ||
                             singleItem.jobStatus == AppMessage.scheduledStatus
                         ? Row(
                             children: [
                               Expanded(
                                 child: CustomSubmitButtonModule(
                                   labelText: AppMessage.jobNotRequired,
-                                  onPress: () =>
-                                      CustomAlertDialog().showAlertDialog(
-                                    context: context,
-                                    onCancelTap: () => Get.back(),
-                                    onYesTap: () async =>
-                                        await bookedDatePassedScreenController
-                                            .jobNotRequiredFunction(
-                                                jobId: singleItem.jobId
-                                                    .toString()),
-                                    textContent:
-                                        "Confirm, \nAre you sure this job is not required?",
-                                  ),
+                                  onPress: () {
+                                    AppDialogs.jobNotRequiredDialog(
+                                      context,
+                                      yesOnTap: () async {
+                                        await bookedDatePassedScreenController.jobNotRequiredFunction(jobId: singleItem.jobId.toString());
+                                      },
+                                    );
+                                  },
                                   labelSize: 12.sp,
                                 ),
                               ),
@@ -347,17 +296,13 @@ class BookedDatePassedListViewModule extends StatelessWidget {
                                   labelText: AppMessage.start,
                                   onPress: () => Get.to(
                                     () => StartJobScreen(),
-                                    arguments: [
-                                      singleItem.jobId.toString(),
-                                      ComingFromScreen.datePassedJobs
-                                    ],
+                                    arguments: [singleItem.jobId.toString(), ComingFromScreen.datePassedJobs],
                                   ),
                                   labelSize: 12.sp,
                                 ),
                               ),
                             ],
-                          ).commonOnlyPadding(
-                            top: 3, bottom: 15, left: 15, right: 15)
+                          ).commonOnlyPadding(top: 3, bottom: 15, left: 15, right: 15)
                         : Container(),
           ],
         );

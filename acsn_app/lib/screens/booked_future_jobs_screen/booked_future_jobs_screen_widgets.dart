@@ -11,6 +11,7 @@ import '../../common_modules/custom_divider.dart';
 import '../../common_modules/custom_submit_button.dart';
 import '../../common_widgets/listtile_with_text_and_icon_module.dart';
 import '../../common_widgets/listtile_with_textfield_module.dart';
+import '../../constance/app_dialog.dart';
 import '../../constance/color.dart';
 import '../../constance/enums.dart';
 import '../../constance/message.dart';
@@ -21,8 +22,7 @@ import '../today_jobs_screen/start_job_screen/start_job_screen.dart';
 
 class BookedFutureJobsListViewModule extends StatelessWidget {
   BookedFutureJobsListViewModule({Key? key}) : super(key: key);
-  final bookedFutureJobsScreenController =
-      Get.find<BookedFutureJobsScreenController>();
+  final bookedFutureJobsScreenController = Get.find<BookedFutureJobsScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,6 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     onTapEnable: true,
                   ),
 
-
                   // Phone number
                   ListTileModule(
                     title: AppMessage.phoneNumber,
@@ -106,8 +105,7 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     title: AppMessage.mobileNumber,
                     value: singleItem.phoneNo,
                     iconShow: true,
-                    leadingIcon:
-                    const Icon(Icons.phone_android_rounded, size: 19),
+                    leadingIcon: const Icon(Icons.phone_android_rounded, size: 19),
                   ),
 
                   // Change schedule & save button
@@ -127,15 +125,12 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                       Expanded(
                         child: singleItem.changeSchedule == true
                             ? CustomSubmitButtonModule(
-                          labelText: AppMessage.save,
-                          onPress: () async {
-                            await bookedFutureJobsScreenController.saveScheduleFunction(
-                                jobId: singleItem.jobId.toString(),
-                                index: index
-                            );
-                          },
-                          labelSize: 10.sp,
-                        ).commonOnlyPadding(right: 50)
+                                labelText: AppMessage.save,
+                                onPress: () async {
+                                  await bookedFutureJobsScreenController.saveScheduleFunction(jobId: singleItem.jobId.toString(), index: index);
+                                },
+                                labelSize: 10.sp,
+                              ).commonOnlyPadding(right: 50)
                             : Container(),
                       ),
                     ],
@@ -229,7 +224,6 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                     onPress: () async => await bookedFutureJobsScreenController.updateJobNotesFunction(index),
                     labelSize: 12.sp,
                   ).commonOnlyPadding(top: 10),
-
                 ],
               ).commonAllSidePadding(10),
             ).commonOnlyPadding(top: 15, left: 15, right: 15, bottom: 5),
@@ -238,18 +232,15 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                 Expanded(
                   child: CustomSubmitButtonModule(
                     labelText: AppMessage.jobNotRequired,
-                    onPress: () =>
-                        CustomAlertDialog().showAlertDialog(
-                          context: context,
-                          onCancelTap: () => Get.back(),
-                          onYesTap: () async =>
-                          await bookedFutureJobsScreenController
-                              .jobNotRequiredFunction(
-                              jobId: singleItem.jobId
-                                  .toString()),
-                          textContent:
-                          "Confirm, \nAre you sure this job is not required?",
-                        ),
+                    onPress: () {
+                      AppDialogs.jobNotRequiredDialog(
+                        context,
+                        yesOnTap: () async {
+                          await bookedFutureJobsScreenController.jobNotRequiredFunction(jobId: singleItem.jobId.toString());
+                        },
+                      );
+                    },
+
                     labelSize: 12.sp,
                   ),
                 ),
@@ -258,7 +249,7 @@ class BookedFutureJobsListViewModule extends StatelessWidget {
                   child: CustomSubmitButtonModule(
                     labelText: AppMessage.start,
                     onPress: () => Get.to(
-                          () => StartJobScreen(),
+                      () => StartJobScreen(),
                       arguments: [
                         singleItem.jobId.toString(),
                         ComingFromScreen.futureJobs,

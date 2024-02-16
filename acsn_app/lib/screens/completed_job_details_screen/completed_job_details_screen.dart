@@ -178,7 +178,7 @@ class CompletedJobDetailsScreen extends StatelessWidget {
                           children: [
                             ListTileExpandWiseModule(
                               title: AppMessage.questionLabel,
-                              value: singleItem.question,
+                              value: singleItem.question.trim(),
                             ),
                             ListTileExpandWiseModule(
                               title: AppMessage.answerLabel,
