@@ -67,7 +67,7 @@ class AppMessage {
   static String privacyPolicyMessage = 'Please accept privacy policy';
   static String home = "Home";
   static String logout = "Logout";
-  static String appVersion = "App Version 2.0.1";
+  static String appVersion = "App Version 1.0.37";
 
   static String completedJob = "Completed jobs";
   static String yes = "Yes";
