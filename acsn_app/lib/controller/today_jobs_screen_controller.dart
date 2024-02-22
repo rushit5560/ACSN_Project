@@ -39,7 +39,7 @@ class TodayJobsScreenController extends GetxController {
 
   // Get Current date
   String getCurrentDate() {
-    var currentDate =  DateFormat("dd/MM/yyyy hh:mm:ss").format(DateTime.now());
+    var currentDate = DateFormat("dd/MM/yyyy hh:mm:ss").format(DateTime.now());
     return currentDate;
   }
 
@@ -62,17 +62,16 @@ class TodayJobsScreenController extends GetxController {
       TodayJobModel todayJobModel = TodayJobModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = todayJobModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         todayJobsList.clear();
-        if(todayJobModel.data.isNotEmpty) {
+        if (todayJobModel.data.isNotEmpty) {
           todayJobsList.addAll(todayJobModel.data);
         }
         log('todayJobsList Length :${todayJobsList.length}');
       } else {
         log('getWorkerTodayJob Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getWorkerTodayJob Error :$e');
       rethrow;
     }
@@ -104,8 +103,7 @@ class TodayJobsScreenController extends GetxController {
       );
       log('response12121 :${response.body}');
 
-      SaveScheduleModel saveScheduleModel =
-      SaveScheduleModel.fromJson(json.decode(response.body));
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
@@ -157,8 +155,7 @@ class TodayJobsScreenController extends GetxController {
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('updateJobNotesFunction Error :$e');
       rethrow;
     }
@@ -172,10 +169,7 @@ class TodayJobsScreenController extends GetxController {
     log('Job not required api url :$url');
 
     try {
-      Map<String, String> bodyData = {
-        "JobID": jobId,
-        "FieldWorkerID": fieldWorkerId
-      };
+      Map<String, String> bodyData = {"JobID": jobId, "FieldWorkerID": fieldWorkerId};
       log('bodyData :$bodyData');
 
       final response = await http.post(
@@ -189,19 +183,22 @@ class TodayJobsScreenController extends GetxController {
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
+        Get.back();
         Fluttertoast.showToast(msg: "Job is canceled");
+        await homeScreenController.getTotalJobCountFunction().then((value) {
+          Get.back();
+          homeScreenController.isLoading(true);
+          homeScreenController.isLoading(false);
+        });
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('jobNotRequiredFunction Error :$e');
       rethrow;
     }
     isLoading(false);
   }
-
-
 
   // Change job status
   Future<void> jobStatusChangeFunction({required String jobId, required String jobStatus}) async {
@@ -210,13 +207,12 @@ class TodayJobsScreenController extends GetxController {
     log('jobStatusChange Api Url :$url');
 
     try {
-
       Map<String, dynamic> bodyData = {
         "JobID": jobId,
         "FieldWorkerID": fieldWorkerId,
         "Status": jobStatus,
         "jobDate": getCurrentDate(),
-        "JobCompDetail" : "",
+        "JobCompDetail": "",
         "NoPaymentReason": ""
       };
       log('bodyData :$bodyData');
@@ -231,7 +227,7 @@ class TodayJobsScreenController extends GetxController {
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await insertFieldWorkerGpsLocationFunction(
           jobId: jobId,
           activity: jobStatus,
@@ -239,7 +235,7 @@ class TodayJobsScreenController extends GetxController {
       } else {
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('jobStatusChange Error :$e');
       rethrow;
     }
@@ -276,13 +272,13 @@ class TodayJobsScreenController extends GetxController {
 
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         //todo - gps api call
         await getWorkerTodayJobFunction();
       } else {
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('insertFieldWorkerGpsLocation Error :$e');
       rethrow;
     }
@@ -290,6 +286,9 @@ class TodayJobsScreenController extends GetxController {
   }
 
   void showDatePicker(ctx, int index) {
+    var dateFormat1 = DateFormat('dd/M/yyyy').format(DateTime.now());
+    todayJobsList[index].startDate = dateFormat1;
+    date = dateFormat1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -333,6 +332,9 @@ class TodayJobsScreenController extends GetxController {
   }
 
   void showTimePicker(ctx, int index) {
+    // String time1 = DateFormat('hh:mm a').format(DateTime.now());
+    // todayJobsList[index].startTime = time1;
+    // timeValue = time1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -382,7 +384,6 @@ class TodayJobsScreenController extends GetxController {
     isLoading(true);
     isLoading(false);
   }
-
 
   @override
   void onInit() {

@@ -288,7 +288,6 @@ class TodayJobsListViewModule extends StatelessWidget {
                                       },
                                     );
                                   },
-
                                   labelSize: 12.sp,
                                 ),
                               ),

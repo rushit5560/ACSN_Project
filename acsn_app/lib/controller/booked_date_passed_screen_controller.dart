@@ -30,7 +30,6 @@ class BookedDatePassedScreenController extends GetxController {
   RxString datePassingValue = ''.obs;
   RxString selectedDobNumber = "Select Date Of Birth".obs;
 
-
   UserPreference userPreference = UserPreference();
   Headers headers = Headers();
   String fieldWorkerId = "";
@@ -42,7 +41,7 @@ class BookedDatePassedScreenController extends GetxController {
 
   // Get Current date
   String getCurrentDate() {
-    var currentDate =  DateFormat("dd/MM/yyyy hh:mm:ss").format(DateTime.now());
+    var currentDate = DateFormat("dd/MM/yyyy hh:mm:ss").format(DateTime.now());
     return currentDate;
   }
 
@@ -64,23 +63,21 @@ class BookedDatePassedScreenController extends GetxController {
       BookedPassedJobsModel bookedPassedJobsModel = BookedPassedJobsModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = bookedPassedJobsModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         bookedDatePassedList.clear();
-        if(bookedPassedJobsModel.data.isNotEmpty) {
+        if (bookedPassedJobsModel.data.isNotEmpty) {
           bookedDatePassedList.addAll(bookedPassedJobsModel.data);
         }
         log('bookedDatePassedList Length : ${bookedDatePassedList.length}');
       } else {
         log('getWorkerBookedDatePassedJob Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getWorkerBookedDatePassedJob Error :$e');
       rethrow;
     }
     isLoading(false);
   }
-
 
   // Save job date & time
   Future<void> saveScheduleFunction({
@@ -107,8 +104,7 @@ class BookedDatePassedScreenController extends GetxController {
       );
       log('response12121 :${response.body}');
 
-      SaveScheduleModel saveScheduleModel =
-      SaveScheduleModel.fromJson(json.decode(response.body));
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
@@ -160,8 +156,7 @@ class BookedDatePassedScreenController extends GetxController {
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('updateJobNotesFunction Error :$e');
       rethrow;
     }
@@ -175,10 +170,7 @@ class BookedDatePassedScreenController extends GetxController {
     log('Job not required api url :$url');
 
     try {
-      Map<String, String> bodyData = {
-        "JobID": jobId,
-        "FieldWorkerID": fieldWorkerId
-      };
+      Map<String, String> bodyData = {"JobID": jobId, "FieldWorkerID": fieldWorkerId};
       log('bodyData :$bodyData');
 
       final response = await http.post(
@@ -192,12 +184,18 @@ class BookedDatePassedScreenController extends GetxController {
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
+        Get.back();
         Fluttertoast.showToast(msg: "Job is canceled");
+        await homeScreenController.getTotalJobCountFunction().then((value) {
+          Get.back();
+          homeScreenController.isLoading(true);
+          homeScreenController.isLoading(false);
+        });
+
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('jobNotRequiredFunction Error :$e');
       rethrow;
     }
@@ -211,13 +209,12 @@ class BookedDatePassedScreenController extends GetxController {
     log('jobStatusChange Api Url :$url');
 
     try {
-
       Map<String, dynamic> bodyData = {
         "JobID": jobId,
         "FieldWorkerID": fieldWorkerId,
         "Status": jobStatus,
         "jobDate": getCurrentDate(),
-        "JobCompDetail" : "",
+        "JobCompDetail": "",
         "NoPaymentReason": ""
       };
       log('bodyData :$bodyData');
@@ -232,7 +229,7 @@ class BookedDatePassedScreenController extends GetxController {
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await insertFieldWorkerGpsLocationFunction(
           jobId: jobId,
           activity: jobStatus,
@@ -240,7 +237,7 @@ class BookedDatePassedScreenController extends GetxController {
       } else {
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('jobStatusChange Error :$e');
       rethrow;
     }
@@ -262,8 +259,8 @@ class BookedDatePassedScreenController extends GetxController {
         "Activity": activity == "Push"
             ? "Push"
             : activity == "Started"
-            ? AppMessage.resStarted
-            : ""
+                ? AppMessage.resStarted
+                : ""
       };
 
       log('bodyData : $bodyData');
@@ -277,12 +274,12 @@ class BookedDatePassedScreenController extends GetxController {
 
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await getWorkerBookedDatePassedJobFunction();
       } else {
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('insertFieldWorkerGpsLocation Error :$e');
       rethrow;
     }
@@ -290,6 +287,11 @@ class BookedDatePassedScreenController extends GetxController {
   }
 
   void showDatePicker(ctx, int index) {
+    var dateFormat = DateFormat('dd/M/yyyy').format(DateTime.now());
+    bookedDatePassedList[index].startDate = dateFormat;
+    date = dateFormat;
+    isLoading(true);
+    isLoading(false);
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -298,21 +300,22 @@ class BookedDatePassedScreenController extends GetxController {
         child: Column(
           children: [
             SizedBox(
-                height: size.height * 0.32,
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.date,
-                  initialDateTime: DateTime.now(),
-                  minimumYear: 1940,
-                  maximumYear: DateTime.now().year + 20,
-                  onDateTimeChanged: (DateTime value) {
-                    var dateFormat = DateFormat('dd/M/yyyy').format(value);
-                    bookedDatePassedList[index].startDate = dateFormat;
-                    date = dateFormat;
-                    isLoading(true);
-                    isLoading(false);
-                    log("date $date");
-                  },
-                )),
+              height: size.height * 0.32,
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.date,
+                initialDateTime: DateTime.now(),
+                minimumYear: 1940,
+                maximumYear: DateTime.now().year + 20,
+                onDateTimeChanged: (DateTime value) {
+                  var dateFormat1 = DateFormat('dd/M/yyyy').format(value);
+                  bookedDatePassedList[index].startDate = dateFormat1;
+                  date = dateFormat1;
+                  isLoading(true);
+                  isLoading(false);
+                  log("date $date");
+                },
+              ),
+            ),
             // Close the modal
             TextButton(
               child: Text(
@@ -329,10 +332,13 @@ class BookedDatePassedScreenController extends GetxController {
           ],
         ),
       ).commonSymmetricPadding(horizontal: 10, vertical: 15),
-    );
+    ).whenComplete(() {});
   }
 
   void showTimePicker(ctx, int index) {
+    String time1 = DateFormat('hh:mm a').format(DateTime.now());
+    bookedDatePassedList[index].startTime = time1;
+    timeValue = time1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(

@@ -18,6 +18,7 @@ import '../utils/style.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/user_preference.dart';
+
 class BookedFutureJobsScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
@@ -37,7 +38,6 @@ class BookedFutureJobsScreenController extends GetxController {
 
   List<JobDetails> bookedFutureJobsList = [];
 
-
   // Get booked future jobs list function
   Future<void> getWorkerBookedFutureJobsFunction() async {
     isLoading(true);
@@ -46,7 +46,6 @@ class BookedFutureJobsScreenController extends GetxController {
 
     try {
       Map<String, dynamic> bodyData = {"FieldWorkerID": fieldWorkerId};
-
 
       final response = await http.post(
         Uri.parse(url),
@@ -58,18 +57,16 @@ class BookedFutureJobsScreenController extends GetxController {
       BookedFutureJobsModel bookedFutureJobsModel = BookedFutureJobsModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = bookedFutureJobsModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         bookedFutureJobsList.clear();
-        if(bookedFutureJobsModel.data.isNotEmpty) {
+        if (bookedFutureJobsModel.data.isNotEmpty) {
           bookedFutureJobsList.addAll(bookedFutureJobsModel.data);
         }
         log('bookedFutureJobsList Length :${bookedFutureJobsList.length}');
-
       } else {
         log('getWorkerBookedFutureJobs Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getWorkerBookedFutureJobs Error :$e');
       rethrow;
     }
@@ -101,8 +98,7 @@ class BookedFutureJobsScreenController extends GetxController {
       );
       log('response12121 :${response.body}');
 
-      SaveScheduleModel saveScheduleModel =
-      SaveScheduleModel.fromJson(json.decode(response.body));
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
@@ -154,8 +150,7 @@ class BookedFutureJobsScreenController extends GetxController {
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('updateJobNotesFunction Error :$e');
       rethrow;
     }
@@ -169,10 +164,7 @@ class BookedFutureJobsScreenController extends GetxController {
     log('Job not required api url :$url');
 
     try {
-      Map<String, String> bodyData = {
-        "JobID": jobId,
-        "FieldWorkerID": fieldWorkerId
-      };
+      Map<String, String> bodyData = {"JobID": jobId, "FieldWorkerID": fieldWorkerId};
       log('bodyData :$bodyData');
 
       final response = await http.post(
@@ -186,12 +178,17 @@ class BookedFutureJobsScreenController extends GetxController {
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
+        Get.back();
         Fluttertoast.showToast(msg: "Job is canceled");
+        await homeScreenController.getTotalJobCountFunction().then((value) {
+          Get.back();
+          homeScreenController.isLoading(true);
+          homeScreenController.isLoading(false);
+        });
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('jobNotRequiredFunction Error :$e');
       rethrow;
     }
@@ -199,6 +196,9 @@ class BookedFutureJobsScreenController extends GetxController {
   }
 
   void showDatePicker(ctx, int index) {
+    var dateFormat1 = DateFormat('dd/M/yyyy').format(DateTime.now());
+    bookedFutureJobsList[index].startDate = dateFormat1;
+    date = dateFormat1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -242,6 +242,9 @@ class BookedFutureJobsScreenController extends GetxController {
   }
 
   void showTimePicker(ctx, int index) {
+    String time1 = DateFormat('hh:mm a').format(DateTime.now());
+    bookedFutureJobsList[index].startTime = time1;
+    timeValue = time1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -304,5 +307,4 @@ class BookedFutureJobsScreenController extends GetxController {
     log('fieldWorkerId:$fieldWorkerId');
     await getWorkerBookedFutureJobsFunction();
   }
-
 }

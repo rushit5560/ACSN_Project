@@ -1,6 +1,7 @@
 import 'package:acsn_app/constance/extension.dart';
 import 'package:acsn_app/models/not_yet_booked_models/not_yet_booked_job_model.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../constance/color.dart';
 import '../models/common_model/job_details_model.dart';
@@ -34,8 +35,10 @@ class ListTileModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
+          flex: 2,
           child: Row(
             children: [
               Expanded(
@@ -43,17 +46,17 @@ class ListTileModule extends StatelessWidget {
                   title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.backGroundColor,
                   ),
                 ),
               ),
-              const Text(
+              Text(
                 ":",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.backGroundColor,
                 ),
@@ -62,6 +65,7 @@ class ListTileModule extends StatelessWidget {
           ),
         ),
         Expanded(
+          flex: 2,
           child: iconShow
               ? onTapEnable
                   ? GestureDetector(
@@ -71,13 +75,11 @@ class ListTileModule extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
                           children: [
-                            jobModel!.changeSchedule == true
-                                ? WidgetSpan(child: leadingIcon!)
-                                : const WidgetSpan(child: SizedBox()),
+                            jobModel!.changeSchedule == true ? WidgetSpan(child: leadingIcon!) : const WidgetSpan(child: SizedBox()),
                             TextSpan(
                               text: " $value",
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: TextStyle(
+                                fontSize: 10.sp,
                                 // fontWeight: FontWeight.w500,
                                 color: Colors.black,
                               ),
@@ -95,8 +97,8 @@ class ListTileModule extends StatelessWidget {
                           WidgetSpan(child: leadingIcon!),
                           TextSpan(
                             text: " $value",
-                            style: const TextStyle(
-                              fontSize: 16,
+                            style: TextStyle(
+                              fontSize: 10.sp,
                               // fontWeight: FontWeight.w500,
                               color: Colors.black,
                             ),
@@ -108,17 +110,14 @@ class ListTileModule extends StatelessWidget {
                   " $value",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: Colors.black,
+                    // fontWeight: FontWeight.w500,
                   ),
                 ),
         ),
-        copyStatus
-            ? GestureDetector(
-                onTap: () async => await copyClipBoard(value),
-                child: const Icon(Icons.copy_rounded))
-            : Container(),
+        copyStatus ? GestureDetector(onTap: () async => await copyClipBoard(value), child: const Icon(Icons.copy_rounded)) : Container(),
       ],
     ).commonSymmetricPadding(vertical: 5);
   }
@@ -127,7 +126,6 @@ class ListTileModule extends StatelessWidget {
 class ListTileExpandWiseModule extends StatelessWidget {
   final String title;
   final String value;
-
 
   const ListTileExpandWiseModule({
     Key? key,
@@ -147,17 +145,17 @@ class ListTileExpandWiseModule extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.backGroundColor,
                   ),
                 ),
               ),
-              const Text(
+              Text(
                 ":",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.backGroundColor,
                 ),
@@ -168,12 +166,12 @@ class ListTileExpandWiseModule extends StatelessWidget {
         Expanded(
           flex: 75,
           child: Text(
-                  " $value",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+            " $value",
+            style: TextStyle(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       ],
     ).commonSymmetricPadding(vertical: 5);

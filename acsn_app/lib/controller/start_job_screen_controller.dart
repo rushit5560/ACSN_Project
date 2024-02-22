@@ -12,6 +12,7 @@ import '../constance/enums.dart';
 import '../constance/message.dart';
 import '../models/start_job_screen_model/job_question_model.dart';
 import '../utils/user_preference.dart';
+import 'booked_date_passed_screen_controller.dart';
 
 class StartJobScreenController extends GetxController {
   String jobId = Get.arguments[0] ?? "";
@@ -22,7 +23,6 @@ class StartJobScreenController extends GetxController {
   String fieldWorkerId = "";
   UserPreference userPreference = UserPreference();
 
-
   RxBool isDDLoading = false.obs;
   RxBool isRadioLoading = false.obs;
 
@@ -30,7 +30,7 @@ class StartJobScreenController extends GetxController {
   List<QuestionData> questionList = [];
 
   String getCurrentDate() {
-    var currentDate =  DateFormat("dd/MM/yyyy hh:mm:ss").format(DateTime.now());
+    var currentDate = DateFormat("dd/MM/yyyy hh:mm:ss").format(DateTime.now());
     return currentDate;
   }
 
@@ -40,9 +40,7 @@ class StartJobScreenController extends GetxController {
     log('getJobQuestion Api Url :$url');
 
     try {
-      Map<String, dynamic> bodyData = {
-        "JobID": jobId
-      };
+      Map<String, dynamic> bodyData = {"JobID": jobId};
       log('Job Question bodyData :$bodyData');
 
       final response = await http.post(
@@ -55,18 +53,16 @@ class StartJobScreenController extends GetxController {
       JobQuestionModel startJobModel = JobQuestionModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = startJobModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         questionList.clear();
-        if(startJobModel.data.isNotEmpty) {
+        if (startJobModel.data.isNotEmpty) {
           questionList.addAll(startJobModel.data);
         }
         log('questionList Length :${questionList.length}');
       } else {
         log('getJobQuestion Else');
       }
-
-
-    } catch(e) {
+    } catch (e) {
       log('getJobQuestion Error :$e');
       rethrow;
     }
@@ -80,23 +76,18 @@ class StartJobScreenController extends GetxController {
 
     try {
       var questionAnswerList = [];
-      for(var element in questionList) {
+      for (var element in questionList) {
         var singleItem = {
           "JobQuestionID": element.jobQuestionId.toString(),
           "Answer": element.answer,
           "FieldWorkerID": fieldWorkerId,
-          "CreatedOn" : getCurrentDate()
+          "CreatedOn": getCurrentDate()
         };
         questionAnswerList.add(singleItem);
       }
       log('questionAnswerList : $questionAnswerList');
 
-      Map<String, dynamic> bodyData = {
-        "objSQAList" : questionAnswerList,
-        "Type": "Start",
-        "JobID": jobId,
-        "ClientSignature" : ""
-      };
+      Map<String, dynamic> bodyData = {"objSQAList": questionAnswerList, "Type": "Start", "JobID": jobId, "ClientSignature": ""};
       log('bodyData :${jsonEncode(bodyData)}');
 
       final response = await http.post(
@@ -110,17 +101,19 @@ class StartJobScreenController extends GetxController {
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         // here call update job status api
+
         await jobStatusChangeFunction(jobStatus: AppMessage.startedStatus);
+        final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
+        await bookedDatePassedScreenController.getWorkerBookedDatePassedJobFunction();
       } else {
         log('insertJobQuestionAnswer  Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('insertJobQuestionAnswer Error :$e');
       rethrow;
     }
-
   }
 
   // Change job status
@@ -130,13 +123,12 @@ class StartJobScreenController extends GetxController {
     log('jobStatusChange Api Url :$url');
 
     try {
-
       Map<String, dynamic> bodyData = {
         "JobID": jobId,
         "FieldWorkerID": fieldWorkerId,
         "Status": jobStatus,
         "jobDate": getCurrentDate(),
-        "JobCompDetail" : "",
+        "JobCompDetail": "",
         "NoPaymentReason": ""
       };
       log('bodyData :$bodyData');
@@ -151,7 +143,7 @@ class StartJobScreenController extends GetxController {
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await insertFieldWorkerGpsLocationFunction(
           jobId: jobId,
           activity: jobStatus,
@@ -159,7 +151,7 @@ class StartJobScreenController extends GetxController {
       } else {
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('jobStatusChange Error :$e');
       rethrow;
     }
@@ -181,8 +173,8 @@ class StartJobScreenController extends GetxController {
         "Activity": activity == "Push"
             ? "Push"
             : activity == "Started"
-            ? AppMessage.resStarted
-            : ""
+                ? AppMessage.resStarted
+                : ""
       };
 
       log('bodyData : $bodyData');
@@ -196,20 +188,20 @@ class StartJobScreenController extends GetxController {
 
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         //todo - below code uncomment
         Get.back();
-        if(comingFromScreen == ComingFromScreen.todayJobs) {
+        if (comingFromScreen == ComingFromScreen.todayJobs) {
           final todayJobsScreenController = Get.find<TodayJobsScreenController>();
           await todayJobsScreenController.initMethod();
-        } else if(comingFromScreen == ComingFromScreen.futureJobs) {
+        } else if (comingFromScreen == ComingFromScreen.futureJobs) {
           final bookedFutureJobsScreenController = Get.find<BookedFutureJobsScreenController>();
           await bookedFutureJobsScreenController.initMethod();
         }
       } else {
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('insertFieldWorkerGpsLocation Error :$e');
       rethrow;
     }
@@ -232,9 +224,9 @@ class StartJobScreenController extends GetxController {
     isDDLoading(true);
     isDDLoading(false);
   }
+
   radioLoad() {
     isRadioLoading(true);
     isRadioLoading(false);
   }
-
 }

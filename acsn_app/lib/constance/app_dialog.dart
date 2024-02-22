@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class AppDialogs {
-  static jobNotRequiredDialog(BuildContext context, {required VoidCallback yesOnTap}) {
+  static jobNotRequiredDialog(BuildContext context, {required void Function() yesOnTap}) {
     return Get.dialog(
       BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),

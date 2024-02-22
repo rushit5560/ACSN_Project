@@ -229,6 +229,7 @@ class ListViewModule extends StatelessWidget {
                 AppDialogs.jobNotRequiredDialog(
                   context,
                   yesOnTap: () async {
+                    Get.back();
                     await notYetScreenController.jobNotRequiredFunction(
                       jobId: singleItem.jobId.toString(),
                     );

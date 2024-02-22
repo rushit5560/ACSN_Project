@@ -38,7 +38,6 @@ class NotYetScreenController extends GetxController {
 
   List<JobDetails> jobsList = [];
 
-
   // Call when search field are empty -after type some text
   Future<void> searchFieldClearFunction() async {
     hideKeyboard();
@@ -65,17 +64,16 @@ class NotYetScreenController extends GetxController {
       NotYetBookedJobModel notYetBookedJobModel = NotYetBookedJobModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = notYetBookedJobModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         jobsList.clear();
-        if(notYetBookedJobModel.data.isNotEmpty) {
+        if (notYetBookedJobModel.data.isNotEmpty) {
           jobsList.addAll(notYetBookedJobModel.data);
         }
         log('jobsList Length :${jobsList.length}');
       } else {
         log('getNotYetBookedJobsFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getNotYetBookedJobsFunction Error :$e');
       rethrow;
     }
@@ -84,6 +82,9 @@ class NotYetScreenController extends GetxController {
   }
 
   void showDatePicker(ctx, int index) {
+    var dateFormat1 = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    jobsList[index].startDate = dateFormat1;
+    date = dateFormat1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -127,6 +128,9 @@ class NotYetScreenController extends GetxController {
   }
 
   void showTimePicker(ctx, int index) {
+    String time1= DateFormat('hh:mm a').format(DateTime.now());
+    jobsList[index].startTime = time1;
+    timeValue = time1;
     showCupertinoModalPopup(
       context: ctx,
       builder: (_) => Container(
@@ -172,7 +176,6 @@ class NotYetScreenController extends GetxController {
     );
   }
 
-
   // Save job date & time
   Future<void> saveScheduleFunction({
     required String jobId,
@@ -198,8 +201,7 @@ class NotYetScreenController extends GetxController {
       );
       log('response12121 :${response.body}');
 
-      SaveScheduleModel saveScheduleModel =
-          SaveScheduleModel.fromJson(json.decode(response.body));
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
@@ -241,9 +243,8 @@ class NotYetScreenController extends GetxController {
       );
 
       log('updateJobNotes response :${response.body}');
-      
-      SaveScheduleModel saveScheduleModel =
-      SaveScheduleModel.fromJson(json.decode(response.body));
+
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
@@ -252,8 +253,7 @@ class NotYetScreenController extends GetxController {
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('updateJobNotesFunction Error :$e');
       rethrow;
     }
@@ -267,10 +267,7 @@ class NotYetScreenController extends GetxController {
     log('Job not required api url :$url');
 
     try {
-      Map<String, String> bodyData = {
-        "JobID": jobId,
-        "FieldWorkerID": fieldWorkerId
-      };
+      Map<String, String> bodyData = {"JobID": jobId, "FieldWorkerID": fieldWorkerId};
       log('bodyData :$bodyData');
 
       final response = await http.post(
@@ -284,12 +281,17 @@ class NotYetScreenController extends GetxController {
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
+        await getNotYetBookedJobsFunction();
         Fluttertoast.showToast(msg: "Job is canceled");
+        await homeScreenController.getTotalJobCountFunction().then((value) {
+          Get.back();
+          homeScreenController.isLoading(true);
+          homeScreenController.isLoading(false);
+        });
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('jobNotRequiredFunction Error :$e');
       rethrow;
     }
@@ -303,11 +305,7 @@ class NotYetScreenController extends GetxController {
     log('Search api url :$url');
 
     try {
-      Map<String, String> bodyData = {
-        "FieldWorkerID": fieldWorkerId,
-        "SearchString": searchTextEditingController.text.trim(),
-        "Page": "AllJob"
-      };
+      Map<String, String> bodyData = {"FieldWorkerID": fieldWorkerId, "SearchString": searchTextEditingController.text.trim(), "Page": "AllJob"};
       log('bodyData :$bodyData');
 
       final response = await http.post(
@@ -320,21 +318,19 @@ class NotYetScreenController extends GetxController {
       NotYetBookedJobModel notYetBookedJobModel = NotYetBookedJobModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = notYetBookedJobModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         jobsList.clear();
         jobsList.addAll(notYetBookedJobModel.data);
         log('jobsList Length :${jobsList.length}');
       } else {
         log('getNotYetBookedJobsFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('searchJobFunction Error :$e');
       rethrow;
     }
     isLoading(false);
   }
-
 
   loadUI() {
     isLoading(true);
@@ -346,7 +342,6 @@ class NotYetScreenController extends GetxController {
     initMethod();
     super.onInit();
   }
-
 
   Future<void> initMethod() async {
     isLoading(true);
