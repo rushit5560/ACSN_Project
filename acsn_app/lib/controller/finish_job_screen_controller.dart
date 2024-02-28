@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ui' as ui;
+
+import 'package:acsn_app/constance/api_url.dart';
 import 'package:acsn_app/constance/message.dart';
 import 'package:acsn_app/models/common_model/job_details_model.dart';
 import 'package:acsn_app/models/not_yet_booked_models/save_schedule_model.dart';
@@ -7,13 +10,12 @@ import 'package:acsn_app/models/start_job_screen_model/job_question_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'package:acsn_app/constance/api_url.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:ui' as ui;
+
 import '../constance/enums.dart';
 import '../models/end_job_question_screen_model/end_job_question_model.dart';
 import '../models/finish_job_screen_models/finish_job_saved_details_model.dart';
@@ -23,12 +25,13 @@ import '../models/finish_job_screen_models/job_notes_model.dart';
 import '../models/finish_job_screen_models/job_reference_number_model.dart';
 import '../utils/user_preference.dart';
 import 'booked_date_passed_screen_controller.dart';
+import 'home_screen_controller.dart';
 import 'today_jobs_screen_controller.dart';
 
 class FinishJobScreenController extends GetxController {
   JobDetails jobDetails = Get.arguments[0];
   ComingFromScreen comingFromScreen = Get.arguments[1] ?? ComingFromScreen.todayJobs;
-
+  final homeScreenController = Get.find<HomeScreenController>();
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
 
@@ -99,14 +102,28 @@ class FinishJobScreenController extends GetxController {
 
   RxString noPayment = "".obs;
   RxString amountCollected = "".obs;
+
   // RxBool paymentThroughCard = false.obs;
 
   Future<void> paymentFunction({required String paymentOption}) async {
     if (paymentOption == AppMessage.noPaymentOption) {
       noPayment.value = AppMessage.noPaymentOption;
+      // print("------------------  ${noPayment.value == AppMessage.noPaymentOption}");
+      // print("------------------  ${noPayment.value}");
+      // print("------------------  ${AppMessage.noPaymentOption}");
+      // print("------------------  ${amountCollected.value != "\$0"}");
     } else {
       noPayment.value = AppMessage.cardPayment;
-      await openBrowserTab();
+      // print("------------------  ${noPayment.value == AppMessage.noPaymentOption}");
+      // print("------------------  ${noPayment.value}");
+      // print("------------------  ${AppMessage.noPaymentOption}");
+      // print("------------------  ${amountCollected.value != "\$0"}");
+
+      if (amountCollected.value != "\$0") {
+        await openBrowserTab();
+      }else{
+        Fluttertoast.showToast(msg: "Amount collected is required!");
+      }
     }
     radioLoad();
   }
@@ -118,7 +135,7 @@ class FinishJobScreenController extends GetxController {
     String jobNumber = "";
     String referenceNumber = "";
 
-    if(paymentReferenceNumber != "") {
+    if (paymentReferenceNumber != "") {
       jobNumber = paymentReferenceNumber.substring(2, paymentReferenceNumber.length);
       referenceNumber = paymentReferenceNumber.substring(0, 2);
       log('jobNumber :$jobNumber');
@@ -126,15 +143,18 @@ class FinishJobScreenController extends GetxController {
     }
 
     String url = "stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber";
+    // String url = "https://www.webgatetec.com/";
 
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.inAppWebView,
-      );
-    } else {
-      Fluttertoast.showToast(msg: "WebDosh is not installed!");
-       throw 'Could not launch $url';
+      try {
+        await launchUrl(
+          Uri.parse(url),
+          mode: LaunchMode.externalApplication,
+        );
+      } catch (e) {
+        Fluttertoast.showToast(msg: "$e");
+        throw 'Could not launch $url';
+      }
     }
   }
 
@@ -146,7 +166,6 @@ class FinishJobScreenController extends GetxController {
   TextEditingController noPaymentReasonController = TextEditingController();
   TextEditingController fieldWorkerNoteController = TextEditingController();
   TextEditingController internalNoteController = TextEditingController();
-
 
   Future<void> getFinishJobQuestionFunction() async {
     isLoading(true);
@@ -165,8 +184,7 @@ class FinishJobScreenController extends GetxController {
       );
       log('getFinishJobQuestion response :${response.body}');
 
-      EndJobQuestionModel endJobQuestionModel =
-          EndJobQuestionModel.fromJson(json.decode(response.body));
+      EndJobQuestionModel endJobQuestionModel = EndJobQuestionModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = endJobQuestionModel.success;
 
       if (isSuccessStatus.value) {
@@ -201,8 +219,7 @@ class FinishJobScreenController extends GetxController {
       );
       log('getFinishJobQuestion response :${response.body}');
 
-      ClientNumberModel clientNumberModel =
-          ClientNumberModel.fromJson(json.decode(response.body));
+      ClientNumberModel clientNumberModel = ClientNumberModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = clientNumberModel.success;
 
       if (isSuccessStatus.value) {
@@ -235,8 +252,7 @@ class FinishJobScreenController extends GetxController {
       );
       log('getFinishJobQuestion response :${response.body}');
 
-      JobNotesModel jobNotesModel =
-          JobNotesModel.fromJson(json.decode(response.body));
+      JobNotesModel jobNotesModel = JobNotesModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = jobNotesModel.success;
 
       if (isSuccessStatus.value) {
@@ -270,8 +286,7 @@ class FinishJobScreenController extends GetxController {
       );
       log('getReferenceNumber response :${response.body}');
 
-      JobReferenceNumberModel jobReferenceNumberModel =
-          JobReferenceNumberModel.fromJson(json.decode(response.body));
+      JobReferenceNumberModel jobReferenceNumberModel = JobReferenceNumberModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = jobReferenceNumberModel.success;
 
       if (isSuccessStatus.value) {
@@ -340,8 +355,7 @@ class FinishJobScreenController extends GetxController {
       );
       log('getFinishJobSavedDetails response :${response.body}');
 
-      FinishJobSavedDetailsModel fJSDModel =
-          FinishJobSavedDetailsModel.fromJson(json.decode(response.body));
+      FinishJobSavedDetailsModel fJSDModel = FinishJobSavedDetailsModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = fJSDModel.success;
 
       if (isSuccessStatus.value) {
@@ -350,15 +364,15 @@ class FinishJobScreenController extends GetxController {
         noPaymentReasonController.text = fJSDModel.data.noPaymentReason;
         jobCompletionController.text = fJSDModel.data.completionNote;
 
-        if(fJSDModel.data.itemToAdd != "") {
-         for(int i=0; i < expectedItemList.length; i++) {
-           if(fJSDModel.data.itemToAdd == expectedItemList[i].jobItem) {
-             selectedExpectedItem = expectedItemList[i];
-           }
-         }
+        if (fJSDModel.data.itemToAdd != "") {
+          for (int i = 0; i < expectedItemList.length; i++) {
+            if (fJSDModel.data.itemToAdd == expectedItemList[i].jobItem) {
+              selectedExpectedItem = expectedItemList[i];
+            }
+          }
         }
 
-        if(fJSDModel.data.clientSignature != "") {
+        if (fJSDModel.data.clientSignature != "") {
           List<int> myDataInt = utf8.encode(fJSDModel.data.clientSignature);
           String base64String = base64.encode(myDataInt);
           String header = "data:image/png;base64,";
@@ -377,7 +391,7 @@ class FinishJobScreenController extends GetxController {
           for (int i = 0; i < tempSavedAnsList.length; i++) {
             if (element.jobQuestionId == tempSavedAnsList[i].quesId) {
               element.answer = tempSavedAnsList[i].answer;
-              if(element.question.toLowerCase().contains("Amount collected".toLowerCase())) {
+              if (element.question.toLowerCase().contains("Amount collected".toLowerCase())) {
                 amountCollected.value = element.answer;
                 log('amountCollected.value :${amountCollected.value}');
               }
@@ -390,7 +404,6 @@ class FinishJobScreenController extends GetxController {
           log('id :${element.jobQuestionId}');
           log('answer :${element.answer}');
         }
-
       } else {
         log('getFinishJobSavedDetails Else');
       }
@@ -446,8 +459,7 @@ class FinishJobScreenController extends GetxController {
       );
       log('saveJobDetails response :${response.body}');
 
-      SaveScheduleModel saveScheduleModel =
-          SaveScheduleModel.fromJson(json.decode(response.body));
+      SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
@@ -481,10 +493,10 @@ class FinishJobScreenController extends GetxController {
       log('questionAnswerList : $questionAnswerList');
 
       Map<String, dynamic> bodyData = {
-        "objSQAList" : questionAnswerList,
-        "Type" : "End",
-        "JobID" : jobDetails.jobId.toString(),
-        "ClientSignature" : base64Signature
+        "objSQAList": questionAnswerList,
+        "Type": "End",
+        "JobID": jobDetails.jobId.toString(),
+        "ClientSignature": base64Signature
       };
       log('bodyData :$bodyData');
 
@@ -498,18 +510,15 @@ class FinishJobScreenController extends GetxController {
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await updateJobFunction();
       } else {
         log('updateJobQuestionAnswer Else');
       }
-
-
-    } catch(e) {
+    } catch (e) {
       log('updateJobQuestionAnswer Error :$e');
       rethrow;
     }
-
   }
 
   Future<void> updateJobFunction() async {
@@ -519,13 +528,13 @@ class FinishJobScreenController extends GetxController {
 
     try {
       Map<String, dynamic> bodyData = {
-        "JobID" : jobDetails.jobId.toString(),
-        "FieldWorkerID" : fieldWorkerId,
-        "Status" : AppMessage.finishStatus,
-        "jobDate" : getCurrentDate(),
-        "JobCompDetail" : jobCompletionController.text.trim().toString(),
-        "NoPaymentReason" : noPaymentReasonController.text.trim().toString(),
-        "IsPayment" : paymentSuccessOption.name
+        "JobID": jobDetails.jobId.toString(),
+        "FieldWorkerID": fieldWorkerId,
+        "Status": AppMessage.finishStatus,
+        "jobDate": getCurrentDate(),
+        "JobCompDetail": jobCompletionController.text.trim().toString(),
+        "NoPaymentReason": noPaymentReasonController.text.trim().toString(),
+        "IsPayment": paymentSuccessOption.name
       };
       log('bodyData :$bodyData');
 
@@ -539,7 +548,7 @@ class FinishJobScreenController extends GetxController {
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await insertFieldWorkerGpsLocationFunction(
           jobId: jobDetails.jobId.toString(),
           activity: AppMessage.finishStatus,
@@ -547,12 +556,10 @@ class FinishJobScreenController extends GetxController {
       } else {
         log('updateJob Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('updateJob Error :$e');
       rethrow;
     }
-
   }
 
   Future<void> insertFieldWorkerGpsLocationFunction({required String jobId, required String activity}) async {
@@ -581,12 +588,13 @@ class FinishJobScreenController extends GetxController {
 
       SaveScheduleModel saveScheduleModel = SaveScheduleModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = saveScheduleModel.success;
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         await updateJobNotesFunction();
       } else {
+        await updateJobNotesFunction();
         log('jobStatusChange Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('insertFieldWorkerGpsLocation Error :$e');
       rethrow;
     }
@@ -624,8 +632,7 @@ class FinishJobScreenController extends GetxController {
       } else {
         log('saveScheduleFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('updateJobNotesFunction Error :$e');
       rethrow;
     }
@@ -638,10 +645,7 @@ class FinishJobScreenController extends GetxController {
     log('updateJobItem Api Url :$url');
 
     try {
-      Map<String, dynamic> bodyData = {
-        "JobID" : jobDetails.jobId.toString(),
-        "JobItem" : selectedExpectedItem.jobItem
-      };
+      Map<String, dynamic> bodyData = {"JobID": jobDetails.jobId.toString(), "JobItem": selectedExpectedItem.jobItem};
       log('updateJobItem body :$bodyData');
 
       final response = await http.post(
@@ -656,20 +660,28 @@ class FinishJobScreenController extends GetxController {
       isSuccessStatus.value = saveScheduleModel.success;
 
       if (isSuccessStatus.value) {
-        if(comingFromScreen == ComingFromScreen.todayJobs) {
+        if (comingFromScreen == ComingFromScreen.todayJobs) {
           final todayJobsScreenController = Get.find<TodayJobsScreenController>();
           await todayJobsScreenController.getWorkerTodayJobFunction();
+          await homeScreenController.getTotalJobCountFunction().then((value) {
+            homeScreenController.isLoading(true);
+            homeScreenController.isLoading(false);
+          });
           Get.back();
-        } else if(comingFromScreen == ComingFromScreen.datePassedJobs) {
+        } else if (comingFromScreen == ComingFromScreen.datePassedJobs) {
           final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
           await bookedDatePassedScreenController.getWorkerBookedDatePassedJobFunction();
+          await homeScreenController.getTotalJobCountFunction().then((value) {
+            homeScreenController.isLoading(true);
+            homeScreenController.isLoading(false);
+          });
           Get.back();
         }
         isLoading(false);
       } else {
         log('updateJobItem Else');
       }
-    } catch(e) {
+    } catch (e) {
       log('updateJobItem Error :$e');
       rethrow;
     }
@@ -685,8 +697,7 @@ class FinishJobScreenController extends GetxController {
   Future<void> initMethod() async {
     isLoading(true);
     log('jobId :${jobDetails.jobId.toString()}');
-    fieldWorkerId = await userPreference.getStringFromPrefs(
-        key: UserPreference.fieldWorkerIdKey);
+    fieldWorkerId = await userPreference.getStringFromPrefs(key: UserPreference.fieldWorkerIdKey);
     await getFinishJobQuestionFunction();
   }
 }

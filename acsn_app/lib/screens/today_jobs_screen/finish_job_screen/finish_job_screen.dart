@@ -296,8 +296,11 @@ class FinishJobScreen extends StatelessWidget {
                           Fluttertoast.showToast(msg: "Green Waste is required!");
                         } else if (finishJobScreenController.selectedExpectedItem.jobItem == "Select an option.") {
                           Fluttertoast.showToast(msg: "Expected Item is required!");
-                        } else if (finishJobScreenController.noPayment.value != AppMessage.noPaymentOption &&
+                        } else if (finishJobScreenController.noPayment.value == AppMessage.noPaymentOption &&
                             finishJobScreenController.amountCollected.value != "\$0") {
+                          Fluttertoast.showToast(msg: "Amount collected is required!");
+                        }  else if (finishJobScreenController.noPayment.value != AppMessage.noPaymentOption &&
+                            finishJobScreenController.amountCollected.value == "\$0") {
                           Fluttertoast.showToast(msg: "Amount collected is required!");
                         } else if (finishJobScreenController.noPayment.value == AppMessage.noPaymentOption &&
                             finishJobScreenController.noPaymentReasonController.text.trim().isEmpty) {
