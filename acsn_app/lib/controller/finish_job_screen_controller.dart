@@ -121,7 +121,7 @@ class FinishJobScreenController extends GetxController {
 
       if (amountCollected.value != "\$0") {
         await openBrowserTab();
-      }else{
+      } else {
         Fluttertoast.showToast(msg: "Amount collected is required!");
       }
     }
@@ -136,7 +136,7 @@ class FinishJobScreenController extends GetxController {
     String referenceNumber = "";
 
     if (paymentReferenceNumber != "") {
-      jobNumber = paymentReferenceNumber.substring(2, paymentReferenceNumber.length);
+      jobNumber = paymentReferenceNumber.substring(2, 10 /*paymentReferenceNumber.length*/);
       referenceNumber = paymentReferenceNumber.substring(0, 2);
       log('jobNumber :$jobNumber');
       log('referenceNumber :$referenceNumber');
@@ -144,18 +144,27 @@ class FinishJobScreenController extends GetxController {
 
     String url = "stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber";
     // String url = "https://www.webgatetec.com/";
-
     if (await canLaunchUrl(Uri.parse(url))) {
-      try {
-        await launchUrl(
-          Uri.parse(url),
-          mode: LaunchMode.externalApplication,
-        );
-      } catch (e) {
-        Fluttertoast.showToast(msg: "$e");
-        throw 'Could not launch $url';
-      }
+      // Check if the URL can be launched
+      await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalNonBrowserApplication,
+      );
+    } else {
+      Fluttertoast.showToast(msg: "Could not launch $url");
+      throw 'Could not launch $url'; // throw could be used to handle erroneous situations
     }
+    // if (await canLaunchUrl(Uri.parse(url))) {
+    //   try {
+    //     await launchUrl(
+    //       Uri.parse(url),
+    //       mode: LaunchMode.inAppWebView,
+    //     );
+    //   } catch (e) {
+    //     Fluttertoast.showToast(msg: "$e");
+    //     throw 'Could not launch $url';
+    //   }
+    // }
   }
 
   List<QuestionData> jobEndQuestionList = [];
