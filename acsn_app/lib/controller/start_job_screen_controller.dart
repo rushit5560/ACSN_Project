@@ -13,6 +13,7 @@ import '../constance/message.dart';
 import '../models/start_job_screen_model/job_question_model.dart';
 import '../utils/user_preference.dart';
 import 'booked_date_passed_screen_controller.dart';
+import 'booked_future_jobs_screen_controller.dart';
 import 'home_screen_controller.dart';
 
 class StartJobScreenController extends GetxController {
@@ -105,14 +106,30 @@ class StartJobScreenController extends GetxController {
 
       if (isSuccessStatus.value) {
         // here call update job status api
-
-        await jobStatusChangeFunction(jobStatus: AppMessage.startedStatus);
-        final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
-        await bookedDatePassedScreenController.getWorkerBookedDatePassedJobFunction();
-        await homeScreenController.getTotalJobCountFunction().then((value) {
-          homeScreenController.isLoading(true);
-          homeScreenController.isLoading(false);
-        });
+        if (comingFromScreen == ComingFromScreen.datePassedJobs) {
+          await jobStatusChangeFunction(jobStatus: AppMessage.startedStatus);
+          final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
+          await bookedDatePassedScreenController.getWorkerBookedDatePassedJobFunction();
+          await homeScreenController.getTotalJobCountFunction().then((value) {
+            homeScreenController.isLoading(true);
+            homeScreenController.isLoading(false);
+          });
+        } else if (comingFromScreen == ComingFromScreen.futureJobs) {
+          await jobStatusChangeFunction(jobStatus: AppMessage.startedStatus);
+          final bookedFutureJobsScreenController = Get.find<BookedFutureJobsScreenController>();
+          await bookedFutureJobsScreenController.getWorkerBookedFutureJobsFunction();
+          await homeScreenController.getTotalJobCountFunction().then((value) {
+            homeScreenController.isLoading(true);
+            homeScreenController.isLoading(false);
+          });
+        }
+        // await jobStatusChangeFunction(jobStatus: AppMessage.startedStatus);
+        // final bookedDatePassedScreenController = Get.find<BookedDatePassedScreenController>();
+        // await bookedDatePassedScreenController.getWorkerBookedDatePassedJobFunction();
+        // await homeScreenController.getTotalJobCountFunction().then((value) {
+        //   homeScreenController.isLoading(true);
+        //   homeScreenController.isLoading(false);
+        // });
       } else {
         log('insertJobQuestionAnswer  Else');
       }

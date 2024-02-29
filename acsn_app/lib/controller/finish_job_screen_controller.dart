@@ -135,6 +135,8 @@ class FinishJobScreenController extends GetxController {
     String jobNumber = "";
     String referenceNumber = "";
 
+    bool isSuccess = true;
+
     if (paymentReferenceNumber != "") {
       jobNumber = paymentReferenceNumber.substring(2, 10 /*paymentReferenceNumber.length*/);
       referenceNumber = paymentReferenceNumber.substring(0, 2);
@@ -142,17 +144,24 @@ class FinishJobScreenController extends GetxController {
       log('referenceNumber :$referenceNumber');
     }
 
-    String url = "stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber";
+    // String url = "stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber";
     // String url = "https://www.webgatetec.com/";
-    if (await canLaunchUrl(Uri.parse(url))) {
-      // Check if the URL can be launched
-      await launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalNonBrowserApplication,
-      );
-    } else {
-      Fluttertoast.showToast(msg: "Could not launch $url");
-      throw 'Could not launch $url'; // throw could be used to handle erroneous situations
+
+    try {
+      // Open the first URL
+      await launch('stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber');
+    } catch (e) {
+      isSuccess = false;
+      Fluttertoast.showToast(msg: 'Error: WebDosh is not installed!');
+    }
+    if (isSuccess == false) {
+      try {
+        // Open the second URL
+        await launch('com.webdosh.stvdp://');
+      } catch (e) {
+        isSuccess = false;
+        Fluttertoast.showToast(msg: 'Error: WebDosh is not installed!');
+      }
     }
     // if (await canLaunchUrl(Uri.parse(url))) {
     //   try {
