@@ -149,7 +149,10 @@ class FinishJobScreenController extends GetxController {
 
     try {
       // Open the first URL
-      await launch('stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber');
+      await launchUrl(
+        Uri.parse('stvdp://post?amount=$amount&job_number=$jobNumber&reference=$referenceNumber'),
+        mode: LaunchMode.inAppWebView,
+      );
     } catch (e) {
       isSuccess = false;
       Fluttertoast.showToast(msg: 'Error: WebDosh is not installed!');
@@ -157,7 +160,10 @@ class FinishJobScreenController extends GetxController {
     if (isSuccess == false) {
       try {
         // Open the second URL
-        await launch('com.webdosh.stvdp://');
+        await launchUrl(
+          Uri.parse('com.webdosh.stvdp://'),
+          mode: LaunchMode.inAppWebView,
+        );
       } catch (e) {
         isSuccess = false;
         Fluttertoast.showToast(msg: 'Error: WebDosh is not installed!');
